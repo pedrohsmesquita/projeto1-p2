@@ -8,8 +8,9 @@
 
 #include "tabuleiro.h"
 #include "jogador.h"
+#include "mouse.h"
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro);
+void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse);
 
 
 #endif // RENDER_H

@@ -6,9 +6,10 @@
 #ifndef LIG4_H
 #define LIG4_H
 
+#include "mouse.h"
 #include "jogador.h"
 #include "tabuleiro.h"
 
-void telaJogo(Jogador &jogador, Tabuleiro &tabuleiro, bool &janelaAtiva);
+void telaJogo(Jogador &jogador, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva);
 
 #endif // LIG4_H

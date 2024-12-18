@@ -14,15 +14,15 @@
 #include "render.h"
 #include <raylib.h>
 
-void telaJogo(Jogador &jogador, Tabuleiro &tabuleiro, bool &janelaAtiva) {
-    int colunaEscolhida;
-
+void telaJogo(Jogador &jogador, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
     while (janelaAtiva) {
-        colunaEscolhida = escolherColuna(tabuleiro);
-        if (colunaEscolhida >= 0 && obterLinhaLivre(tabuleiro, colunaEscolhida) >= 0) {
+        lerMouse(mouse);
+        escolherColuna(tabuleiro, mouse);
+        int colunaEscolhida = obterMouseEstado(mouse);
+        if (acaoValida(tabuleiro, colunaEscolhida)) {
             efetuarAcao(jogador, tabuleiro, colunaEscolhida);
         }
-        desenharTabuleiro(tabuleiro);
+        desenharTabuleiro(tabuleiro, mouse);
         janelaAtiva = !WindowShouldClose();
     }
 }

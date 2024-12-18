@@ -8,16 +8,15 @@
  * tabuleiro.h.
  */
 #include "jogo.h"
-#include "tabuleiro.h"
 #include <raylib.h>
 
-int escolherColuna(const Tabuleiro &tabuleiro) {
+void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
     bool mouseSobreColuna = false;
-    int colunaEscolhida;
+    int colunaEscolhida = -1;
 
     for (int i = 0; i < COLUNAS; i++) {
-        int mouseX = GetMouseX();
-        int mouseY = GetMouseY();
+        int mouseX = obterMouseX(mouse);
+        int mouseY = obterMouseY(mouse);
         bool mouseSobreTabuleiroY = (mouseY >= TABULEIRO_PECAS_TAM_Y1 &&
                                      mouseY <= TABULEIRO_PECAS_TAM_Y2);
         bool mouseSobrePecasTabuleiro = (mouseX >= obterPecaPosicaoXGrid(tabuleiro, i, 0) &&
@@ -30,17 +29,17 @@ int escolherColuna(const Tabuleiro &tabuleiro) {
         }
     }
     if (mouseSobreColuna) {
-        SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+        definirTipoCursor(mouse, MOUSE_CURSOR_POINTING_HAND);
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            return colunaEscolhida;
+            definirMouseEstado(mouse, colunaEscolhida);
         }
-    } else {
-        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
-
-    return -1;
 }
 
 void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int coluna) {
     adicionarPeca(tabuleiro, obterLinhaLivre(tabuleiro, coluna), coluna, obterId(jogador), obterCor(jogador));
+}
+
+bool acaoValida(const Tabuleiro &tabuleiro, int coluna) {
+    return coluna >= 0 && obterLinhaLivre(tabuleiro, coluna) >= 0;
 }

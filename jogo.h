@@ -8,9 +8,11 @@
 
 #include "jogador.h"
 #include "tabuleiro.h"
+#include "mouse.h"
 
-int escolherColuna(const Tabuleiro &tabuleiro);
+void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse);
 void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int coluna);
+bool acaoValida(const Tabuleiro &tabuleiro, int coluna);
 bool verificarVitoria(const Jogador &jogador, const Tabuleiro &tabuleiro, int l, int c);
 
 #endif // JOGO_H

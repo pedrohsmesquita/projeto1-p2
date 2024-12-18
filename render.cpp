@@ -10,9 +10,10 @@ void converterIntParaColor(Color &cor, int corInt);
 void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharTabuleiroPecas(const Tabuleiro &tabuleiro);
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro) {
+void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse) {
     BeginDrawing();
     ClearBackground(GRAY);
+    SetMouseCursor(obterTipoCursor(mouse));
     desenharSuporte(tabuleiro);
     desenharTabuleiroPecas(tabuleiro);
     EndDrawing();

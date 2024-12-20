@@ -27,23 +27,3 @@ void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, int cor)
     tabuleiro.grid[linha][coluna].corPeca = cor;
     tabuleiro.linhasLivres[coluna]--;
 }
-
-int obterLinhaLivre(const Tabuleiro &tabuleiro, int coluna) {
-    return tabuleiro.linhasLivres[coluna];
-}
-
-int obterIdPecaGrid(const Tabuleiro &tabuleiro, int linha, int coluna) {
-    return tabuleiro.grid[linha][coluna].id;
-}
-
-int obterCorPecaGrid(const Tabuleiro &tabuleiro, int linha, int coluna) {
-    return tabuleiro.grid[linha][coluna].corPeca;
-}
-
-int obterCorSuporte(const Tabuleiro &tabuleiro) {
-    return tabuleiro.corSuporte;
-}
-
-int obterPecaPosicaoXGrid(const Tabuleiro &tabuleiro, int coluna, int i) {
-    return tabuleiro.pecasPosicaoXGrid[coluna][i];
-}

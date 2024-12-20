@@ -15,37 +15,6 @@ void jogadorEstadoInicial(Jogador &jogador, int id, int pecas, int cor, char *no
     strncpy(jogador.nome, nome, NOME_TAM+1);
 }
 
-char *obterNome(Jogador &jogador) {
-    return jogador.nome;
-}
-
-void definirNome(Jogador &jogador, char *nome) {
-    strncpy(jogador.nome, nome, NOME_TAM+1);
-}
-
-int obterPecas(const Jogador &jogador) {
-    return jogador.pecas;
-}
-
 void removerPeca(Jogador &jogador) {
     jogador.pecas--;
-}
-
-int obterCor(const Jogador &jogador) {
-    return jogador.cor;
-}
-
-void definirCor(Jogador &jogador, int cor) {
-    jogador.cor = cor;
-}
-
-int obterId(const Jogador &jogador) {
-    return jogador.id;
-}
-
-void definirTurnoJogador(Jogador &jogador) {
-    jogador.turno = !jogador.turno;
-}
-bool obterTurnoJogador(const Jogador &jogador) {
-    return jogador.turno;
 }

@@ -13,27 +13,3 @@
     mouse.estadoEscolhido = -1;
     mouse.tipoCursor = MOUSE_CURSOR_DEFAULT;
  }
-
-int obterMouseX(const Mouse &mouse) {
-    return mouse.x;
-}
-
-int obterMouseY(const Mouse &mouse) {
-    return mouse.y;
-}
-
-void definirMouseEstado(Mouse &mouse, int estado) {
-    mouse.estadoEscolhido = estado;
-}
-
-int obterMouseEstado(const Mouse &mouse) {
-    return mouse.estadoEscolhido;
-}
-
-void definirTipoCursor(Mouse &mouse, MouseCursor tipo) {
-    mouse.tipoCursor = tipo;
-}
-
-MouseCursor obterTipoCursor(const Mouse &mouse) {
-    return mouse.tipoCursor;
-}

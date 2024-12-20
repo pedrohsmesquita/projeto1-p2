@@ -17,14 +17,7 @@ struct Jogador {
 };
 
 void jogadorEstadoInicial(Jogador &jogador, int id, int pecas, int cor, char *nome);
-char *obterNome(Jogador &Jogador);
-void definirNome(Jogador &jogador, char *nome);
-int obterPecas(const Jogador &jogador);
 void removerPeca(Jogador &Jogador);
-int obterCor(const Jogador &jogador);
-void definirCor(Jogador &jogador, int cor);
-int obterId(const Jogador &jogador);
-void definirTurnoJogador(Jogador &jogador);
-bool obterTurnoJogador(const Jogador &jogador);
+
 
 #endif // JOGADOR_H

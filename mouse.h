@@ -16,12 +16,7 @@ struct Mouse {
 };
 
 void lerMouse(Mouse &mouse);
-int obterMouseX(const Mouse &mouse);
-int obterMouseY(const Mouse &mouse);
-void definirMouseEstado(Mouse &mouse, int estado);
-int obterMouseEstado(const Mouse &mouse);
-void definirTipoCursor(Mouse &mouse, MouseCursor tipo);
-MouseCursor obterTipoCursor(const Mouse &mouse);
+
 
 
 #endif // MOUSE_H

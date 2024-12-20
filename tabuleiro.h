@@ -33,10 +33,5 @@ struct Tabuleiro {
 
 void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, int corPeca, int corSuporte);
 void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, int cor);
-int obterLinhaLivre(const Tabuleiro &tabuleiro, int coluna);
-int obterIdPecaGrid(const Tabuleiro &tabuleiro, int linha, int coluna);
-int obterCorPecaGrid(const Tabuleiro &tabuleiro, int linha, int coluna);
-int obterCorSuporte(const Tabuleiro &tabuleiro);
-int obterPecaPosicaoXGrid(const Tabuleiro &tabuleiro, int coluna, int i);
 
 #endif // TABULEIRO_H

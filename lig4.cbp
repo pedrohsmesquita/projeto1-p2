@@ -53,6 +53,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="menu.cpp" />
 		<Unit filename="menu.h" />
+		<Unit filename="mouse.cpp" />
+		<Unit filename="mouse.h" />
 		<Unit filename="render.cpp" />
 		<Unit filename="render.h" />
 		<Unit filename="tabuleiro.cpp" />

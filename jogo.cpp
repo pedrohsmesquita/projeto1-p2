@@ -21,12 +21,10 @@ void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
     int colunaEscolhida = -1;
 
     for (int i = 0; i < COLUNAS; i++) {
-        int mouseX = obterMouseX(mouse);
-        int mouseY = obterMouseY(mouse);
-        bool mouseSobreTabuleiroY = (mouseY >= TABULEIRO_PECAS_TAM_Y1 &&
-                                     mouseY <= TABULEIRO_PECAS_TAM_Y2);
-        bool mouseSobrePecasTabuleiro = (mouseX >= obterPecaPosicaoXGrid(tabuleiro, i, 0) &&
-                                         mouseX <= obterPecaPosicaoXGrid(tabuleiro, i, 1));
+        bool mouseSobreTabuleiroY = (mouse.y >= TABULEIRO_PECAS_TAM_Y1 &&
+                                     mouse.y <= TABULEIRO_PECAS_TAM_Y2);
+        bool mouseSobrePecasTabuleiro = (mouse.x >= tabuleiro.pecasPosicaoXGrid[i][0] &&
+                                         mouse.x <= tabuleiro.pecasPosicaoXGrid[i][1]);
 
         if (mouseSobreTabuleiroY && mouseSobrePecasTabuleiro) {
             mouseSobreColuna = true;
@@ -35,20 +33,20 @@ void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
         }
     }
     if (mouseSobreColuna) {
-        definirTipoCursor(mouse, MOUSE_CURSOR_POINTING_HAND);
+        mouse.tipoCursor = MOUSE_CURSOR_POINTING_HAND;
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            definirMouseEstado(mouse, colunaEscolhida);
+            mouse.estadoEscolhido = colunaEscolhida;
         }
     }
 }
 
 void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna) {
-    adicionarPeca(tabuleiro, linha, coluna, obterId(jogador), obterCor(jogador));
+    adicionarPeca(tabuleiro, linha, coluna, jogador.id, jogador.cor);
     removerPeca(jogador);
 }
 
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna) {
-    return coluna >= 0 && obterLinhaLivre(tabuleiro, coluna) >= 0;
+    return coluna >= 0 && tabuleiro.linhasLivres[coluna] >= 0;
 }
 
 bool verificarVitoria(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna) {
@@ -59,20 +57,20 @@ bool verificarVitoria(const Jogador &jogador, const Tabuleiro &tabuleiro, int li
 }
 
 bool empate(const Jogador &jogador1, const Jogador &jogador2) {
-    return obterPecas(jogador1) == 0 && obterPecas(jogador2) == 0;
+    return jogador1.pecas == 0 && jogador2.pecas == 0;
 }
 
 Jogador *definirTurno(Jogador &jogador) {
-    definirTurnoJogador(jogador);
+    jogador.turno = !jogador.turno;
     return &jogador;
 }
 
 Jogador *trocarTurno(Jogador &jogador1, Jogador &jogador2) {
-    if (obterTurnoJogador(jogador1)) {
-        definirTurnoJogador(jogador1);
+    if (jogador1.turno) {
+        jogador1.turno = !jogador1.turno;
         return definirTurno(jogador2);
     } else {
-        definirTurnoJogador(jogador2);
+        jogador2.turno = !jogador2.turno;
         return definirTurno(jogador1);
     }
 }
@@ -120,14 +118,14 @@ bool checarVertical(const Jogador &jogador, const Tabuleiro &tabuleiro, int linh
 }
 
 bool checarDiagonalEsq(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna) {
-    int l = linha, c = coluna, dec = 0, freq;
+    int l = linha, c = coluna, dec = 0, freq = 0;
 
     while (dec < 3 && c >= 0 && l < LINHAS) {
         c--;
         l++;
         dec++;
     }
-    if (dec != 3) {
+    if (dec != 3 || c < 0 || l >= LINHAS) {
         c++;
         l--;
     }
@@ -146,14 +144,14 @@ bool checarDiagonalEsq(const Jogador &jogador, const Tabuleiro &tabuleiro, int l
 }
 
 bool checarDiagonalDir(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna) {
-    int l = linha, c = coluna, dec = 0, freq;
+    int l = linha, c = coluna, dec = 0, freq = 0;
 
     while (dec < 3 && c < COLUNAS && l < LINHAS) {
         c++;
         l++;
         dec++;
     }
-    if (dec != 3) {
+    if (dec != 3 || c >= COLUNAS || l >= LINHAS) {
         c--;
         l--;
     }
@@ -172,5 +170,5 @@ bool checarDiagonalDir(const Jogador &jogador, const Tabuleiro &tabuleiro, int l
 }
 
 bool idPecaIdJogador(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna) {
-    return obterIdPecaGrid(tabuleiro, linha, coluna) == obterId(jogador);
+    return tabuleiro.grid[linha][coluna].id == jogador.id;
 }

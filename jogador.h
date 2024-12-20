@@ -12,6 +12,7 @@ struct Jogador {
     int id;
     int pecas;
     int cor;
+    bool turno;
     char nome[NOME_TAM+1];
 };
 
@@ -23,5 +24,7 @@ void removerPeca(Jogador &Jogador);
 int obterCor(const Jogador &jogador);
 void definirCor(Jogador &jogador, int cor);
 int obterId(const Jogador &jogador);
+void definirTurnoJogador(Jogador &jogador);
+bool obterTurnoJogador(const Jogador &jogador);
 
 #endif // JOGADOR_H

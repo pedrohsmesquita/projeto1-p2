@@ -11,6 +11,7 @@ void jogadorEstadoInicial(Jogador &jogador, int id, int pecas, int cor, char *no
     jogador.id = id;
     jogador.pecas = pecas;
     jogador.cor = cor;
+    jogador.turno = false;
     strncpy(jogador.nome, nome, NOME_TAM+1);
 }
 
@@ -39,5 +40,12 @@ void definirCor(Jogador &jogador, int cor) {
 }
 
 int obterId(const Jogador &jogador) {
-    return jogador.cor;
+    return jogador.id;
+}
+
+void definirTurnoJogador(Jogador &jogador) {
+    jogador.turno = !jogador.turno;
+}
+bool obterTurnoJogador(const Jogador &jogador) {
+    return jogador.turno;
 }

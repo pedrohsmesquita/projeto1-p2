@@ -9,13 +9,14 @@
 int main(void)
 {
     Tabuleiro tabuleiro;
-    Jogador jogador;
+    Jogador jogador1, jogador2;
     Mouse mouse;
     bool janelaAtiva;
     int selecaoTela;
 
     tabuleiroEstadoInicial(tabuleiro, ColorToInt(GRAY), ColorToInt(RED));
-    jogadorEstadoInicial(jogador, 1, 21, ColorToInt(BLUE), "Jogador 1");
+    jogadorEstadoInicial(jogador1, 1, 21, ColorToInt(BLUE), "Jogador 1");
+    jogadorEstadoInicial(jogador2, 2, 21, ColorToInt(YELLOW), "Jogador 2");
     InitWindow(1024, 768, "LIG4");
     SetTargetFPS(60);
 
@@ -25,7 +26,7 @@ int main(void)
     while (janelaAtiva) {
         switch (selecaoTela) {
         case 0:
-            telaJogo(jogador, tabuleiro, mouse, janelaAtiva);
+            telaJogo(jogador1, jogador2, tabuleiro, mouse, janelaAtiva);
             break;
         case 1:
             // Tela de customização aqui.

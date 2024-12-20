@@ -14,13 +14,26 @@
 #include "render.h"
 #include <raylib.h>
 
-void telaJogo(Jogador &jogador, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
+void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
+    Jogador *jogadorPtr = definirTurno(jogador1);
     while (janelaAtiva) {
+        // Lógica empate provisória
+        if (empate(jogador1, jogador2)) {
+            janelaAtiva = 0;
+            break;
+        }
         lerMouse(mouse);
         escolherColuna(tabuleiro, mouse);
         int colunaEscolhida = obterMouseEstado(mouse);
         if (acaoValida(tabuleiro, colunaEscolhida)) {
-            efetuarAcao(jogador, tabuleiro, colunaEscolhida);
+            int linha = obterLinhaLivre(tabuleiro, colunaEscolhida);
+            efetuarAcao(*jogadorPtr, tabuleiro, linha, colunaEscolhida);
+            // Lógica vitória provisória
+            if (verificarVitoria(*jogadorPtr, tabuleiro, linha, colunaEscolhida)) {
+                janelaAtiva = 0;
+                break;
+            }
+            jogadorPtr = trocarTurno(jogador1, jogador2);
         }
         desenharTabuleiro(tabuleiro, mouse);
         janelaAtiva = !WindowShouldClose();

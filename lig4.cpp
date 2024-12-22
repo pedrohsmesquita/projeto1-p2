@@ -25,7 +25,7 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
         lerMouse(mouse);
         escolherColuna(tabuleiro, mouse);
         int colunaEscolhida = mouse.estadoEscolhido;
-        if (acaoValida(tabuleiro, colunaEscolhida)) {
+        if (mouse.click && acaoValida(tabuleiro, colunaEscolhida)) {
             int linha = tabuleiro.linhasLivres[colunaEscolhida];
             efetuarAcao(*jogadorPtr, tabuleiro, linha, colunaEscolhida);
             // Lógica vitória provisória

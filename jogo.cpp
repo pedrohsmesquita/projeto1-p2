@@ -18,7 +18,7 @@ bool idPecaIdJogador(const Jogador &jogador, const Tabuleiro &tabuleiro, int lin
 
 void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
     bool mouseSobreColuna = false;
-    int colunaEscolhida = -1;
+    //int colunaEscolhida = -1;
 
     for (int i = 0; i < COLUNAS; i++) {
         bool mouseSobreTabuleiroY = (mouse.y >= TABULEIRO_PECAS_TAM_Y1 &&
@@ -28,14 +28,15 @@ void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
 
         if (mouseSobreTabuleiroY && mouseSobrePecasTabuleiro) {
             mouseSobreColuna = true;
-            colunaEscolhida = i;
+            mouse.estadoEscolhido = i;
             break;
         }
     }
     if (mouseSobreColuna) {
         mouse.tipoCursor = MOUSE_CURSOR_POINTING_HAND;
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            mouse.estadoEscolhido = colunaEscolhida;
+            //mouse.estadoEscolhido = colunaEscolhida;
+            mouse.click = true;
         }
     }
 }

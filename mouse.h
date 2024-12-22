@@ -12,6 +12,7 @@ struct Mouse {
     int x;
     int y;
     int estadoEscolhido;
+    bool click;
     MouseCursor tipoCursor;
 };
 

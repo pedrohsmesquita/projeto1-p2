@@ -12,4 +12,5 @@
     mouse.y = GetMouseY();
     mouse.estadoEscolhido = -1;
     mouse.tipoCursor = MOUSE_CURSOR_DEFAULT;
+    mouse.click = false;
  }

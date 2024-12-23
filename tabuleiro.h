@@ -28,10 +28,12 @@ struct Tabuleiro {
     Grid grid[LINHAS][COLUNAS];
     int linhasLivres[COLUNAS];
     int pecasPosicaoXGrid[COLUNAS][2];
+    int pecasPosicaoYGrid[LINHAS][2];
     int corSuporte;
 };
 
 void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, int corPeca, int corSuporte);
 void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, int cor);
+void atualizarLinhasLivres(Tabuleiro &tabuleiro, int col);
 
 #endif // TABULEIRO_H

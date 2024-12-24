@@ -10,7 +10,7 @@
 #include "jogador.h"
 #include "mouse.h"
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const AnimacaoPeca &animacao, bool animando);
-
+void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const FilaAcoes &acoes);
+void descarregarTexturaTabuleiro();
 
 #endif // RENDER_H

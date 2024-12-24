@@ -42,7 +42,8 @@ void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
 }
 
 void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna) {
-    adicionarPeca(tabuleiro, linha, coluna, jogador.id, jogador.cor);
+    //adicionarPeca(tabuleiro, linha, coluna, jogador.id, jogador.cor);
+    atualizarLinhasLivres(tabuleiro, coluna);
     removerPeca(jogador);
 }
 

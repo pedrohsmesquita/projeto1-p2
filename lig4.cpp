@@ -16,26 +16,46 @@
 
 void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
     Jogador *jogadorPtr = definirTurno(jogador1);
+    FilaAcoes acoes;
+    bool vitoria = false, empateJ = false;
+
+    filaAcoesEstadoInicial(acoes);
     while (janelaAtiva) {
-        // Lógica empate provisória
-        if (empate(jogador1, jogador2)) {
-            janelaAtiva = 0;
-            break;
-        }
         lerMouse(mouse);
         escolherColuna(tabuleiro, mouse);
         int colunaEscolhida = mouse.estadoEscolhido;
         if (mouse.click && acaoValida(tabuleiro, colunaEscolhida)) {
             int linha = tabuleiro.linhasLivres[colunaEscolhida];
             efetuarAcao(*jogadorPtr, tabuleiro, linha, colunaEscolhida);
-            // Lógica vitória provisória
-            if (verificarVitoria(*jogadorPtr, tabuleiro, linha, colunaEscolhida)) {
-                janelaAtiva = 0;
-                break;
-            }
+            adicionarAcao(acoes, jogadorPtr, linha, colunaEscolhida,
+                          tabuleiro.pecasPosicaoXGrid[colunaEscolhida][0] + PECAS_RAIO,
+                          -36.0f, tabuleiro.pecasPosicaoYGrid[linha][0] + PECAS_RAIO * 1.1,
+                          0.0f, 2500.0f);
             jogadorPtr = trocarTurno(jogador1, jogador2);
         }
-        desenharTabuleiro(tabuleiro, mouse);
-        janelaAtiva = !WindowShouldClose();
+        float deltaTempo = GetFrameTime();
+        for (int i = 0; i < acoes.tam; i++) {
+            if (acoes.acao[i].concluida) {
+                continue;
+            }
+            acoes.acao[i].animacao.v += acoes.acao[i].animacao.a * deltaTempo;
+            acoes.acao[i].animacao.y += acoes.acao[i].animacao.v * deltaTempo;
+            if (acoes.acao[i].animacao.y > acoes.acao[i].animacao.yf) {
+                acoes.acao[i].concluida = true;
+                adicionarPeca(tabuleiro, acoes.acao[i].linha, acoes.acao[i].col,
+                               acoes.acao[i].autor->id, acoes.acao[i].autor->cor);
+                // Lógica vitória provisória
+                if (verificarVitoria(*(acoes.acao[i].autor), tabuleiro, acoes.acao[i].linha, acoes.acao[i].col)) {
+                    vitoria = true;
+                }
+            }
+        }
+        // Lógica empate provisória
+        if (empate(jogador1, jogador2)) {
+            empateJ = true;
+        }
+        desenharTabuleiro(tabuleiro, mouse, acoes);
+        janelaAtiva = !WindowShouldClose() && !vitoria && !empateJ;
     }
+    void descarregarTexturaTabuleiro();
 }

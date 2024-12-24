@@ -27,7 +27,7 @@ void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, int corPeca, int corSuporte) {
 void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, int cor) {
     tabuleiro.grid[linha][coluna].id = id;
     tabuleiro.grid[linha][coluna].corPeca = cor;
-    tabuleiro.linhasLivres[coluna]--;
+    //tabuleiro.linhasLivres[coluna]--;
 }
 
 void atualizarLinhasLivres(Tabuleiro &tabuleiro, int col) {

@@ -11,19 +11,18 @@ void escurecerCor(Color &corOriginal, Color &cor, float fatorEscurecer);
 void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro);
-void animarPecaTabuleiro(const AnimacaoPeca &animacao);
+void animarPecaTabuleiro(const FilaAcoes &acoes);
 Texture2D& carregarTexturaTabuleiro();
-void descarregarTexturaTabuleiro();
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const AnimacaoPeca &animacao, bool animando) {
+void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const FilaAcoes &acoes) {
     BeginDrawing();
 
     ClearBackground(GRAY);
     SetMouseCursor(mouse.tipoCursor);
     desenharSuporte(tabuleiro);
     desenharPecasTabuleiro(tabuleiro);
-    if (animando) {
-        animarPecaTabuleiro(animacao);
+    if (acoes.tam > 0) {
+        animarPecaTabuleiro(acoes);
     }
     desenharBaseTabuleiro(tabuleiro);
 
@@ -49,20 +48,6 @@ void desenharSuporte(const Tabuleiro &tabuleiro) {
     Rectangle partePeca, partePecaSombra, pilarEsq, pilarDir;
     Color cor, sombra;
 
-    deslocar = 5;
-    /*
-    partePeca = {
-        TABULEIRO_PECAS_TAM_X1, TABULEIRO_PECAS_TAM_Y1,
-        TABULEIRO_PECAS_TAM_X2 - TABULEIRO_PECAS_TAM_X1,
-        TABULEIRO_PECAS_TAM_Y2 - TABULEIRO_PECAS_TAM_Y1
-    };
-    partePecaSombra = {
-        TABULEIRO_PECAS_TAM_X1 - deslocar,
-        TABULEIRO_PECAS_TAM_Y1 - deslocar,
-        TABULEIRO_PECAS_TAM_X2 - TABULEIRO_PECAS_TAM_X1 + deslocar*2,
-        TABULEIRO_PECAS_TAM_Y2 - TABULEIRO_PECAS_TAM_Y1 + deslocar*2
-    };
-    */
     pilarEsq = {
         0, TABULEIRO_DESLOCAY,
         TABULEIRO_DESLOCAX - deslocar, 768 - 90
@@ -76,21 +61,6 @@ void desenharSuporte(const Tabuleiro &tabuleiro) {
 
     DrawRectangleRounded(pilarEsq, 0.35f, 0, cor);
     DrawRectangleRounded(pilarDir, 0.35f, 0, cor);
-    /*
-    DrawRectangleRounded(partePecaSombra, 0.1, 10, sombra);
-    DrawRectangleRounded(partePeca, 0.1f, 10, cor);
-    escurecerCor(cor, sombra, 0.95f);
-    for (int i = 0; i < COLUNAS; i++) {
-        int largura = tabuleiro.pecasPosicaoXGrid[i][1] - tabuleiro.pecasPosicaoXGrid[i][0];
-        Rectangle pecasArea = {
-            tabuleiro.pecasPosicaoXGrid[i][0] - deslocar*2,
-            TABULEIRO_PECAS_TAM_Y1 + deslocar,
-            largura + deslocar*4,
-            TABULEIRO_PECAS_TAM_Y2 - TABULEIRO_PECAS_TAM_Y1 - deslocar*2
-        };
-        DrawRectangleRounded(pecasArea, 0.3f, 10, sombra);
-    }
-    */
 }
 
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro) {
@@ -124,15 +94,23 @@ void desenharPecasTabuleiro(const Tabuleiro &tabuleiro) {
     }
 }
 
-void animarPecaTabuleiro(const AnimacaoPeca &animacao) {
-    Vector2 posCentroPeca = {animacao.x, animacao.y};
-    Color cor, corEscurecida;
+void animarPecaTabuleiro(const FilaAcoes &acoes) {
+    for (int i = 0; i < acoes.tam; i++) {
+        if (acoes.acao[i].concluida) {
+            continue;
+        }
+        Color cor, corEscurecida;
+        Vector2 posCentroPeca = {
+            acoes.acao[i].animacao.x,
+            acoes.acao[i].animacao.y
+        };
 
-    cor = PINK;
-    escurecerCor(cor, corEscurecida, 0.85f);
-    DrawCircleV(posCentroPeca, PECAS_RAIO, corEscurecida);
-    DrawCircleV(posCentroPeca, PECAS_RAIO - 5, cor);
+        converterIntParaColor(cor, acoes.acao[i].autor->cor);
+        escurecerCor(cor, corEscurecida, 0.85f);
 
+        DrawCircleV(posCentroPeca, PECAS_RAIO, corEscurecida);
+        DrawCircleV(posCentroPeca, PECAS_RAIO - 5, cor);
+    }
 }
 
 Texture2D& carregarTexturaTabuleiro() {

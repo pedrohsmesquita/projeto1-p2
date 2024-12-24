@@ -16,23 +16,24 @@ struct Jogador {
     char nome[NOME_TAM+1];
 };
 
-struct Animacao {
+struct AnimacaoPeca {
     float x;
     float y;
     float yf;
     float v;
+    float a;
 };
 
 struct Acao {
-    int id;
+    Jogador *autor;
     int linha;
     int col;
-    Animacao animacao;
+    bool concluida;
+    AnimacaoPeca animacao;
 };
 
 struct FilaAcoes {
     Acao acao[6*7];
-    int inicio;
     int fim;
     int tam;
 };
@@ -40,7 +41,7 @@ struct FilaAcoes {
 void jogadorEstadoInicial(Jogador &jogador, int id, int pecas, int cor, char *nome);
 void removerPeca(Jogador &Jogador);
 void filaAcoesEstadoInicial(FilaAcoes &fila);
-void adicionarAcao(FilaAcoes &fila, int id, int l, int c, float x, float y, float yf, float v);
+void adicionarAcao(FilaAcoes &fila, Jogador *autor, int l, int c, float x, float y, float yf, float v, float a);
 void removerAcao(FilaAcoes &fila);
 
 

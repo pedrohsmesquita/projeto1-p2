@@ -10,7 +10,7 @@
 #include "jogador.h"
 #include "mouse.h"
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse);
+void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const AnimacaoPeca &animacao, bool animando);
 
 
 #endif // RENDER_H

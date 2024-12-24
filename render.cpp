@@ -11,17 +11,21 @@ void escurecerCor(Color &corOriginal, Color &cor, float fatorEscurecer);
 void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro);
+void animarPecaTabuleiro(const AnimacaoPeca &animacao);
 Texture2D& carregarTexturaTabuleiro();
 void descarregarTexturaTabuleiro();
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse) {
+void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const AnimacaoPeca &animacao, bool animando) {
     BeginDrawing();
 
     ClearBackground(GRAY);
     SetMouseCursor(mouse.tipoCursor);
     desenharSuporte(tabuleiro);
-    desenharBaseTabuleiro(tabuleiro);
     desenharPecasTabuleiro(tabuleiro);
+    if (animando) {
+        animarPecaTabuleiro(animacao);
+    }
+    desenharBaseTabuleiro(tabuleiro);
 
     EndDrawing();
 }
@@ -95,7 +99,7 @@ void desenharBaseTabuleiro(const Tabuleiro &tabuleiro) {
     Color cor;
 
     converterIntParaColor(cor, tabuleiro.corSuporte);
-    DrawTextureEx(textura, (Vector2){TABULEIRO_PECAS_TAM_X1 - desloca, TABULEIRO_PECAS_TAM_Y1 - desloca}, 0.0f, 1.0f, cor);
+    DrawTextureEx(textura, (Vector2){TABULEIRO_PECAS_TAM_X1 - desloca, TABULEIRO_PECAS_TAM_Y1 - desloca - 1}, 0.0f, 1.0f, cor);
 }
 
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro) {
@@ -118,6 +122,17 @@ void desenharPecasTabuleiro(const Tabuleiro &tabuleiro) {
             }
         }
     }
+}
+
+void animarPecaTabuleiro(const AnimacaoPeca &animacao) {
+    Vector2 posCentroPeca = {animacao.x, animacao.y};
+    Color cor, corEscurecida;
+
+    cor = PINK;
+    escurecerCor(cor, corEscurecida, 0.85f);
+    DrawCircleV(posCentroPeca, PECAS_RAIO, corEscurecida);
+    DrawCircleV(posCentroPeca, PECAS_RAIO - 5, cor);
+
 }
 
 Texture2D& carregarTexturaTabuleiro() {

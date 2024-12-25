@@ -19,6 +19,7 @@
 					<Add library="gdi32" />
 					<Add library="opengl32" />
 					<Add library="winmm" />
+					<Add directory="raylib/lib/Debug" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -35,13 +36,21 @@
 					<Add library="gdi32" />
 					<Add library="opengl32" />
 					<Add library="winmm" />
+					<Add directory="raylib/lib/Release" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="raylib/src" />
 		</Compiler>
+		<Linker>
+			<Add library="raylib" />
+			<Add library="opengl32" />
+			<Add library="gdi32" />
+			<Add library="winmm" />
+		</Linker>
 		<Unit filename="interface.cpp" />
 		<Unit filename="interface.h" />
 		<Unit filename="jogador.cpp" />

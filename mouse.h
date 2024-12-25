@@ -6,7 +6,7 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
-#include <raylib.h>
+#include "raylib.h"
 
 struct Mouse {
     int x;

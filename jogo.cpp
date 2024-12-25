@@ -8,7 +8,7 @@
  * tabuleiro.h.
  */
 #include "jogo.h"
-#include <raylib.h>
+#include "raylib.h"
 
 bool checarHorizontal(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna);
 bool checarVertical(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna);

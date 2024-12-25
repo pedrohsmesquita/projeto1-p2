@@ -12,7 +12,7 @@
 #include "lig4.h"
 #include "jogo.h"
 #include "render.h"
-#include <raylib.h>
+#include "raylib.h"
 
 void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
     Jogador *jogadorPtr = definirTurno(jogador1);

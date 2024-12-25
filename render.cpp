@@ -4,7 +4,7 @@
  * como exatamente foi declarado em "render.h".
  */
 #include "render.h"
-#include <raylib.h>
+#include "raylib.h"
 
 void converterIntParaColor(Color &cor, int corInt);
 void escurecerCor(Color &corOriginal, Color &cor, float fatorEscurecer);

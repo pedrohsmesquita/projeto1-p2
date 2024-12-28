@@ -13,6 +13,7 @@
 #include "jogo.h"
 #include "render.h"
 #include "raylib.h"
+#include "audio.h"
 
 void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
     Jogador *jogadorPtr = definirTurno(jogador1);
@@ -20,6 +21,7 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
     bool vitoria = false, empateJ = false;
 
     filaAcoesEstadoInicial(acoes);
+    carregarPecasAudio();
     while (janelaAtiva) {
         lerMouse(mouse);
         escolherColuna(tabuleiro, mouse);
@@ -48,14 +50,17 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                 if (verificarVitoria(*(acoes.acao[i].autor), tabuleiro, acoes.acao[i].linha, acoes.acao[i].col)) {
                     vitoria = true;
                 }
+                tocarPecaClick();
             }
         }
         // Lógica empate provisória
         if (empate(jogador1, jogador2)) {
             empateJ = true;
         }
+        manterMusicaTocando();
         desenharTabuleiro(tabuleiro, mouse, acoes);
         janelaAtiva = !WindowShouldClose() && !vitoria && !empateJ;
     }
-    void descarregarTexturaTabuleiro();
+    descarregarTexturaTabuleiro();
+    descarregarPecasAudio();
 }

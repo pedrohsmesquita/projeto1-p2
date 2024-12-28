@@ -64,7 +64,7 @@ void desenharSuporte(const Tabuleiro &tabuleiro) {
 }
 
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro) {
-    Texture2D textura = carregarTexturaTabuleiro();
+    static const Texture2D textura = carregarTexturaTabuleiro();
     int desloca = 5;
     Color cor;
 
@@ -114,13 +114,13 @@ void animarPecaTabuleiro(const FilaAcoes &acoes) {
 }
 
 Texture2D& carregarTexturaTabuleiro() {
-    static Texture2D textura = LoadTexture("assets/base.png");
+    static Texture2D textura = LoadTexture("assets/images/base.png");
 
     return textura;
 }
 
 void descarregarTexturaTabuleiro() {
-    Texture2D textura = carregarTexturaTabuleiro();
+    Texture2D& textura = carregarTexturaTabuleiro();
 
     UnloadTexture(textura);
 }

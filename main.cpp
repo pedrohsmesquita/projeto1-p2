@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "lig4.h"
 #include "mouse.h"
+#include "audio.h"
 
 #define JOGAR 0
 #define CUSTOMIZAR 1
@@ -14,15 +15,21 @@ int main(void)
     bool janelaAtiva;
     int selecaoTela;
 
+    // Inicializações do Raylib
+    InitWindow(1024, 768, "LIG4");
+    InitAudioDevice();
+    SetTargetFPS(60);
+
+    carregaAudio();
     tabuleiroEstadoInicial(tabuleiro, ColorToInt(GRAY), ColorToInt(RED));
     jogadorEstadoInicial(jogador1, 1, 21, ColorToInt(BLUE), "Jogador 1");
     jogadorEstadoInicial(jogador2, 2, 21, ColorToInt(YELLOW), "Jogador 2");
-    InitWindow(1024, 768, "LIG4");
-    SetTargetFPS(60);
+
 
     janelaAtiva = !WindowShouldClose();
     // Nenhuma lógica feita para seleção. Jogo inicia automaticamente.
     selecaoTela = 0;
+    tocarMusicaFundo();
     while (janelaAtiva) {
         switch (selecaoTela) {
         case 0:
@@ -39,6 +46,7 @@ int main(void)
             break;
         }
     }
+    descarregarAudio();
 
     return 0;
 }

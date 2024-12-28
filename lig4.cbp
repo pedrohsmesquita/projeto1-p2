@@ -51,6 +51,8 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 		</Linker>
+		<Unit filename="audio.cpp" />
+		<Unit filename="audio.h" />
 		<Unit filename="interface.cpp" />
 		<Unit filename="interface.h" />
 		<Unit filename="jogador.cpp" />

@@ -23,9 +23,12 @@
 
 #define COR_FUNDO CLITERAL(Color) {255, 251, 247, 255}
 
-struct Grid {
+struct Celula {
     int id;
     int corPeca;
+    Vector2 posicao;
+    float vy;
+    bool animando;
 };
 
 struct JogoEstado {
@@ -35,15 +38,16 @@ struct JogoEstado {
 };
 
 struct Tabuleiro {
-    Grid grid[LINHAS][COLUNAS];
+    Celula grid[LINHAS][COLUNAS];
     int linhasLivres[COLUNAS];
-    int pecasPosicaoXGrid[COLUNAS][2];
-    int pecasPosicaoYGrid[LINHAS][2];
+    float pecasPosicaoXGrid[COLUNAS][2];
+    float pecasPosicaoYGrid[LINHAS][2];
     int corSuporte;
     JogoEstado estado;
 };
 
 void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, int corPeca, int corSuporte);
+void resetarGrid(Tabuleiro &tabuleiro);
 void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, int cor);
 void atualizarLinhasLivres(Tabuleiro &tabuleiro, int col);
 

@@ -16,12 +16,13 @@ int main(void)
     int selecaoTela;
 
     // Inicializações do Raylib
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(1024, 768, "LIG4");
     InitAudioDevice();
     SetTargetFPS(60);
 
     carregaAudio();
-    tabuleiroEstadoInicial(tabuleiro, ColorToInt(GRAY), ColorToInt(RED));
+    tabuleiroEstadoInicial(tabuleiro, ColorToInt(COR_FUNDO), ColorToInt(RED));
     jogadorEstadoInicial(jogador1, 1, 21, ColorToInt(BLUE), "Jogador 1");
     jogadorEstadoInicial(jogador2, 2, 21, ColorToInt(YELLOW), "Jogador 2");
 

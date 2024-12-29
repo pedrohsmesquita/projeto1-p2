@@ -11,20 +11,17 @@ void escurecerCor(Color &corOriginal, Color &cor, float fatorEscurecer);
 void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro);
-void animarPecaTabuleiro(const FilaAcoes &acoes);
 void linhaVitoria(const Vector2 centro[]);
+bool igualdadeCor(const Color &cor1, const Color &cor2);
 Texture2D& carregarTexturaTabuleiro();
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const FilaAcoes &acoes, const Vector2 centro[]) {
+void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const Vector2 centro[]) {
     BeginDrawing();
 
     ClearBackground(COR_FUNDO);
     SetMouseCursor(mouse.tipoCursor);
     desenharSuporte(tabuleiro);
     desenharPecasTabuleiro(tabuleiro);
-    if (acoes.tam > 0) {
-        animarPecaTabuleiro(acoes);
-    }
     desenharBaseTabuleiro(tabuleiro);
     if (tabuleiro.estado.vitoria) {
         linhaVitoria(centro);
@@ -78,42 +75,20 @@ void desenharBaseTabuleiro(const Tabuleiro &tabuleiro) {
 
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro) {
     const float escurecer = 0.85f;
+    const Color fundo = COR_FUNDO;
     for (int i = 0; i < LINHAS; i++) {
-        int deslocaY = TABULEIRO_PECAS_TAM_Y1 + (PECAS_DESLOCAY + PECAS_RAIO * 2) * i;
         for (int j = 0; j < COLUNAS; j++) {
-            Vector2 posCentroPeca = {
-                tabuleiro.pecasPosicaoXGrid[j][0] + PECAS_RAIO,
-                deslocaY + PECAS_DESLOCAY + PECAS_RAIO,
-            };
+
             Color cor, corEscurecida;
             converterIntParaColor(cor, tabuleiro.grid[i][j].corPeca);
-            if (tabuleiro.grid[i][j].id == 0) {
-                DrawCircleV(posCentroPeca, PECAS_RAIO, cor);
+            if (igualdadeCor(cor, fundo)) {
+                DrawCircleV(tabuleiro.grid[i][j].posicao, PECAS_RAIO, cor);
             } else {
                 escurecerCor(cor, corEscurecida, escurecer);
-                DrawCircleV(posCentroPeca, PECAS_RAIO + 1, corEscurecida);
-                DrawCircleV(posCentroPeca, PECAS_RAIO - 5, cor);
+                DrawCircleV(tabuleiro.grid[i][j].posicao, PECAS_RAIO + 1, corEscurecida);
+                DrawCircleV(tabuleiro.grid[i][j].posicao, PECAS_RAIO - 5, cor);
             }
         }
-    }
-}
-
-void animarPecaTabuleiro(const FilaAcoes &acoes) {
-    for (int i = 0; i < acoes.tam; i++) {
-        if (acoes.acao[i].concluida) {
-            continue;
-        }
-        Color cor, corEscurecida;
-        Vector2 posCentroPeca = {
-            acoes.acao[i].animacao.x,
-            acoes.acao[i].animacao.y
-        };
-
-        converterIntParaColor(cor, acoes.acao[i].autor->cor);
-        escurecerCor(cor, corEscurecida, 0.85f);
-
-        DrawCircleV(posCentroPeca, PECAS_RAIO, corEscurecida);
-        DrawCircleV(posCentroPeca, PECAS_RAIO - 5, cor);
     }
 }
 
@@ -136,4 +111,8 @@ void descarregarTexturaTabuleiro() {
     Texture2D& textura = carregarTexturaTabuleiro();
 
     UnloadTexture(textura);
+}
+
+bool igualdadeCor(const Color &cor1, const Color &cor2) {
+    return cor1.r == cor2.r && cor1.g == cor2.g & cor1.b == cor2.b;
 }

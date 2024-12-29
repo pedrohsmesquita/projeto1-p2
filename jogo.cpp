@@ -10,11 +10,11 @@
 #include "jogo.h"
 #include "raylib.h"
 
-bool checarHorizontal(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-bool checarVertical(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-bool checarDiagonalEsq(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-bool checarDiagonalDir(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-bool idPecaIdJogador(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna);
+bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+bool checarVertical(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+bool checarDiagonalEsq(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+bool checarDiagonalDir(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+//bool idPecaIdJogador(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna);
 
 void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
     bool mouseSobreColuna = false;
@@ -42,20 +42,40 @@ void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
 }
 
 void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna) {
-    //adicionarPeca(tabuleiro, linha, coluna, jogador.id, jogador.cor);
+    tabuleiro.grid[linha][coluna].corPeca = jogador.cor;
+    tabuleiro.grid[linha][coluna].animando = true;
+    tabuleiro.grid[linha][coluna].posicao.x = tabuleiro.pecasPosicaoXGrid[coluna][0] + PECAS_RAIO;
+    tabuleiro.grid[linha][coluna].posicao.y = -PECAS_RAIO;
     atualizarLinhasLivres(tabuleiro, coluna);
     removerPeca(jogador);
+}
+
+void consumarAcao(Celula &celula, const Jogador &jogador1, const Jogador &jogador2, float yf) {
+    celula.posicao.y = yf;
+    celula.animando = false;
+    if (celula.corPeca == jogador1.cor) {
+        celula.id = jogador1.id;
+    } else {
+        celula.id = jogador2.id;
+    }
+}
+
+void atualizarPosicaoPeca(Celula &celula, float deltaT) {
+    const float aceleracao = 2000.0f;
+
+    celula.vy += aceleracao * deltaT;
+    celula.posicao.y += celula.vy * deltaT;
 }
 
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna) {
     return coluna >= 0 && tabuleiro.linhasLivres[coluna] >= 0;
 }
 
-bool verificarVitoria(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
-    return checarHorizontal(jogador, tabuleiro, linha, coluna, centrosPiPf)   ||
-            checarVertical(jogador, tabuleiro, linha, coluna, centrosPiPf)    ||
-            checarDiagonalEsq(jogador, tabuleiro, linha, coluna, centrosPiPf) ||
-            checarDiagonalDir(jogador, tabuleiro, linha, coluna, centrosPiPf);
+bool verificarVitoria(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+    return checarHorizontal(tabuleiro, linha, coluna, centrosPiPf)   ||
+            checarVertical(tabuleiro, linha, coluna, centrosPiPf)    ||
+            checarDiagonalEsq(tabuleiro, linha, coluna, centrosPiPf) ||
+            checarDiagonalDir(tabuleiro, linha, coluna, centrosPiPf);
 }
 
 bool empate(const Jogador &jogador1, const Jogador &jogador2) {
@@ -77,8 +97,9 @@ Jogador *trocarTurno(Jogador &jogador1, Jogador &jogador2) {
     }
 }
 
-bool checarHorizontal(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     int c, freq = 0;
+    bool idJogadorIdPeca;
 
     c = coluna - 3;
     while (c < 0) {
@@ -86,12 +107,14 @@ bool checarHorizontal(const Jogador &jogador, const Tabuleiro &tabuleiro, int li
     }
     for (; c <= coluna && freq != 4; c += 1 + freq) {
         freq = 0;
-        if (idPecaIdJogador(jogador, tabuleiro, linha, c)) {
+        idJogadorIdPeca = tabuleiro.grid[linha][coluna].id == tabuleiro.grid[linha][c].id;
+        if (idJogadorIdPeca) {
             centrosPiPf[0].x = tabuleiro.pecasPosicaoXGrid[c][0] + PECAS_RAIO;
             centrosPiPf[0].y = tabuleiro.pecasPosicaoYGrid[linha][0] + PECAS_RAIO;
             for (freq = 1; freq < 4; freq++) {
                 int col = c + freq;
-                if (col >= COLUNAS || !idPecaIdJogador(jogador, tabuleiro, linha, col)) {
+                idJogadorIdPeca = tabuleiro.grid[linha][coluna].id == tabuleiro.grid[linha][col].id;
+                if (col >= COLUNAS || !idJogadorIdPeca) {
                     break;
                 }
                 centrosPiPf[1].x = tabuleiro.pecasPosicaoXGrid[col][0] + PECAS_RAIO;
@@ -103,8 +126,9 @@ bool checarHorizontal(const Jogador &jogador, const Tabuleiro &tabuleiro, int li
     return freq == 4;
 }
 
-bool checarVertical(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool checarVertical(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     int l, freq = 0;
+    bool idJogadorIdPeca;
 
     l = linha + 3;
     while (l >= LINHAS) {
@@ -112,12 +136,14 @@ bool checarVertical(const Jogador &jogador, const Tabuleiro &tabuleiro, int linh
     }
     for (; l > linha && freq != 4; l = l - 1 - freq) {
         freq = 0;
-        if (idPecaIdJogador(jogador, tabuleiro, l, coluna)) {
+        idJogadorIdPeca = tabuleiro.grid[linha][coluna].id == tabuleiro.grid[l][coluna].id;
+        if (idJogadorIdPeca) {
             centrosPiPf[0].x = tabuleiro.pecasPosicaoXGrid[coluna][0] + PECAS_RAIO;
             centrosPiPf[0].y = tabuleiro.pecasPosicaoYGrid[l][0] + PECAS_RAIO;
             for (freq = 1; freq < 4; freq++) {
                 int lin = l - freq;
-                if (lin < 0 || !idPecaIdJogador(jogador, tabuleiro, lin, coluna)) {
+                idJogadorIdPeca = tabuleiro.grid[linha][coluna].id == tabuleiro.grid[lin][coluna].id;
+                if (lin < 0 || !idJogadorIdPeca) {
                     break;
                 }
                 centrosPiPf[1].x = tabuleiro.pecasPosicaoXGrid[coluna][0] + PECAS_RAIO;
@@ -129,8 +155,9 @@ bool checarVertical(const Jogador &jogador, const Tabuleiro &tabuleiro, int linh
     return freq == 4;
 }
 
-bool checarDiagonalEsq(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool checarDiagonalEsq(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     int l = linha, c = coluna, dec = 0, freq = 0;
+    bool idJogadorIdPeca;
 
     while (dec < 3 && c >= 0 && l < LINHAS) {
         c--;
@@ -143,13 +170,15 @@ bool checarDiagonalEsq(const Jogador &jogador, const Tabuleiro &tabuleiro, int l
     }
     for (; c <= coluna && l >= linha && freq != 4; c += 1 + freq, l = l - 1 - freq) {
         freq = 0;
-        if (idPecaIdJogador(jogador, tabuleiro, l, c)) {
+        idJogadorIdPeca = tabuleiro.grid[linha][coluna].id == tabuleiro.grid[l][c].id;
+        if (idJogadorIdPeca) {
             centrosPiPf[0].x = tabuleiro.pecasPosicaoXGrid[c][0] + PECAS_RAIO;
             centrosPiPf[0].y = tabuleiro.pecasPosicaoYGrid[l][0] + PECAS_RAIO;
             for (freq = 1; freq < 4; freq++) {
                 int lin = l - freq;
                 int col = c + freq;
-                if (lin < 0 || col >= COLUNAS || !idPecaIdJogador(jogador, tabuleiro, lin, col)) {
+                idJogadorIdPeca = tabuleiro.grid[linha][coluna].id == tabuleiro.grid[lin][col].id;
+                if (lin < 0 || col >= COLUNAS || !idJogadorIdPeca) {
                     break;
                 }
                 centrosPiPf[1].x = tabuleiro.pecasPosicaoXGrid[col][0] + PECAS_RAIO;
@@ -161,8 +190,9 @@ bool checarDiagonalEsq(const Jogador &jogador, const Tabuleiro &tabuleiro, int l
     return freq == 4;
 }
 
-bool checarDiagonalDir(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool checarDiagonalDir(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     int l = linha, c = coluna, dec = 0, freq = 0;
+    bool idJogadorIdPeca;
 
     while (dec < 3 && c < COLUNAS && l < LINHAS) {
         c++;
@@ -175,13 +205,15 @@ bool checarDiagonalDir(const Jogador &jogador, const Tabuleiro &tabuleiro, int l
     }
     for (; c >= coluna && l >= linha && freq != 4; c = c - 1 - freq, l = l - 1 - freq) {
         freq = 0;
-        if (idPecaIdJogador(jogador, tabuleiro, l, c)) {
+        idJogadorIdPeca = tabuleiro.grid[linha][coluna].id == tabuleiro.grid[l][c].id;
+        if (idJogadorIdPeca) {
             centrosPiPf[0].x = tabuleiro.pecasPosicaoXGrid[c][0] + PECAS_RAIO;
             centrosPiPf[0].y = tabuleiro.pecasPosicaoYGrid[l][0] + PECAS_RAIO;
             for (freq = 1; freq < 4; freq++) {
                 int lin = l - freq;
                 int col = c - freq;
-                if (lin < 0 || col < 0 || !idPecaIdJogador(jogador, tabuleiro, lin, col)) {
+                idJogadorIdPeca = tabuleiro.grid[linha][coluna].id == tabuleiro.grid[lin][col].id;
+                if (lin < 0 || col < 0 || !idJogadorIdPeca) {
                     break;
                 }
                 centrosPiPf[1].x = tabuleiro.pecasPosicaoXGrid[col][0] + PECAS_RAIO;
@@ -192,7 +224,8 @@ bool checarDiagonalDir(const Jogador &jogador, const Tabuleiro &tabuleiro, int l
 
     return freq == 4;
 }
-
+/*
 bool idPecaIdJogador(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna) {
     return tabuleiro.grid[linha][coluna].id == jogador.id;
 }
+*/

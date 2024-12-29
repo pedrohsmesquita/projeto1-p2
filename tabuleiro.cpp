@@ -22,6 +22,9 @@ void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, int corPeca, int corSuporte) {
         tabuleiro.pecasPosicaoXGrid[i][0] = TABULEIRO_PECAS_TAM_X1 + unidadeDxPeca * i + PECAS_DESLOCAX;
         tabuleiro.pecasPosicaoXGrid[i][1] = tabuleiro.pecasPosicaoXGrid[i][0] + PECAS_RAIO * 2;
     }
+    tabuleiro.estado.empate = false;
+    tabuleiro.estado.vitoria = false;
+    tabuleiro.estado.pausado = false;
 }
 
 void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, int cor) {

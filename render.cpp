@@ -12,12 +12,13 @@ void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro);
 void animarPecaTabuleiro(const FilaAcoes &acoes);
+void linhaVitoria(const Vector2 centro[]);
 Texture2D& carregarTexturaTabuleiro();
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const FilaAcoes &acoes) {
+void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const FilaAcoes &acoes, const Vector2 centro[]) {
     BeginDrawing();
 
-    ClearBackground(GRAY);
+    ClearBackground(COR_FUNDO);
     SetMouseCursor(mouse.tipoCursor);
     desenharSuporte(tabuleiro);
     desenharPecasTabuleiro(tabuleiro);
@@ -25,6 +26,9 @@ void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const FilaAcoes
         animarPecaTabuleiro(acoes);
     }
     desenharBaseTabuleiro(tabuleiro);
+    if (tabuleiro.estado.vitoria) {
+        linhaVitoria(centro);
+    }
 
     EndDrawing();
 }
@@ -87,7 +91,7 @@ void desenharPecasTabuleiro(const Tabuleiro &tabuleiro) {
                 DrawCircleV(posCentroPeca, PECAS_RAIO, cor);
             } else {
                 escurecerCor(cor, corEscurecida, escurecer);
-                DrawCircleV(posCentroPeca, PECAS_RAIO, corEscurecida);
+                DrawCircleV(posCentroPeca, PECAS_RAIO + 1, corEscurecida);
                 DrawCircleV(posCentroPeca, PECAS_RAIO - 5, cor);
             }
         }
@@ -111,6 +115,15 @@ void animarPecaTabuleiro(const FilaAcoes &acoes) {
         DrawCircleV(posCentroPeca, PECAS_RAIO, corEscurecida);
         DrawCircleV(posCentroPeca, PECAS_RAIO - 5, cor);
     }
+}
+
+void linhaVitoria(const Vector2 centro[]) {
+    Color corBorda, cor;
+
+    cor = WHITE;
+    escurecerCor(cor, corBorda, 0.75f);
+    DrawLineEx(centro[0], centro[2], 5.0f, corBorda);
+    DrawLineEx(centro[0], centro[2], 2.0f, cor);
 }
 
 Texture2D& carregarTexturaTabuleiro() {

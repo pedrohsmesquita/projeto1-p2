@@ -18,10 +18,10 @@
 void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
     Jogador *jogadorPtr = definirTurno(jogador1);
     FilaAcoes acoes;
-    bool vitoria = false, empateJ = false;
+    Vector2 centrosVPiPf[3];
 
     filaAcoesEstadoInicial(acoes);
-    carregarPecasAudio();
+    carregarAudioJogo();
     while (janelaAtiva) {
         lerMouse(mouse);
         escolherColuna(tabuleiro, mouse);
@@ -47,20 +47,42 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                 adicionarPeca(tabuleiro, acoes.acao[i].linha, acoes.acao[i].col,
                                acoes.acao[i].autor->id, acoes.acao[i].autor->cor);
                 // Lógica vitória provisória
-                if (verificarVitoria(*(acoes.acao[i].autor), tabuleiro, acoes.acao[i].linha, acoes.acao[i].col)) {
-                    vitoria = true;
+                if (verificarVitoria(*(acoes.acao[i].autor), tabuleiro, acoes.acao[i].linha, acoes.acao[i].col, centrosVPiPf)) {
+                    tabuleiro.estado.vitoria = true;
                 }
                 tocarPecaClick();
             }
         }
         // Lógica empate provisória
         if (empate(jogador1, jogador2)) {
-            empateJ = true;
+            tabuleiro.estado.empate = true;
+        }
+        if (tabuleiro.estado.vitoria) {
+            tocarVitoria();
+            break;
         }
         manterMusicaTocando();
-        desenharTabuleiro(tabuleiro, mouse, acoes);
-        janelaAtiva = !WindowShouldClose() && !vitoria && !empateJ;
+        desenharTabuleiro(tabuleiro, mouse, acoes, centrosVPiPf);
+        janelaAtiva = !WindowShouldClose();
     }
+    if (tabuleiro.estado.vitoria) {
+        const float velocidade = 0.05f;
+        float linhaProgresso = 0.0f;
+        while (janelaAtiva) {
+            lerMouse(mouse);
+            if (linhaProgresso < 1.0f) {
+                linhaProgresso += velocidade;
+                if (linhaProgresso >= 1.0f) {
+                    linhaProgresso = 1.0f;
+                }
+                centrosVPiPf[2].x = centrosVPiPf[0].x + linhaProgresso * (centrosVPiPf[1].x - centrosVPiPf[0].x);
+                centrosVPiPf[2].y = centrosVPiPf[0].y + linhaProgresso * (centrosVPiPf[1].y - centrosVPiPf[0].y);
+            }
+            desenharTabuleiro(tabuleiro, mouse, acoes, centrosVPiPf);
+            janelaAtiva = !WindowShouldClose();
+        }
+    }
+    janelaAtiva = false;
     descarregarTexturaTabuleiro();
-    descarregarPecasAudio();
+    descarregarAudioJogo();
 }

@@ -13,7 +13,7 @@
 void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse);
 void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna);
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna);
-bool verificarVitoria(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna);
+bool verificarVitoria(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
 bool empate(const Jogador &jogador1, const Jogador &jogador2);
 Jogador *definirTurno(Jogador &jogador);
 Jogador *trocarTurno(Jogador &jogador1, Jogador &jogador2);

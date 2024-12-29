@@ -6,6 +6,8 @@
 #ifndef TABULEIRO_H
 #define TABULEIRO_H
 
+#include "raylib.h"
+
 #define LINHAS 6
 #define COLUNAS 7
 #define PECAS_RAIO 36
@@ -19,9 +21,17 @@
 #define TABULEIRO_DESLOCAX 60
 #define TABULEIRO_DESLOCAY 80
 
+#define COR_FUNDO CLITERAL(Color) {255, 251, 247, 255}
+
 struct Grid {
     int id;
     int corPeca;
+};
+
+struct JogoEstado {
+    bool vitoria;
+    bool empate;
+    bool pausado;
 };
 
 struct Tabuleiro {
@@ -30,6 +40,7 @@ struct Tabuleiro {
     int pecasPosicaoXGrid[COLUNAS][2];
     int pecasPosicaoYGrid[LINHAS][2];
     int corSuporte;
+    JogoEstado estado;
 };
 
 void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, int corPeca, int corSuporte);

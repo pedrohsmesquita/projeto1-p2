@@ -16,8 +16,6 @@ bool igualdadeCor(const Color &cor1, const Color &cor2);
 Texture2D& carregarTexturaTabuleiro();
 
 void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const Vector2 centro[]) {
-    BeginDrawing();
-
     ClearBackground(COR_FUNDO);
     SetMouseCursor(mouse.tipoCursor);
     desenharSuporte(tabuleiro);
@@ -26,8 +24,6 @@ void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const Vector2 c
     if (tabuleiro.estado.vitoria) {
         linhaVitoria(centro);
     }
-
-    EndDrawing();
 }
 
 void converterIntParaColor(Color &cor, int corInt) {

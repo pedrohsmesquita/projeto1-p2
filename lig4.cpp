@@ -55,7 +55,9 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
             break;
         }
         manterMusicaTocando();
+        BeginDrawing();
         desenharTabuleiro(tabuleiro, mouse, centrosVPiPf);
+        EndDrawing();
         janelaAtiva = !WindowShouldClose();
     }
     if (tabuleiro.estado.vitoria) {
@@ -71,7 +73,9 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                 centrosVPiPf[2].x = centrosVPiPf[0].x + linhaProgresso * (centrosVPiPf[1].x - centrosVPiPf[0].x);
                 centrosVPiPf[2].y = centrosVPiPf[0].y + linhaProgresso * (centrosVPiPf[1].y - centrosVPiPf[0].y);
             }
+            BeginDrawing();
             desenharTabuleiro(tabuleiro, mouse, centrosVPiPf);
+            EndDrawing();
             janelaAtiva = !WindowShouldClose();
         }
     }

@@ -14,11 +14,9 @@ bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2
 bool checarVertical(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
 bool checarDiagonalEsq(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
 bool checarDiagonalDir(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-//bool idPecaIdJogador(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna);
 
 void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
     bool mouseSobreColuna = false;
-    //int colunaEscolhida = -1;
 
     for (int i = 0; i < COLUNAS; i++) {
         bool mouseSobreTabuleiroY = (mouse.y >= TABULEIRO_PECAS_TAM_Y1 &&
@@ -35,7 +33,6 @@ void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
     if (mouseSobreColuna) {
         mouse.tipoCursor = MOUSE_CURSOR_POINTING_HAND;
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            //mouse.estadoEscolhido = colunaEscolhida;
             mouse.click = true;
         }
     }
@@ -67,6 +64,17 @@ void atualizarPosicaoPeca(Celula &celula, float deltaT) {
     celula.posicao.y += celula.vy * deltaT;
 }
 
+void calcularLinhaVitoria(Vector2 centros[], float &progresso) {
+    const float velocidade = 0.05f;
+
+    progresso += velocidade;
+    if (progresso >= 1.0f) {
+        progresso = 1.0f;
+    }
+    centros[2].x = centros[0].x + progresso * (centros[1].x - centros[0].x);
+    centros[2].y = centros[0].y + progresso * (centros[1].y - centros[0].y);
+}
+
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna) {
     return coluna >= 0 && tabuleiro.linhasLivres[coluna] >= 0;
 }
@@ -91,10 +99,16 @@ Jogador *trocarTurno(Jogador &jogador1, Jogador &jogador2) {
     if (jogador1.turno) {
         jogador1.turno = !jogador1.turno;
         return definirTurno(jogador2);
-    } else {
-        jogador2.turno = !jogador2.turno;
-        return definirTurno(jogador1);
     }
+    jogador2.turno = !jogador2.turno;
+    return definirTurno(jogador1);
+}
+
+Jogador *obterVencedor(Celula &celula, Jogador &jogador1, Jogador &jogador2) {
+    if (celula.id == jogador1.id) {
+        return &jogador1;
+    }
+    return &jogador2;
 }
 
 bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
@@ -224,8 +238,3 @@ bool checarDiagonalDir(const Tabuleiro &tabuleiro, int linha, int coluna, Vector
 
     return freq == 4;
 }
-/*
-bool idPecaIdJogador(const Jogador &jogador, const Tabuleiro &tabuleiro, int linha, int coluna) {
-    return tabuleiro.grid[linha][coluna].id == jogador.id;
-}
-*/

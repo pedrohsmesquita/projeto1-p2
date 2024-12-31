@@ -14,11 +14,13 @@ void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse);
 void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna);
 void consumarAcao(Celula &celula, const Jogador &jogador1, const Jogador &jogador2, float yf);
 void atualizarPosicaoPeca(Celula &celula, float deltaT);
+void calcularLinhaVitoria(Vector2 centros[], float &progresso);
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna);
 bool verificarVitoria(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
 bool empate(const Jogador &jogador1, const Jogador &jogador2);
 Jogador *definirTurno(Jogador &jogador);
 Jogador *trocarTurno(Jogador &jogador1, Jogador &jogador2);
+Jogador *obterVencedor(Celula &celula, Jogador &jogador1, Jogador &jogador2);
 
 #endif // JOGO_H
 

@@ -56,7 +56,7 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
         }
         manterMusicaTocando();
         BeginDrawing();
-        desenharTabuleiro(tabuleiro, mouse, centrosVPiPf);
+        desenharTabuleiro(tabuleiro, mouse);
         EndDrawing();
         janelaAtiva = !WindowShouldClose();
     }
@@ -74,7 +74,8 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                 centrosVPiPf[2].y = centrosVPiPf[0].y + linhaProgresso * (centrosVPiPf[1].y - centrosVPiPf[0].y);
             }
             BeginDrawing();
-            desenharTabuleiro(tabuleiro, mouse, centrosVPiPf);
+            desenharTabuleiro(tabuleiro, mouse);
+            linhaVitoria(centrosVPiPf);
             EndDrawing();
             janelaAtiva = !WindowShouldClose();
         }

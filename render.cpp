@@ -11,19 +11,15 @@ void escurecerCor(Color &corOriginal, Color &cor, float fatorEscurecer);
 void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro);
-void linhaVitoria(const Vector2 centro[]);
 bool igualdadeCor(const Color &cor1, const Color &cor2);
 Texture2D& carregarTexturaTabuleiro();
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro, Mouse &mouse, const Vector2 centro[]) {
+void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse) {
     ClearBackground(COR_FUNDO);
     SetMouseCursor(mouse.tipoCursor);
     desenharSuporte(tabuleiro);
     desenharPecasTabuleiro(tabuleiro);
     desenharBaseTabuleiro(tabuleiro);
-    if (tabuleiro.estado.vitoria) {
-        linhaVitoria(centro);
-    }
 }
 
 void converterIntParaColor(Color &cor, int corInt) {

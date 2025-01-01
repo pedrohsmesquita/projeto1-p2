@@ -6,17 +6,20 @@
 #ifndef JOGADOR_H
 #define JOGADOR_H
 
+#include "raylib.h"
+
 #define NOME_TAM 15
 
 struct Jogador {
     int id;
     int pecas;
-    int cor;
+    Color cor;
     bool turno;
+    bool vencedor;
     char nome[NOME_TAM+1];
 };
 
-void jogadorEstadoInicial(Jogador &jogador, int id, int pecas, int cor, char *nome);
+void jogadorEstadoInicial(Jogador &jogador, int id, int pecas, Color cor, char *nome);
 void removerPeca(Jogador &Jogador);
 
 

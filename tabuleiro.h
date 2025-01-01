@@ -25,7 +25,7 @@
 
 struct Celula {
     int id;
-    int corPeca;
+    Color corPeca;
     Vector2 posicao;
     float vy;
     bool animando;
@@ -42,13 +42,13 @@ struct Tabuleiro {
     int linhasLivres[COLUNAS];
     float pecasPosicaoXGrid[COLUNAS][2];
     float pecasPosicaoYGrid[LINHAS][2];
-    int corSuporte;
+    Color corSuporte;
     JogoEstado estado;
 };
 
-void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, int corPeca, int corSuporte);
+void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, Color corPeca, Color corSuporte);
 void resetarGrid(Tabuleiro &tabuleiro);
-void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, int cor);
+void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, Color cor);
 void atualizarLinhasLivres(Tabuleiro &tabuleiro, int col);
 
 #endif // TABULEIRO_H

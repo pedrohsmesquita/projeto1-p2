@@ -14,7 +14,7 @@ struct Audio {
     Sound vitoria;
 };
 
-void carregaAudio();
+void carregarAudio();
 void descarregarAudio();
 void tocarMusicaFundo();
 void manterMusicaTocando();

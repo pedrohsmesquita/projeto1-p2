@@ -8,7 +8,7 @@ Audio& obterAudio() {
     return audio;
 }
 
-void carregaAudio() {
+void carregarAudio() {
     Audio& audio = obterAudio();
 
     audio.musica = LoadMusicStream(MUSICA_FUNDO);

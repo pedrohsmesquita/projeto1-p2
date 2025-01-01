@@ -9,9 +9,11 @@
 #include "tabuleiro.h"
 #include "jogador.h"
 #include "mouse.h"
+#include "interface.h"
 
 void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse);
 void linhaVitoria(const Vector2 centro[]);
+void desenharPerfil(const Jogador &jogador, float y);
 void descarregarTexturaTabuleiro();
 
 #endif // RENDER_H

@@ -6,6 +6,7 @@
 #ifndef LIG4_H
 #define LIG4_H
 
+#include "interface.h"
 #include "mouse.h"
 #include "jogador.h"
 #include "tabuleiro.h"

@@ -41,6 +41,8 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                     consumarAcao(tabuleiro.grid[i][j], jogador1, jogador2, yf);
                     if (verificarVitoria(tabuleiro, i, j, centrosVPiPf)) {
                         tabuleiro.estado.vitoria = true;
+                        jogadorPtr = obterVencedor(tabuleiro.grid[i][j], jogador1, jogador2);
+                        jogadorPtr->vencedor = true;
                     }
                     tocarPecaClick();
                 }
@@ -54,27 +56,28 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
             tocarVitoria();
             break;
         }
+
         manterMusicaTocando();
         BeginDrawing();
         desenharTabuleiro(tabuleiro, mouse);
+        desenharPerfil(jogador1, 150);
+        desenharPerfil(jogador2, 468);
         EndDrawing();
         janelaAtiva = !WindowShouldClose();
     }
     if (tabuleiro.estado.vitoria) {
-        const float velocidade = 0.05f;
         float linhaProgresso = 0.0f;
+
         while (janelaAtiva) {
             lerMouse(mouse);
             if (linhaProgresso < 1.0f) {
-                linhaProgresso += velocidade;
-                if (linhaProgresso >= 1.0f) {
-                    linhaProgresso = 1.0f;
-                }
-                centrosVPiPf[2].x = centrosVPiPf[0].x + linhaProgresso * (centrosVPiPf[1].x - centrosVPiPf[0].x);
-                centrosVPiPf[2].y = centrosVPiPf[0].y + linhaProgresso * (centrosVPiPf[1].y - centrosVPiPf[0].y);
+                calcularLinhaVitoria(centrosVPiPf, linhaProgresso);
             }
+
             BeginDrawing();
             desenharTabuleiro(tabuleiro, mouse);
+            desenharPerfil(jogador1, 150);
+            desenharPerfil(jogador2, 468);
             linhaVitoria(centrosVPiPf);
             EndDrawing();
             janelaAtiva = !WindowShouldClose();

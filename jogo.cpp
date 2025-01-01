@@ -9,6 +9,7 @@
  */
 #include "jogo.h"
 #include "raylib.h"
+#include <cstring>
 
 bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
 bool checarVertical(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
@@ -50,7 +51,7 @@ void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna) 
 void consumarAcao(Celula &celula, const Jogador &jogador1, const Jogador &jogador2, float yf) {
     celula.posicao.y = yf;
     celula.animando = false;
-    if (celula.corPeca == jogador1.cor) {
+    if (celula.corPeca.r == jogador1.cor.r && celula.corPeca.g == jogador1.cor.g && celula.corPeca.b == jogador1.cor.b) {
         celula.id = jogador1.id;
     } else {
         celula.id = jogador2.id;
@@ -73,6 +74,27 @@ void calcularLinhaVitoria(Vector2 centros[], float &progresso) {
     }
     centros[2].x = centros[0].x + progresso * (centros[1].x - centros[0].x);
     centros[2].y = centros[0].y + progresso * (centros[1].y - centros[0].y);
+}
+
+void calcularVeuOpacidade(const Mouse &mouse, float xi, float xf, float yi, float yf, float &transp) {
+    if (mouse.x >= xi && mouse.x <= xf && mouse.y >= yi && mouse.y <= yf) {
+        transp += 0.05f;
+        if (transp > 0.65f) {
+            transp = 0.65f;
+        }
+    } else {
+        transp -= 0.05f;
+        if (transp < 0.0f) {
+            transp = 0.0f;
+        }
+    }
+}
+
+void textoVitoria(char vitoria[], char nome[]) {
+    const char *venceu = "\nvenceu!";
+
+    strncpy(vitoria, nome, NOME_TAM);
+    strncat(vitoria, venceu, 8);
 }
 
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna) {

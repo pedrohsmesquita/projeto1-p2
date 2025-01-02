@@ -12,12 +12,20 @@ void carregarAudio() {
     Audio& audio = obterAudio();
 
     audio.musica = LoadMusicStream(MUSICA_FUNDO);
+    audio.botaoClick = LoadSound(BOTAO_CLICK);
+    for (int i = 0; i < 2; i++) {
+        audio.mouseSobre[i] = LoadSound(MOUSE_SOBRE);
+    }
 }
 
 void descarregarAudio() {
     Audio& audio = obterAudio();
 
     UnloadMusicStream(audio.musica);
+    UnloadSound(audio.botaoClick);
+    for (int i = 0; i < 2; i++) {
+        UnloadSound(audio.mouseSobre[i]);
+    }
 }
 
 void tocarMusicaFundo() {
@@ -58,6 +66,22 @@ void tocarPecaClick() {
     if (i >= TAM_PECAS_CLICK_ARR) {
         i = 0;
     }
+}
+
+void tocarMouseSobre() {
+    static const Audio& audio = obterAudio();
+    static int i = 0;
+
+    PlaySound(audio.mouseSobre[i++]);
+    if (i >= 2) {
+        i = 0;
+    }
+}
+
+void tocarBotaoClick() {
+    const Audio& audio = obterAudio();
+
+    PlaySound(audio.botaoClick);
 }
 
 void tocarVitoria() {

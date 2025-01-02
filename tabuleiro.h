@@ -21,8 +21,6 @@
 #define TABULEIRO_DESLOCAX 60
 #define TABULEIRO_DESLOCAY 80
 
-#define COR_FUNDO CLITERAL(Color) {255, 251, 247, 255}
-
 struct Celula {
     int id;
     Color corPeca;
@@ -46,7 +44,7 @@ struct Tabuleiro {
     JogoEstado estado;
 };
 
-void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, Color corPeca, Color corSuporte);
+void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, Color corSuporte);
 void resetarGrid(Tabuleiro &tabuleiro);
 void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, Color cor);
 void atualizarLinhasLivres(Tabuleiro &tabuleiro, int col);

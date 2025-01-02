@@ -19,7 +19,8 @@ struct Jogador {
     char nome[NOME_TAM+1];
 };
 
-void jogadorEstadoInicial(Jogador &jogador, int id, int pecas, Color cor, char *nome);
+void jogadorEstadoInicial(Jogador &jogador, int id, Color cor, char *nome);
+void resetarJogador(Jogador &jogador);
 void removerPeca(Jogador &Jogador);
 
 

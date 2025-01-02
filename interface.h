@@ -11,14 +11,21 @@
 #include "mouse.h"
 #include "raylib.h"
 
+#define OPCOES_COR CLITERAL(Color) {169, 169, 169, 255}
+#define OPCOES_COR_MOUSE CLITERAL(Color) {80, 76, 76, 255}
 #define COR_FUNDO CLITERAL(Color) {255, 251, 247, 255}
 #define OPEN_SANS_LIGHT "assets/fonts/open-sans/OpenSans-Light.ttf"
 #define OPEN_SANS_SEMIBOLD "assets/fonts/open-sans/OpenSans-Semibold.ttf"
+#define BOOGALOO_FONT "assets/fonts/boogaloo/Boogaloo-Regular.ttf"
+#define LARGURA 1024
+#define ALTURA 768
 
 struct Fontes {
     Font openSansLight;
     Font openSansSemibold16;
     Font openSansSemibold32;
+    Font boogaloo192;
+    Font boogaloo256;
 };
 
 struct Texto {
@@ -44,6 +51,8 @@ bool mouseSobreCaixa(const Caixa &caixa, const Mouse &mouse);
 Font& obterOpenSansLight();
 Font& obterOpenSansSemiBold16();
 Font& obterOpenSansSemiBold32();
+Font& obterBoogaloo192();
+Font& obterBoogaloo256();
 void descarregarFonte();
 
 

@@ -23,3 +23,4 @@ Musicas utilizadas:
 Fontes utilizadas:
 
 - Open Sans: Usada para a interface do usuário do jogo. Licenciada sob a Apache License 2.0. Disponível em: [FontSquirrel](https://www.fontsquirrel.com/fonts/open-sans)
+- Boogaloo: Usada para o logo do jogo na tela inicial. Licenciada sob a SIL Open Font License v1.10. Disponível em: [FontSquirrel](https://www.fontsquirrel.com/license/boogaloo)

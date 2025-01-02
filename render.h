@@ -18,7 +18,8 @@ struct Texturas {
 void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse);
 void linhaVitoria(const Vector2 centro[]);
 void desenharPerfil(const Jogador &jogador, float y);
-void desenharBotao(const Caixa &caixa, const Texto &texto);
+void desenharBotao(const Caixa &caixa, const Texto &texto, float grossura, float escurecer);
+void desenharLetraContorno(const Texto& texto, float grossura);
 void carregarTexturaTabuleiro();
 void descarregarTexturaTabuleiro();
 

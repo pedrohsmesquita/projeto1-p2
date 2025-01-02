@@ -50,6 +50,9 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                             jogadorPtr = obterVencedor(tabuleiro.grid[i][j], jogador1, jogador2);
                             jogadorPtr->vencedor = true;
                         }
+                        if (empate(jogador1, jogador2)) {
+                            tabuleiro.estado.empate = true;
+                        }
                         tocarPecaClick();
                     }
                 }
@@ -58,11 +61,9 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                 tocarVitoria();
                 break;
             }
-            if (empate(jogador1, jogador2)) {
-                tabuleiro.estado.empate = true;
+            if (tabuleiro.estado.empate) {
                 break;
             }
-
             manterMusicaTocando();
             BeginDrawing();
             desenharTabuleiro(tabuleiro, mouse);
@@ -75,7 +76,7 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
             float linhaProgresso = 0.0f;
             bool mouseSobreJogar = false, mouseSobreVoltar = false;
             Caixa botaoVoltar, botaoJogarNovamente;
-            Color botaoCor, botaoCorMouse, textoCor, textoCorMouse;
+            Color corMouseSobre;
             Rectangle jogarNovamenteRet = {
                 850.0f, 326.0f,
                 169.0f, 40.0f
@@ -87,28 +88,31 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
             Vector2 temp, centralizar;
             Texto voltarText, jogarNovamenteText;
 
-            //botaoCor = CLITERAL(Color) {255, 246, 236, 255};
+            corMouseSobre = CLITERAL(Color) {255, 246, 236, 255};
+            /*
             botaoCor = COR_FUNDO;
-            botaoCorMouse = CLITERAL(Color) {255, 246, 236, 255};
-            textoCor = CLITERAL(Color) {169, 169, 169, 255};
-            textoCorMouse = CLITERAL(Color) {208, 208, 208, 255};
+            botaoCor = CLITERAL(Color) {255, 246, 236, 255};
+            textoCor = COR_FUNDO;
+            textoCorMouse = botaoCorMouse;
+            textoCorMouse = textoCor;
+            */
 
-            inicializarCaixa(botaoVoltar, voltarRet, 0.75f, 10, botaoCor);
-            inicializarCaixa(botaoJogarNovamente, jogarNovamenteRet, 0.75f, 10, botaoCor);
+            inicializarCaixa(botaoVoltar, voltarRet, 0.75f, 10, COR_FUNDO);
+            inicializarCaixa(botaoJogarNovamente, jogarNovamenteRet, 0.75f, 10, COR_FUNDO);
 
             temp = MeasureTextEx(obterOpenSansSemiBold32(), "Voltar", 32.0f, 1.0f);
             centralizar = {
                 voltarRet.x + (voltarRet.width - temp.x)/2,
                 voltarRet.y + (voltarRet.height - temp.y)/2
             };
-            inicializarTexto(voltarText, centralizar, "Voltar", 32.0f, 1.0f, textoCor, obterOpenSansSemiBold32());
+            inicializarTexto(voltarText, centralizar, "Voltar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
 
             temp = MeasureTextEx(obterOpenSansSemiBold32(), "Continuar", 32.0f, 1.0f);
             centralizar = {
                 jogarNovamenteRet.x + (jogarNovamenteRet.width - temp.x)/2,
                 jogarNovamenteRet.y + (jogarNovamenteRet.height - temp.y)/2
             };
-            inicializarTexto(jogarNovamenteText, centralizar, "Continuar", 32.0f, 1.0f, textoCor, obterOpenSansSemiBold32());
+            inicializarTexto(jogarNovamenteText, centralizar, "Continuar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
 
             while (janelaAtiva) {
                 lerMouse(mouse);
@@ -116,8 +120,8 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                     calcularLinhaVitoria(centrosVPiPf, linhaProgresso);
                 }
                 if (mouseSobreCaixa(botaoJogarNovamente, mouse)) {
-                    botaoJogarNovamente.cor = botaoCorMouse;
-                    jogarNovamenteText.cor = textoCorMouse;
+                    botaoJogarNovamente.cor = corMouseSobre;
+                    jogarNovamenteText.cor = corMouseSobre;
                     if (!mouseSobreJogar) {
                         tocarMouseSobre();
                         mouseSobreJogar = true;
@@ -127,13 +131,13 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                         break;
                     }
                 } else {
-                    botaoJogarNovamente.cor = botaoCor;
-                    jogarNovamenteText.cor = textoCor;
+                    botaoJogarNovamente.cor = COR_FUNDO;
+                    jogarNovamenteText.cor = COR_FUNDO;
                     mouseSobreJogar = false;
                 }
                 if (mouseSobreCaixa(botaoVoltar, mouse)) {
-                    botaoVoltar.cor = botaoCorMouse;
-                    voltarText.cor = textoCorMouse;
+                    botaoVoltar.cor = corMouseSobre;
+                    voltarText.cor = corMouseSobre;
                     if (!mouseSobreVoltar) {
                         tocarMouseSobre();
                         mouseSobreVoltar = true;;
@@ -144,8 +148,8 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                         break;
                     }
                 } else {
-                    botaoVoltar.cor = botaoCor;
-                    voltarText.cor = textoCor;
+                    botaoVoltar.cor = COR_FUNDO;
+                    voltarText.cor = COR_FUNDO;
                     mouseSobreVoltar = false;
                 }
 
@@ -156,8 +160,8 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
                 if (tabuleiro.estado.vitoria) {
                     linhaVitoria(centrosVPiPf);
                 }
-                desenharBotao(botaoJogarNovamente, jogarNovamenteText);
-                desenharBotao(botaoVoltar, voltarText);
+                desenharBotao(botaoJogarNovamente, jogarNovamenteText, 1.0f, 0.5f);
+                desenharBotao(botaoVoltar, voltarText, 1.0f, 0.5f);
                 EndDrawing();
                 janelaAtiva = !WindowShouldClose();
             }
@@ -178,4 +182,21 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
     }
     descarregarTexturaTabuleiro();
     descarregarAudioJogo();
+}
+
+void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
+    Rectangle textoxRet[3];
+    Caixa caixas[3];
+    Texto textos[3];
+
+    carregarTexturaTabuleiro();
+    while (janelaAtiva) {
+        lerMouse(mouse);
+
+        BeginDrawing();
+        ClearBackground(COR_FUNDO);
+        EndDrawing();
+        janelaAtiva = !WindowShouldClose();
+    }
+    descarregarTexturaTabuleiro();
 }

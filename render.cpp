@@ -117,8 +117,8 @@ void desenharPerfil(const Jogador &jogador, float y) {
     escurecerCor(jogador.cor, corEscurecida, 0.85f);
     if (jogador.vencedor) {
         cor.r = 255;
-        cor.g = 220;
-        cor.b = 115;
+        cor.g = 239;
+        cor.b = 221;
     }
     DrawRectangleRounded(retanguloEx, 0.15f, 0, cor);
     DrawRectangleRoundedLines(retanguloEx, 0.15f, 0, BLACK);
@@ -134,13 +134,35 @@ void desenharPerfil(const Jogador &jogador, float y) {
     }
 }
 
-void desenharBotao(const Caixa &caixa, const Texto &texto) {
+void desenharBotao(const Caixa &caixa, const Texto &texto, float grossura, float escurecer) {
     Color corEscurecida;
 
-    escurecerCor(caixa.cor, corEscurecida, 0.80f);
+    escurecerCor(caixa.cor, corEscurecida, escurecer);
     DrawRectangleRounded(caixa.retangulo, caixa.redondeza, caixa.segmentos, caixa.cor);
     DrawRectangleRoundedLines(caixa.retangulo, caixa.redondeza, caixa.segmentos, corEscurecida);
+    desenharLetraContorno(texto, grossura);
+}
+
+void desenharLetraContorno(const Texto& texto, float grossura) {
+
+    if (grossura > 0.0f) {
+        Color corEscurecida;
+        escurecerCor(texto.cor, corEscurecida, 0.70f);
+        DrawTextEx(texto.fonte, texto.conteudo,
+                   (Vector2){texto.posicao.x - grossura, texto.posicao.y - grossura},
+                   texto.tamanho, texto.espacamento, corEscurecida);
+        DrawTextEx(texto.fonte, texto.conteudo,
+                   (Vector2){texto.posicao.x + grossura, texto.posicao.y - grossura},
+                   texto.tamanho, texto.espacamento, corEscurecida);
+        DrawTextEx(texto.fonte, texto.conteudo,
+                   (Vector2){texto.posicao.x - grossura, texto.posicao.y + grossura},
+                   texto.tamanho, texto.espacamento, corEscurecida);
+        DrawTextEx(texto.fonte, texto.conteudo,
+                   (Vector2){texto.posicao.x + grossura, texto.posicao.y + grossura},
+                   texto.tamanho, texto.espacamento, corEscurecida);
+    }
     DrawTextEx(texto.fonte, texto.conteudo, texto.posicao, texto.tamanho, texto.espacamento, texto.cor);
+
 }
 
 void carregarTexturaTabuleiro() {

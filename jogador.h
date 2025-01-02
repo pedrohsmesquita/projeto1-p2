@@ -8,7 +8,7 @@
 
 #include "raylib.h"
 
-#define NOME_TAM 15
+#define NOME_TAM 12
 
 struct Jogador {
     int id;

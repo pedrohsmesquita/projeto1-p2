@@ -11,9 +11,15 @@
 #include "mouse.h"
 #include "interface.h"
 
+struct Texturas {
+    Texture2D tabuleiro;
+};
+
 void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse);
 void linhaVitoria(const Vector2 centro[]);
 void desenharPerfil(const Jogador &jogador, float y);
+void desenharBotao(const Caixa &caixa, const Texto &texto);
+void carregarTexturaTabuleiro();
 void descarregarTexturaTabuleiro();
 
 #endif // RENDER_H

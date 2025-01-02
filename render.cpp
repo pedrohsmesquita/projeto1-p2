@@ -11,8 +11,8 @@ void escurecerCor(const Color &corOriginal, Color &cor, float fatorEscurecer);
 void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro);
+Texturas& obterTexturas();
 bool igualdadeCor(const Color &cor1, const Color &cor2);
-Texture2D& carregarTexturaTabuleiro();
 
 void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse) {
     ClearBackground(COR_FUNDO);
@@ -58,10 +58,10 @@ void desenharSuporte(const Tabuleiro &tabuleiro) {
 }
 
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro) {
-    static const Texture2D textura = carregarTexturaTabuleiro();
+    static const Texturas& texturas = obterTexturas();
     int desloca = 5;
 
-    DrawTextureEx(textura, (Vector2){TABULEIRO_PECAS_TAM_X1 - desloca, TABULEIRO_PECAS_TAM_Y1 - desloca - 1}, 0.0f, 1.0f, tabuleiro.corSuporte);
+    DrawTextureEx(texturas.tabuleiro, (Vector2){TABULEIRO_PECAS_TAM_X1 - desloca, TABULEIRO_PECAS_TAM_Y1 - desloca - 1}, 0.0f, 1.0f, tabuleiro.corSuporte);
 }
 
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro) {
@@ -102,9 +102,9 @@ void desenharPerfil(const Jogador &jogador, float y) {
     Vector2 circuloCentro = {
         retanguloIn.x + retanguloIn.width/2, retanguloIn.y + 28
     };
-    int temp = MeasureText(jogador.nome, 16);
+    Vector2 temp = MeasureTextEx(obterOpenSansSemiBold16(), jogador.nome, 16.0f, 1.0f);
     Vector2 nomePosicao = {
-        retanguloIn.x + 2 + (retanguloIn.width - temp)/2, circuloCentro.y + 30
+        retanguloIn.x + 2 + (retanguloIn.width - temp.x)/2, circuloCentro.y + 30
     };
     Vector2 pecaPosicao = {
         retanguloIn.x + 5, nomePosicao.y + 25
@@ -125,27 +125,42 @@ void desenharPerfil(const Jogador &jogador, float y) {
     DrawRectangleRoundedLines(retanguloIn, 0.15f, 0, BLACK);
     DrawCircleV(circuloCentro, 25, corEscurecida);
     DrawCircleV(circuloCentro, 21, jogador.cor);
-    DrawText(jogador.nome, nomePosicao.x, nomePosicao.y, 16, BLACK);
-    DrawText(TextFormat("Pecas: %d", jogador.pecas), pecaPosicao.x, pecaPosicao.y, 14, BLACK);
+    DrawTextEx(obterOpenSansSemiBold16(), jogador.nome, nomePosicao, 16.0f, 1.0f, BLACK);
+    DrawTextEx(obterOpenSansSemiBold16(), TextFormat("Pecas: %d", jogador.pecas), pecaPosicao, 16.0f, 1.0f, BLACK);
     if (jogador.turno) {
-        DrawText("Jogando", turnoPosicao.x, turnoPosicao.y, 14, BLACK);
+        DrawTextEx(obterOpenSansSemiBold16(), "Jogando", turnoPosicao, 16.0f, 1.0f, BLACK);
     } else {
-        DrawText("Esperando", turnoPosicao.x, turnoPosicao.y, 14, BLACK);
+        DrawTextEx(obterOpenSansSemiBold16(), "Esperando", turnoPosicao, 16.0f, 1.0f, BLACK);
     }
 }
 
-Texture2D& carregarTexturaTabuleiro() {
-    static Texture2D textura = LoadTexture("assets/images/base.png");
+void desenharBotao(const Caixa &caixa, const Texto &texto) {
+    Color corEscurecida;
 
-    return textura;
+    escurecerCor(caixa.cor, corEscurecida, 0.80f);
+    DrawRectangleRounded(caixa.retangulo, caixa.redondeza, caixa.segmentos, caixa.cor);
+    DrawRectangleRoundedLines(caixa.retangulo, caixa.redondeza, caixa.segmentos, corEscurecida);
+    DrawTextEx(texto.fonte, texto.conteudo, texto.posicao, texto.tamanho, texto.espacamento, texto.cor);
+}
+
+void carregarTexturaTabuleiro() {
+    Texturas& texturas = obterTexturas();
+
+    texturas.tabuleiro = LoadTexture("assets/images/base.png");
 }
 
 void descarregarTexturaTabuleiro() {
-    Texture2D& textura = carregarTexturaTabuleiro();
+    Texturas& texturas = obterTexturas();
 
-    UnloadTexture(textura);
+    UnloadTexture(texturas.tabuleiro);
 }
 
 bool igualdadeCor(const Color &cor1, const Color &cor2) {
     return cor1.r == cor2.r && cor1.g == cor2.g & cor1.b == cor2.b;
+}
+
+Texturas& obterTexturas() {
+    static Texturas texturas;
+
+    return texturas;
 }

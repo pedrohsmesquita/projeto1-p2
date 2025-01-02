@@ -24,10 +24,10 @@ int main(void)
     SetTargetFPS(60);
 
     carregarAudio();
-    //carregarFonte();
-    tabuleiroEstadoInicial(tabuleiro, COR_FUNDO, RED);
-    jogadorEstadoInicial(jogador1, 1, 21, BLUE, "WWWWWWWWWWWW");
-    jogadorEstadoInicial(jogador2, 2, 21, YELLOW, "Jogador 2");
+    carregarFonte();
+    tabuleiroEstadoInicial(tabuleiro, RED);
+    jogadorEstadoInicial(jogador1, 1, BLUE, "WWWWWWWWWWWW");
+    jogadorEstadoInicial(jogador2, 2, YELLOW, "Jogador 2");
 
 
     janelaAtiva = !WindowShouldClose();
@@ -52,7 +52,7 @@ int main(void)
     }
 
     descarregarAudio();
-    //descarregarFonte();
+    descarregarFonte();
 
     return 0;
 }

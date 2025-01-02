@@ -3,6 +3,8 @@ Jogo de tabuleiro (Lig 4) feito para o primeiro projeto da disciplina de Program
 
 # Créditos
 
+Musicas utilizadas:
+
 - bg_music.mp3:
 [Musica](https://www.youtube.com/watch?v=ml3sibNgXsk) [por Sakad](https://www.youtube.com/@TodSakad)
 
@@ -11,3 +13,13 @@ Jogo de tabuleiro (Lig 4) feito para o primeiro projeto da disciplina de Program
 
 - vitoria.wav:
 <a href="https://freesound.org/people/GabrielAraujo/sounds/242501/">Powerup/success.wav</a> by <a href="https://freesound.org/people/GabrielAraujo/">GabrielAraujo</a> | License: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0</a>
+
+- mouse_hover.ogg:
+<a href="https://freesound.org/people/plasterbrain/sounds/237422/">Hover 1</a> by <a href="https://freesound.org/people/plasterbrain/">plasterbrain</a> | License: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0</a>
+
+- mouse_click.wav:
+<a href="https://freesound.org/people/Breviceps/sounds/448081/">Tic Toc Click</a> by <a href="https://freesound.org/people/Breviceps/">Breviceps</a> | License: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0</a>
+
+Fontes utilizadas:
+
+- Open Sans: Usada para a interface do usuário do jogo. Licenciada sob a Apache License 2.0. Disponível em: [FontSquirrel](https://www.fontsquirrel.com/fonts/open-sans)

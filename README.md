@@ -20,6 +20,12 @@ Musicas utilizadas:
 - mouse_click.wav:
 <a href="https://freesound.org/people/Breviceps/sounds/448081/">Tic Toc Click</a> by <a href="https://freesound.org/people/Breviceps/">Breviceps</a> | License: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0</a>
 
+- salvar_sucesso.wav:
+<a href="https://freesound.org/people/Kagateni/sounds/404359/">Success2.wav</a> by <a href="https://freesound.org/people/Kagateni/">Kagateni</a> | License: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0</a>
+
+- salvar_falha.ogg:
+<a href="https://freesound.org/people/TheMrAngelGames584/sounds/674824/">Error sound.ogg</a> by <a href="https://freesound.org/people/TheMrAngelGames584/">TheMrAngelGames584</a> | License: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0</a>
+
 Fontes utilizadas:
 
 - Open Sans: Usada para a interface do usuário do jogo. Licenciada sob a Apache License 2.0. Disponível em: [FontSquirrel](https://www.fontsquirrel.com/fonts/open-sans)

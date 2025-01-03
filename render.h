@@ -20,6 +20,9 @@ void linhaVitoria(const Vector2 centro[]);
 void desenharPerfil(const Jogador &jogador, float y);
 void desenharBotao(const Caixa &caixa, const Texto &texto, float grossura, float escurecer);
 void desenharLetraContorno(const Texto& texto, float grossura);
+void desenharQuadroCustomizar(const Rectangle &retangulo, const Rectangle barra[], const Rectangle deslizantes[]);
+void desenharPecaGigante(const Rectangle &retangulo, const Color &cor);
+void desenharTabuleiroCustomizar(const Rectangle &quadroCustomizar, const Color &cor);
 void carregarTexturaTabuleiro();
 void descarregarTexturaTabuleiro();
 

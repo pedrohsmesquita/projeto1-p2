@@ -165,6 +165,47 @@ void desenharLetraContorno(const Texto& texto, float grossura) {
 
 }
 
+void desenharQuadroCustomizar(const Rectangle &retangulo, const Rectangle barra[], const Rectangle deslizantes[]) {
+    Vector2 r, g, b, tam;
+
+    r = {(barra[0].x + retangulo.x)/2.0f - 10.0f, barra[0].y - 7.0f};
+    g = {r.x, barra[1].y - 7.0f};
+    b = {r.x, barra[2].y - 7.0f};
+    tam = {20.0f, 20.0f};
+
+    DrawRectangleRoundedLines(retangulo, 0.10f, 0.0f, BLACK);
+    DrawRectangleV(r, tam, RED);
+    DrawRectangleV(g, tam, GREEN);
+    DrawRectangleV(b, tam, BLUE);
+    for(int i = 0; i < 3; i++) {
+        DrawRectangleRounded(barra[i], 0.0f, 0, BLACK);
+        DrawRectangleRounded(deslizantes[i], 0.0f, 0, BLACK);
+    }
+}
+
+void desenharPecaGigante(const Rectangle &retangulo, const Color &cor) {
+    Vector2 centro = {
+        retangulo.x + retangulo.width/2.0f,
+        retangulo.y + retangulo.height/2 - 150.0f
+    };
+    Color corEscurecida;
+    float raio = retangulo.height/8 + 50.0f;
+
+    escurecerCor(cor, corEscurecida, 0.85f);
+    DrawCircleV(centro, raio, corEscurecida);
+    DrawCircleV(centro, raio - 10.0f, cor);
+}
+
+void desenharTabuleiroCustomizar(const Rectangle &quadroCustomizar, const Color &cor) {
+    Texturas& texturas = obterTexturas();
+    Vector2 pos = {
+        quadroCustomizar.x + quadroCustomizar.width/4,
+        quadroCustomizar.y + 32.0f
+    };
+
+    DrawTextureEx(texturas.tabuleiro, pos, 0.0f, 0.5f, cor);
+}
+
 void carregarTexturaTabuleiro() {
     Texturas& texturas = obterTexturas();
 

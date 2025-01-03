@@ -34,6 +34,7 @@ int main(void)
     //SetConfigFlags(FLAG_MSAA_4X_HINT);
     SetConfigFlags (FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
     InitWindow(LARGURA, ALTURA, "LIG4");
+    SetExitKey(0);
     InitAudioDevice();
     SetTargetFPS(60);
 
@@ -65,7 +66,7 @@ int main(void)
             // Tela de como jogar aqui.
             break;
         case CUSTOMIZAR:
-            // Botao sair aqui.
+            telaCustomizar(jogador1, jogador2, tabuleiro, mouse, janelaAtiva);
             selecaoTela = -1;
             break;
         case SAIR:
@@ -82,6 +83,10 @@ int main(void)
                         tocarMouseSobre();
                         mouseSobre = true;
                     }
+                    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                        selecaoTela = mouse.estadoEscolhido;
+                        tocarBotaoClick();
+                    }
                     break;
                 } else {
                     opcoes[i].cor = COR_FUNDO;
@@ -89,10 +94,6 @@ int main(void)
             }
             if (mouse.estadoEscolhido == -1) {
                 mouseSobre = false;
-            }
-            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                selecaoTela = mouse.estadoEscolhido;
-                tocarBotaoClick();
             }
             tempoAtual = GetTime();
             if (tempoAtual - tempoAnterior >= 1.5f) {

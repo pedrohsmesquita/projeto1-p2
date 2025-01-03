@@ -236,9 +236,8 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
             escolhido = escolha;
             deslizantesAtualizarBarra(deslizantes, cores[escolhido]);
             if (escolha != 2) {
-                Vector2 temp = MeasureTextEx(obterOpenSansSemiBold64(), nomes[escolha], 64.0f, 1.0f);
                 tamNome = strlen(nomes[escolha]);
-                nomePos = {nomeCaixa.retangulo.x + 10.0f, nomeCaixa.retangulo.y + (nomeCaixa.retangulo.height - temp.y)/2};
+                nomePos = {nomeCaixa.retangulo.x + 10.0f, nomeCaixa.retangulo.y};
                 inicializarTexto(nomeTexto, nomePos, nomes[escolha], 64.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold64());
             }
         }

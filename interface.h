@@ -21,9 +21,9 @@
 #define ALTURA 768
 
 struct Fontes {
-    Font openSansLight;
     Font openSansSemibold16;
     Font openSansSemibold32;
+    Font openSansSemibold64;
     Font boogaloo192;
     Font boogaloo256;
 };
@@ -48,9 +48,9 @@ void inicializarCaixa(Caixa &caixa, Rectangle &retangulo, float redondeza, int s
 void inicializarTexto(Texto &texto, Vector2 &posicao, char *conteudo, float tam, float espac, Color cor, Font &fonte);
 void carregarFonte();
 bool mouseSobreCaixa(const Caixa &caixa, const Mouse &mouse);
-Font& obterOpenSansLight();
 Font& obterOpenSansSemiBold16();
 Font& obterOpenSansSemiBold32();
+Font& obterOpenSansSemiBold64();
 Font& obterBoogaloo192();
 Font& obterBoogaloo256();
 void descarregarFonte();

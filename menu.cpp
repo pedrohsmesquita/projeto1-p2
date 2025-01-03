@@ -73,10 +73,10 @@ void atualizarCorDeslizantes(const Rectangle deslizantes[], Color &cor) {
     cor.b = b;
 }
 
-void inicializarOpcaoCustomizar(const Rectangle &quadro, Caixa caixas[], Rectangle textosRet[], Texto textos[], Jogador &jogador1, Jogador &jogador2) {
+void inicializarOpcaoCustomizar(const Rectangle &quadro, Caixa caixas[], Rectangle textosRet[], Texto textos[], char nome1[], char nome2[]) {
     Vector2 temp, textoPos;
 
-    temp = MeasureTextEx(obterOpenSansSemiBold16(), jogador1.nome, 16.0f, 1.0f);
+    temp = MeasureTextEx(obterOpenSansSemiBold16(), nome1, 16.0f, 1.0f);
     textoPos = {
         quadro.x + (quadro.width - temp.x)/2, quadro.y + (50 - temp.y)/2
     };
@@ -85,9 +85,9 @@ void inicializarOpcaoCustomizar(const Rectangle &quadro, Caixa caixas[], Rectang
         quadro.width - 6.0f, 50.0f - 6.0f
     };
     inicializarCaixa(caixas[0], textosRet[0], 0.3f, 0, COR_FUNDO);
-    inicializarTexto(textos[0], textoPos, jogador1.nome, 16.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold16());
+    inicializarTexto(textos[0], textoPos, nome1, 16.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold16());
 
-    temp = MeasureTextEx(obterOpenSansSemiBold16(), jogador2.nome, 16.0f, 1.0f);
+    temp = MeasureTextEx(obterOpenSansSemiBold16(), nome2, 16.0f, 1.0f);
     textoPos = {
         quadro.x + (quadro.width - temp.x)/2, textosRet[0].y + textosRet[0].height + (50 - temp.y)/2
     };
@@ -96,7 +96,7 @@ void inicializarOpcaoCustomizar(const Rectangle &quadro, Caixa caixas[], Rectang
         textosRet[0].width, textosRet[0].height
     };
     inicializarCaixa(caixas[1], textosRet[1], 0.3f, 0, COR_FUNDO);
-    inicializarTexto(textos[1], textoPos, jogador2.nome, 16.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold16());
+    inicializarTexto(textos[1], textoPos, nome2, 16.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold16());
 
     temp = MeasureTextEx(obterOpenSansSemiBold16(), "Tabuleiro", 16.0f, 1.0f);
     textoPos = {
@@ -164,6 +164,14 @@ void inicializarBotoesCustomizar(const Rectangle &quadro, Caixa caixas[], Rectan
     };
     inicializarCaixa(caixas[1], ret[1], 0.2f, 0, COR_FUNDO);
     inicializarTexto(textos[1], textoPos, "Sair", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
+}
+
+void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, Rectangle &ret) {
+    ret = {
+        quadroCustomizar.x + 50.0f, quadroCustomizar.y + quadroCustomizar.height - 100.0f,
+        quadroCustomizar.width - 100.f, 75.0f
+    };
+    inicializarCaixa(caixa, ret, 0.2f, 0, COR_FUNDO);
 }
 
 bool mouseSobreDeslizante(const Rectangle &barra, const Rectangle &deslizantes, const Mouse &mouse) {

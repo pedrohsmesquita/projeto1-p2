@@ -16,6 +16,11 @@ void jogadorEstadoInicial(Jogador &jogador, int id, Color cor, char *nome) {
     strncpy(jogador.nome, nome, NOME_TAM+1);
 }
 
+void atualizarNomeCor(Jogador &jogador, const char *nome, const Color &cor) {
+    jogador.cor = cor;
+    strncpy(jogador.nome, nome, NOME_TAM+1);
+}
+
 void resetarJogador(Jogador &jogador) {
     jogador.pecas = 21;
     jogador.vencedor = false;

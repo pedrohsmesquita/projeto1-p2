@@ -4,6 +4,8 @@
 #include "audio.h"
 #include "interface.h"
 #include "render.h"
+#include "arquivo.h"
+#include <cstring>
 
 #define JOGAR 0
 #define COMO_JOGAR 1
@@ -11,6 +13,7 @@
 #define SAIR 3
 
 void inicializarMenuInicial(Caixa caixas[], Rectangle caixasRet[], Texto textos[], Texto &nome, Texto &nome4);
+void inicializarJogadorTabuleiro(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro);
 
 int main(void)
 {
@@ -38,11 +41,9 @@ int main(void)
     InitAudioDevice();
     SetTargetFPS(60);
 
+    inicializarJogadorTabuleiro(jogador1, jogador2, tabuleiro);
     carregarAudio();
     carregarFonte();
-    tabuleiroEstadoInicial(tabuleiro, RED);
-    jogadorEstadoInicial(jogador1, 1, BLUE, "WWWWWWWWWWWW");
-    jogadorEstadoInicial(jogador2, 2, YELLOW, "Jogador 2");
 
     Caixa caixasTextos[4];
     Rectangle caixaRet[4];
@@ -155,4 +156,21 @@ void inicializarMenuInicial(Caixa caixas[], Rectangle caixasRet[], Texto textos[
     temp = MeasureTextEx(obterBoogaloo256(), "4", 256.0f, 0.0f);
     nomePos = {(LARGURA - temp.x)/2 + temp.x - 14, y - (temp.y - y)/5};
     inicializarTexto(nome4, nomePos, "4", 256.0f, 0.0f, textos[0].cor, obterBoogaloo256());
+}
+
+void inicializarJogadorTabuleiro(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro) {
+    Color cor[3];
+    char nomes[2][13];
+
+    if (!carregarCustomizacao(cor, nomes)) {
+        cor[0] = BLUE;
+        cor[1] = YELLOW;
+        cor[2] = RED;
+        strcpy(nomes[0], "Jogador 1");
+        strcpy(nomes[1], "Jogador 2");
+        salvarCustomizacao(cor, nomes);
+    }
+    jogadorEstadoInicial(jogador1, 1, cor[0], nomes[0]);
+    jogadorEstadoInicial(jogador2, 2, cor[1], nomes[1]);
+    tabuleiroEstadoInicial(tabuleiro, cor[2]);
 }

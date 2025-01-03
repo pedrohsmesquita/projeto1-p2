@@ -15,6 +15,7 @@
 #include "raylib.h"
 #include "audio.h"
 #include "menu.h"
+#include "arquivo.h"
 #include <cstring>
 
 void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
@@ -222,6 +223,7 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
     sobreBotaoCor = {255, 246, 236, 255};
 
     carregarTexturaTabuleiro();
+    carregarAudioCustomizar();
     while (janelaAtiva) {
         lerMouse(mouse);
         selecionarOpcaoCustomizar(caixas, mouse, opcaoSelecionada, mouseSobre, selecionado);
@@ -311,6 +313,16 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
             if (botaoSobre == BOTAO_SAIR) {
                 mouse.estadoEscolhido = -1;
                 break;
+            } else {
+                int tamN1 = strlen(nomes[0]), tamN2 = strlen(nomes[1]);
+                if (tamN1 == 0 || tamN2 == 0) {
+                    tocarSalvarFalha();
+                } else if (salvarCustomizacao(cores, nomes)) {
+                    atualizarNomeCor(jogador1, nomes[0], cores[0]);
+                    atualizarNomeCor(jogador2, nomes[1], cores[1]);
+                    tabuleiro.corSuporte = cores[2];
+                    tocarSalvarSucesso();
+                }
             }
         }
 
@@ -337,4 +349,5 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
         janelaAtiva = !WindowShouldClose();
     }
     descarregarTexturaTabuleiro();
+    descarregarAudioCustomizar();
 }

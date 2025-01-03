@@ -58,6 +58,20 @@ void descarregarAudioJogo() {
     UnloadSound(audio.vitoria);
 }
 
+void carregarAudioCustomizar() {
+    Audio &audio = obterAudio();
+
+    audio.salvarSucesso = LoadSound(SALVAR_SUCESSO);
+    audio.salvarFalha = LoadSound(SALVAR_FALHA);
+}
+
+void descarregarAudioCustomizar() {
+    Audio &audio = obterAudio();
+
+    UnloadSound(audio.salvarSucesso);
+    UnloadSound(audio.salvarFalha);
+}
+
 void tocarPecaClick() {
     static const Audio& audio = obterAudio();
     static int i = 0;
@@ -88,4 +102,16 @@ void tocarVitoria() {
     Audio& audio = obterAudio();
 
     PlaySound(audio.vitoria);
+}
+
+void tocarSalvarSucesso() {
+    Audio& audio = obterAudio();
+
+    PlaySound(audio.salvarSucesso);
+}
+
+void tocarSalvarFalha() {
+    Audio& audio = obterAudio();
+
+    PlaySound(audio.salvarFalha);
 }

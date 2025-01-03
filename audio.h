@@ -8,6 +8,8 @@
 #define VITORIA_SOM "assets/sounds/vitoria.wav"
 #define MOUSE_SOBRE "assets/sounds/mouse_hover.ogg"
 #define BOTAO_CLICK "assets/sounds/botao_click.wav"
+#define SALVAR_SUCESSO "assets/sounds/salvar_sucesso.wav"
+#define SALVAR_FALHA "assets/sounds/salvar_falha.ogg"
 #define TAM_PECAS_CLICK_ARR 6
 
 struct Audio {
@@ -16,6 +18,8 @@ struct Audio {
     Sound vitoria;
     Sound mouseSobre[2];
     Sound botaoClick;
+    Sound salvarSucesso;
+    Sound salvarFalha;
 };
 
 void carregarAudio();
@@ -24,9 +28,13 @@ void tocarMusicaFundo();
 void manterMusicaTocando();
 void carregarAudioJogo();
 void descarregarAudioJogo();
+void carregarAudioCustomizar();
+void descarregarAudioCustomizar();
 void tocarPecaClick();
 void tocarMouseSobre();
 void tocarBotaoClick();
 void tocarVitoria();
+void tocarSalvarSucesso();
+void tocarSalvarFalha();
 
 #endif // AUDIO_H

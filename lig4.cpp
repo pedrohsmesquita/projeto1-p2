@@ -14,6 +14,7 @@
 #include "render.h"
 #include "raylib.h"
 #include "audio.h"
+#include "menu.h"
 
 void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
     Jogador *jogadorPtr = definirTurno(jogador1);
@@ -185,16 +186,80 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
 }
 
 void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
-    Rectangle textoxRet[3];
-    Caixa caixas[3];
-    Texto textos[3];
+    Rectangle textosRet[3], botoesRet[2], quadro, quadroCustomizar, deslizantes[3], barra[3];
+    Caixa caixas[3], botoes[2];
+    Texto textos[3], botoesTexto[2];
+    Color cores[3];
+    bool mouseSobre[3] = {false, false, false};
+    bool opcaoSelecionada[3] = {false, false, false}, selecionado = false;
+    int escolha, escolhido = -1;
+
+    quadro = {
+        LARGURA/8.0f - 100.0f, ALTURA/2.0f - 150.0f,
+        200.0f, 300.0f
+    };
+    quadroCustomizar = {
+        LARGURA/4.0f, 68.0f,
+        LARGURA - LARGURA/4.0 - 25.0f, ALTURA - 136.0f
+    };
+
+    inicializarOpcaoCustomizar(quadro, caixas, textosRet, textos, jogador1, jogador2);
+    inicializarQuadroCustomizar(quadroCustomizar, barra, deslizantes);
+    inicializarBotoesCustomizar(quadro, botoes, botoesRet, botoesTexto);
+
+    cores[0] = jogador1.cor;
+    cores[1] = jogador2.cor;
+    cores[2] = tabuleiro.corSuporte;
 
     carregarTexturaTabuleiro();
     while (janelaAtiva) {
         lerMouse(mouse);
+        selecionarOpcaoCustomizar(caixas, mouse, opcaoSelecionada, mouseSobre, selecionado);
+        escolha = mouse.estadoEscolhido;
+        if (IsKeyDown(KEY_ESCAPE)) {
+            selecionado = false;
+            opcaoSelecionada[escolhido] = false;
+        }
+        if (escolha != -1 && escolha != escolhido) {
+            escolhido = escolha;
+            deslizantesAtualizarBarra(deslizantes, cores[escolhido]);
+        }
+        if (selecionado) {
+            for (int i = 0 ; i < 3; i++) {
+                if (mouseSobreDeslizante(barra[i], deslizantes[i], mouse)) {
+                    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                        deslizantes[i].x = mouse.x;
+                        if (deslizantes[i].x < barra[i].x) {
+                            deslizantes[i].x = barra[i].x;
+                        } else if (deslizantes[i].x > barra[i].x + barra[i].width) {
+                            deslizantes[i].x = barra[i].x + barra[i].width;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        if (escolhido >= 0) {
+            atualizarCorDeslizantes(deslizantes, cores[escolhido]);
+        }
 
+        manterMusicaTocando();
         BeginDrawing();
         ClearBackground(COR_FUNDO);
+        DrawRectangleRoundedLines(quadro, 0.10f, 0, BLACK);
+        for (int i = 0; i < 3; i++) {
+            desenharBotao(caixas[i], textos[i], 1.0f, 1.0f);
+        }
+        if (selecionado) {
+            desenharQuadroCustomizar(quadroCustomizar, barra, deslizantes);
+            if (escolhido == 2) {
+                desenharTabuleiroCustomizar(quadroCustomizar, cores[escolhido]);
+            } else {
+                desenharPecaGigante(quadroCustomizar, cores[escolhido]);
+            }
+        }
+        desenharBotao(botoes[0], botoesTexto[0], 1.0f, 0.0f);
+        desenharBotao(botoes[1], botoesTexto[1], 1.0f, 0.0f);
         EndDrawing();
         janelaAtiva = !WindowShouldClose();
     }

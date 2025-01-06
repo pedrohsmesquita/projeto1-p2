@@ -23,6 +23,7 @@ void desenharLetraContorno(const Texto& texto, float grossura);
 void desenharQuadroCustomizar(const Rectangle &retangulo, const Rectangle barra[], const Rectangle deslizantes[]);
 void desenharPecaGigante(const Rectangle &retangulo, const Color &cor);
 void desenharTabuleiroCustomizar(const Rectangle &quadroCustomizar, const Color &cor);
+void desenharComoJogar();
 void carregarTexturaTabuleiro();
 void descarregarTexturaTabuleiro();
 

@@ -206,6 +206,32 @@ void desenharTabuleiroCustomizar(const Rectangle &quadroCustomizar, const Color 
     DrawTextureEx(texturas.tabuleiro, pos, 0.0f, 0.5f, cor);
 }
 
+void desenharComoJogar() {
+    Vector2 pos, temp;
+    Rectangle ret = {
+        64.0f, 48.0f,
+        LARGURA - 128.0f, ALTURA - 96.0f
+    };
+
+    DrawRectangleRoundedLines(ret, 0.10f, 0, BLACK);
+    temp = MeasureTextEx(obterOpenSansSemiBold64(), "Como Jogar?", 64.0f, 1.0f);
+    pos = {
+        ret.x + (ret.width - temp.x)/2.0f,
+        ret.y + 12.0f
+    };
+    DrawTextEx(obterOpenSansSemiBold64(), "Como Jogar?", pos, 64.0f, 1.0f, BLACK);
+    pos = {
+        ret.x + 12.0f, ret.y + temp.y + 64.0f
+    };
+    DrawTextEx(obterOpenSansSemiBold32(), "- Utilizando o mouse, selecione uma das colunas para efetuar uma jogada.", pos, 32.0f, 1.0f, BLACK);
+    pos = {pos.x, pos.y + 64.0f};
+    DrawTextEx(obterOpenSansSemiBold32(), "- Cada jogador realiza uma unica jogada por turno.", pos, 32.0f, 1.0f, BLACK);
+    pos = {pos.x, pos.y + 64.0f};
+    DrawTextEx(obterOpenSansSemiBold32(), "- Para vencer, forme uma sequencia de 4 cores ou na horizontal ou na\nvertical ou na diagonal.", pos, 32.0f, 1.0f, BLACK);
+    pos = {pos.x, pos.y + 128.0f};
+    DrawTextEx(obterOpenSansSemiBold32(), "Divirta-se!", pos, 32.0f, 1.0f, BLACK);
+}
+
 void carregarTexturaTabuleiro() {
     Texturas& texturas = obterTexturas();
 

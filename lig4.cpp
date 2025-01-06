@@ -100,8 +100,8 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
             textoCorMouse = textoCor;
             */
 
-            inicializarCaixa(botaoVoltar, voltarRet, 0.75f, 10, COR_FUNDO);
-            inicializarCaixa(botaoJogarNovamente, jogarNovamenteRet, 0.75f, 10, COR_FUNDO);
+            inicializarCaixa(botaoVoltar, voltarRet, 0.25f, 10, COR_FUNDO);
+            inicializarCaixa(botaoJogarNovamente, jogarNovamenteRet, 0.25f, 10, COR_FUNDO);
 
             temp = MeasureTextEx(obterOpenSansSemiBold32(), "Voltar", 32.0f, 1.0f);
             centralizar = {
@@ -349,4 +349,52 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
     }
     descarregarTexturaTabuleiro();
     descarregarAudioCustomizar();
+}
+
+
+void telaComoJogar(Mouse &mouse, bool &janelaAtiva) {
+    Rectangle botaoRet;
+    Caixa botao;
+    Vector2 temp, pos;
+    Texto botaoTexto;
+    Color sobreBotaoCor = {255, 246, 236, 255};
+    bool sobreBotao = false;
+
+    botaoRet = {
+        (64.0f + LARGURA)/2.0f - 64.0f, 48.0f + ALTURA - 96.0f - 75.0f,
+        128.0f, 48.0f
+    };
+    inicializarCaixa(botao, botaoRet, 0.2f, 0, COR_FUNDO);
+    temp = MeasureTextEx(obterOpenSansSemiBold32(), "Voltar", 32.0f, 1.0f);
+    pos = {botaoRet.x + (botaoRet.width - temp.x)/2.0f, botaoRet.y + (botaoRet.height - temp.y)/2};
+    inicializarTexto(botaoTexto, pos, "Voltar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
+
+    while (janelaAtiva) {
+        lerMouse(mouse);
+
+        if (CheckCollisionPointRec((Vector2){mouse.x, mouse.y}, botao.retangulo)) {
+            botao.cor = sobreBotaoCor;
+            botaoTexto.cor = sobreBotaoCor;
+            if (!sobreBotao) {
+                tocarMouseSobre();
+                sobreBotao = true;
+            }
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                tocarBotaoClick();
+                break;
+            }
+        } else {
+            botao.cor = COR_FUNDO;
+            botaoTexto.cor = COR_FUNDO;
+            sobreBotao = false;
+        }
+
+        manterMusicaTocando();
+        BeginDrawing();
+        ClearBackground(COR_FUNDO);
+        desenharComoJogar();
+        desenharBotao(botao, botaoTexto, 1.0f, 0.0f);
+        EndDrawing();
+        janelaAtiva = !WindowShouldClose();
+    }
 }

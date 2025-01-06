@@ -64,7 +64,8 @@ int main(void)
             selecaoTela = -1;
             break;
         case COMO_JOGAR:
-            // Tela de como jogar aqui.
+            telaComoJogar(mouse, janelaAtiva);
+            selecaoTela = -1;
             break;
         case CUSTOMIZAR:
             telaCustomizar(jogador1, jogador2, tabuleiro, mouse, janelaAtiva);

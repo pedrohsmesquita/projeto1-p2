@@ -7,7 +7,7 @@ bool salvarCustomizacao(Color cor[], char nomes[2][13]) {
         return false;
     }
 
-    arquivo.write(reinterpret_cast<const char*>(cor), 3 * sizeof(Color));
+    arquivo.write(reinterpret_cast<char *>(cor), 3 * sizeof(Color));
     arquivo.write(nomes[0], 13);
     arquivo.write(nomes[1], 13);
     arquivo.close();
@@ -20,6 +20,7 @@ bool carregarCustomizacao(Color cor[], char nomes[2][13]) {
     if (!arquivo) {
         return false;
     }
+
     arquivo.read(reinterpret_cast<char *>(cor), 3 * sizeof(Color));
     arquivo.read(nomes[0], 13);
     arquivo.read(nomes[1], 13);

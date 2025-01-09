@@ -34,7 +34,6 @@ int main(void)
     float tempoAnterior, tempoAtual;
 
     // Inicializações do Raylib
-    //SetConfigFlags(FLAG_MSAA_4X_HINT);
     SetConfigFlags (FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
     InitWindow(LARGURA, ALTURA, "LIG4");
     SetExitKey(0);
@@ -111,7 +110,6 @@ int main(void)
             desenharLetraContorno(nome, 7.0f);
             desenharLetraContorno(nome4, 7.0f);
             for (int i = JOGAR; i <= SAIR; i++) {
-                //DrawTextEx(opcoes[i].fonte, opcoes[i].conteudo, opcoes[i].posicao, opcoes[i].tamanho, opcoes[i].espacamento, opcoes[i].cor);
                 desenharLetraContorno(opcoes[i], 1.0f);
             }
             EndDrawing();

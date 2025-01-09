@@ -15,7 +15,6 @@ void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna);
 void consumarAcao(Celula &celula, const Jogador &jogador1, const Jogador &jogador2, float yf);
 void atualizarPosicaoPeca(Celula &celula, float deltaT);
 void calcularLinhaVitoria(Vector2 centros[], float &progresso);
-void calcularVeuOpacidade(const Mouse &mouse, float xi, float xf, float yi, float yf, float &transp);
 void textoVitoria(char vitoria[], char nome[]);
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna);
 bool verificarVitoria(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);

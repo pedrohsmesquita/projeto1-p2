@@ -76,20 +76,6 @@ void calcularLinhaVitoria(Vector2 centros[], float &progresso) {
     centros[2].y = centros[0].y + progresso * (centros[1].y - centros[0].y);
 }
 
-void calcularVeuOpacidade(const Mouse &mouse, float xi, float xf, float yi, float yf, float &transp) {
-    if (mouse.x >= xi && mouse.x <= xf && mouse.y >= yi && mouse.y <= yf) {
-        transp += 0.05f;
-        if (transp > 0.65f) {
-            transp = 0.65f;
-        }
-    } else {
-        transp -= 0.05f;
-        if (transp < 0.0f) {
-            transp = 0.0f;
-        }
-    }
-}
-
 void textoVitoria(char vitoria[], char nome[]) {
     const char *venceu = "\nvenceu!";
 

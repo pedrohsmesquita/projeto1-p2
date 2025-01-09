@@ -43,15 +43,24 @@ void selecionarOpcaoCustomizar(Caixa caixas[], Mouse &mouse, bool opcaoSeleciona
 }
 
 void deslizantesAtualizarBarra(Rectangle deslizantes[], const Color &cor) {
-    const float partesBarra = 2.5f;
+    const float partesBarra = 2.499f;
 
     deslizantes[0].x = 306.0f + cor.r * partesBarra;
     deslizantes[1].x = 306.0f + cor.g * partesBarra;
     deslizantes[2].x = 306.0f + cor.b * partesBarra;
+    if (deslizantes[0].x > 943) {
+        deslizantes[0].x = 943;
+    }
+    if (deslizantes[1].x > 943) {
+        deslizantes[1].x = 943;
+    }
+    if (deslizantes[2].x > 943) {
+        deslizantes[2].x = 943;
+    }
 }
 
 void atualizarCorDeslizantes(const Rectangle deslizantes[], Color &cor) {
-    const float partesCor = 0.398f;
+    const float partesCor = 0.4005;
     float r, g, b;
 
     r = (deslizantes[0].x - 306.0f) * partesCor;
@@ -175,7 +184,7 @@ void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, 
 }
 
 bool mouseSobreDeslizante(const Rectangle &barra, const Rectangle &deslizantes, const Mouse &mouse) {
-    return mouse.x >= barra.x - 3 && mouse.x <= barra.x + barra.width &&
+    return mouse.x >= barra.x && mouse.x <= barra.x + barra.width - 6    &&
            ((mouse.y >= barra.y && mouse.y <= barra.y + barra.height) ||
             (mouse.y >= deslizantes.y && mouse.y <= deslizantes.y + deslizantes.width));
 }

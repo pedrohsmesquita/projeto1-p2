@@ -92,13 +92,6 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
             Texto voltarText, jogarNovamenteText;
 
             corMouseSobre = {255, 246, 236, 255};
-            /*
-            botaoCor = COR_FUNDO;
-            botaoCor = CLITERAL(Color) {255, 246, 236, 255};
-            textoCor = COR_FUNDO;
-            textoCorMouse = botaoCorMouse;
-            textoCorMouse = textoCor;
-            */
 
             inicializarCaixa(botaoVoltar, voltarRet, 0.25f, 10, COR_FUNDO);
             inicializarCaixa(botaoJogarNovamente, jogarNovamenteRet, 0.25f, 10, COR_FUNDO);
@@ -194,8 +187,8 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
     Color cores[3], sobreBotaoCor;
     Vector2 nomePos;
     char nomes[2][NOME_TAM+1];
-    bool mouseSobre[3] = {false, false, false}, sobreBotao = false;
-    bool opcaoSelecionada[3] = {false, false, false}, selecionado = false;
+    bool mouseSobre[3] = {false, false, false}, sobreBotao = false, falha = false;
+    bool opcaoSelecionada[3] = {false, false, false}, selecionado = false, sucesso = false;
     int escolha, escolhido = -1, botaoSobre = -1, tamNome;
 
     quadro = {
@@ -251,6 +244,7 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
                         } else if (deslizantes[i].x > barra[i].x + barra[i].width) {
                             deslizantes[i].x = barra[i].x + barra[i].width;
                         }
+                        atualizarCorDeslizantes(deslizantes, cores[escolhido]);
                     }
                     break;
                 }
@@ -284,9 +278,6 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
                 nomeTexto.cor = COR_FUNDO;
             }
         }
-        if (escolhido >= 0) {
-            atualizarCorDeslizantes(deslizantes, cores[escolhido]);
-        }
         for (int i = 0; i < 2; i++) {
             if (mouseSobreCaixa(botoes[i], mouse)) {
                 botoes[i].cor = sobreBotaoCor;
@@ -313,10 +304,17 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
                 mouse.estadoEscolhido = -1;
                 break;
             } else {
+                falha = false;
+                sucesso = false;
                 int tamN1 = strlen(nomes[0]), tamN2 = strlen(nomes[1]);
-                if (tamN1 == 0 || tamN2 == 0) {
+                bool coresIguais = cores[0].r == cores[1].r &&
+                                   cores[0].g == cores[1].g &&
+                                   cores[0].b == cores[1].b;
+                if (tamN1 == 0 || tamN2 == 0 || coresIguais) {
+                    falha = true;
                     tocarSalvarFalha();
                 } else if (salvarCustomizacao(cores, nomes)) {
+                    sucesso = true;
                     atualizarNomeCor(jogador1, nomes[0], cores[0]);
                     atualizarNomeCor(jogador2, nomes[1], cores[1]);
                     tabuleiro.corSuporte = cores[2];
@@ -341,6 +339,12 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
                 desenharPecaGigante(quadroCustomizar, cores[escolhido]);
                 desenharBotao(nomeCaixa, nomeTexto, 2.0f, 0.8f);
             }
+        }
+        if (falha) {
+            DrawTextEx(obterOpenSansSemiBold32(), "FALHA: Nome vazio ou cores iguais", (Vector2){quadroCustomizar.x + 169.0f, 17.0f}, 32.0f, 1.0f, RED);
+        }
+        if (sucesso) {
+            DrawTextEx(obterOpenSansSemiBold32(), "SUCESSO: Configuracoes salvas", (Vector2){quadroCustomizar.x + 191.0f, 17.0f}, 32.0f, 1.0f, GREEN);
         }
         desenharBotao(botoes[0], botoesTexto[0], 1.0f, 0.0f);
         desenharBotao(botoes[1], botoesTexto[1], 1.0f, 0.0f);

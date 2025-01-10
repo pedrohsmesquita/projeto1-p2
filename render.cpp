@@ -6,7 +6,6 @@
 #include "render.h"
 #include "raylib.h"
 
-//void converterIntParaColor(Color &cor, int corInt);
 void escurecerCor(const Color &corOriginal, Color &cor, float fatorEscurecer);
 void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
@@ -22,15 +21,6 @@ void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse) {
     desenharBaseTabuleiro(tabuleiro);
 }
 
-/*
-void converterIntParaColor(Color &cor, int corInt) {
-    cor.r = 0xFF & (corInt >> 24);
-    cor.g = 0xFF & (corInt >> 16);
-    cor.b = 0xFF & (corInt >> 8);
-    cor.a = 0xFF & corInt;
-}
-*/
-
 void escurecerCor(const Color &corOriginal, Color &cor, float fatorEscurecer) {
     cor.r = corOriginal.r * fatorEscurecer;
     cor.g = corOriginal.g * fatorEscurecer;
@@ -41,7 +31,6 @@ void escurecerCor(const Color &corOriginal, Color &cor, float fatorEscurecer) {
 void desenharSuporte(const Tabuleiro &tabuleiro) {
     int deslocar = 5;
     Rectangle partePeca, partePecaSombra, pilarEsq, pilarDir;
-    //Color sombra;
 
     pilarEsq = {
         0, TABULEIRO_DESLOCAY,
@@ -51,7 +40,6 @@ void desenharSuporte(const Tabuleiro &tabuleiro) {
         TABULEIRO_PECAS_TAM_X2 + deslocar, TABULEIRO_DESLOCAY,
         TABULEIRO_DESLOCAX, 768 - 90
     };
-    //escurecerCor(tabuleiro.corSuporte, sombra, 0.9f);
 
     DrawRectangleRounded(pilarEsq, 0.35f, 0, tabuleiro.corSuporte);
     DrawRectangleRounded(pilarDir, 0.35f, 0, tabuleiro.corSuporte);

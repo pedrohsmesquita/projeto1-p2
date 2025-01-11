@@ -36,7 +36,6 @@ void resetarGrid(Tabuleiro &tabuleiro) {
     }
     tabuleiro.estado.empate = false;
     tabuleiro.estado.vitoria = false;
-    tabuleiro.estado.pausado = false;
 }
 
 void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, Color cor) {

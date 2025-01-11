@@ -32,7 +32,6 @@ struct Celula {
 struct JogoEstado {
     bool vitoria;
     bool empate;
-    bool pausado;
 };
 
 struct Tabuleiro {

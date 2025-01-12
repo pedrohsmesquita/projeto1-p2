@@ -9,8 +9,11 @@
 #define INTERFACE_H
 
 #include "mouse.h"
+#include "audio.h"
 #include "raylib.h"
 
+#define BOTAO_SAIR_VOLTAR 0
+#define BOTAO_PROSSEGUIR_OK 1
 #define OPCOES_COR CLITERAL(Color) {169, 169, 169, 255}
 #define OPCOES_COR_MOUSE CLITERAL(Color) {80, 76, 76, 255}
 #define COR_FUNDO CLITERAL(Color) {255, 251, 247, 255}
@@ -48,6 +51,7 @@ void inicializarCaixa(Caixa &caixa, Rectangle &retangulo, float redondeza, int s
 void inicializarTexto(Texto &texto, Vector2 &posicao, char *conteudo, float tam, float espac, Color cor, Font &fonte);
 void carregarFonte();
 bool mouseSobreCaixa(const Caixa &caixa, const Mouse &mouse);
+void interacaoBotao(Caixa &botao, Texto &texto, Mouse &mouse, Color &corInteracao, bool &mouseSobreBotao, int estadoEscolhido);
 Font& obterOpenSansSemiBold16();
 Font& obterOpenSansSemiBold32();
 Font& obterOpenSansSemiBold64();

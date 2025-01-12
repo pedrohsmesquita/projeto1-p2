@@ -9,6 +9,7 @@
 #include "jogador.h"
 #include "tabuleiro.h"
 #include "mouse.h"
+#include "interface.h"
 
 void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse);
 void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna);
@@ -16,6 +17,7 @@ void consumarAcao(Celula &celula, const Jogador &jogador1, const Jogador &jogado
 void atualizarPosicaoPeca(Celula &celula, float deltaT);
 void calcularLinhaVitoria(Vector2 centros[], float &progresso);
 void textoVitoria(char vitoria[], char nome[]);
+void inicializarElementosVitEmp(Caixa &botaoVoltar, Caixa &botaoJogarNovamente, Color &corMouseSobre, Rectangle &jogarNovamenteRet, Rectangle &voltarRet, Texto &voltarText, Texto &jogarNovamenteText);
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna);
 bool verificarVitoria(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
 bool empate(const Jogador &jogador1, const Jogador &jogador2);

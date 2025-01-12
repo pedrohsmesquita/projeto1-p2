@@ -83,6 +83,37 @@ void textoVitoria(char vitoria[], char nome[]) {
     strncat(vitoria, venceu, 8);
 }
 
+void inicializarElementosVitEmp(Caixa &botaoVoltar, Caixa &botaoJogarNovamente, Color &corMouseSobre, Rectangle &jogarNovamenteRet, Rectangle &voltarRet, Texto &voltarText, Texto &jogarNovamenteText) {
+    Vector2 temp, centralizar;
+
+    jogarNovamenteRet = {
+        850.0f, 326.0f,
+        169.0f, 40.0f
+    };
+    voltarRet = {
+        850.0f, 402.0f,
+        169.0f, 40.0f
+    };
+    corMouseSobre = {255, 246, 236, 255};
+
+    inicializarCaixa(botaoVoltar, voltarRet, 0.25f, 10, COR_FUNDO);
+    inicializarCaixa(botaoJogarNovamente, jogarNovamenteRet, 0.25f, 10, COR_FUNDO);
+
+    temp = MeasureTextEx(obterOpenSansSemiBold32(), "Voltar", 32.0f, 1.0f);
+    centralizar = {
+        voltarRet.x + (voltarRet.width - temp.x)/2,
+        voltarRet.y + (voltarRet.height - temp.y)/2
+    };
+    inicializarTexto(voltarText, centralizar, "Voltar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
+
+    temp = MeasureTextEx(obterOpenSansSemiBold32(), "Continuar", 32.0f, 1.0f);
+    centralizar = {
+        jogarNovamenteRet.x + (jogarNovamenteRet.width - temp.x)/2,
+        jogarNovamenteRet.y + (jogarNovamenteRet.height - temp.y)/2
+    };
+    inicializarTexto(jogarNovamenteText, centralizar, "Continuar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
+}
+
 bool acaoValida(const Tabuleiro &tabuleiro, int coluna) {
     return coluna >= 0 && tabuleiro.linhasLivres[coluna] >= 0;
 }

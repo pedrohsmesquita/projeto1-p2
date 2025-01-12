@@ -82,6 +82,27 @@ void atualizarCorDeslizantes(const Rectangle deslizantes[], Color &cor) {
     cor.b = b;
 }
 
+void inicializarElementosCustomizar(const Tabuleiro &tabuleiro, const Jogador &jogador1, const Jogador &jogador2, Rectangle &quadro, Rectangle &quadroCustomizar, char nomes[2][NOME_TAM+1], Color cores[], Color &sobreBotaoCor) {
+    quadro = {
+        LARGURA/8.0f - 100.0f, ALTURA/2.0f - 150.0f,
+        200.0f, 300.0f
+    };
+    quadroCustomizar = {
+        LARGURA/4.0f, 68.0f,
+        LARGURA - LARGURA/4.0 - 25.0f, ALTURA - 136.0f
+    };
+
+    strncpy(nomes[0], jogador1.nome, NOME_TAM);
+    strncpy(nomes[1], jogador2.nome, NOME_TAM);
+    nomes[0][NOME_TAM] = '\0';
+    nomes[1][NOME_TAM] = '\0';
+
+    cores[0] = jogador1.cor;
+    cores[1] = jogador2.cor;
+    cores[2] = tabuleiro.corSuporte;
+    sobreBotaoCor = {255, 246, 236, 255};
+}
+
 void inicializarOpcaoCustomizar(const Rectangle &quadro, Caixa caixas[], Rectangle textosRet[], Texto textos[], char nome1[], char nome2[]) {
     Vector2 temp, textoPos;
 

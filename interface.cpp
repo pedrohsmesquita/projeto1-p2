@@ -45,6 +45,25 @@ bool mouseSobreCaixa(const Caixa &caixa, const Mouse &mouse) {
            mouse.y >= caixa.retangulo.y && mouse.y <= (caixa.retangulo.y + caixa.retangulo.height);
 }
 
+void interacaoBotao(Caixa &botao, Texto &texto, Mouse &mouse, Color &corInteracao, bool &mouseSobreBotao, int estadoEscolhido) {
+    if (mouseSobreCaixa(botao, mouse)) {
+        botao.cor = corInteracao;
+        texto.cor = corInteracao;
+        if (!mouseSobreBotao) {
+            tocarMouseSobre();
+            mouseSobreBotao = true;
+        }
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            mouse.estadoEscolhido = estadoEscolhido;
+            mouse.click = true;
+        }
+    } else {
+        botao.cor = COR_FUNDO;
+        texto.cor = COR_FUNDO;
+        mouseSobreBotao = false;
+    }
+}
+
 Font& obterOpenSansSemiBold16() {
     Fontes &fontes = obterFontes();
 

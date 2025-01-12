@@ -18,6 +18,12 @@
 #include "arquivo.h"
 #include <cstring>
 
+void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Mouse &mouse);
+void atualizarJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse);
+bool atualizarPosJogo(const Mouse &mouse);
+bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
+bool loopPosJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
+
 void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
     Jogador *jogadorPtr = definirTurno(jogador1);
     Vector2 centrosVPiPf[3];
@@ -29,153 +35,21 @@ void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse 
         resetarGrid(tabuleiro);
         resetarJogador(jogador1);
         resetarJogador(jogador2);
-        while (janelaAtiva) {
-            lerMouse(mouse);
-            escolherColuna(tabuleiro, mouse);
-            int colunaEscolhida = mouse.estadoEscolhido;
-            if (mouse.click && acaoValida(tabuleiro, colunaEscolhida)) {
-                int linha = tabuleiro.linhasLivres[colunaEscolhida];
-                efetuarAcao(*jogadorPtr, tabuleiro, linha, colunaEscolhida);
-                jogadorPtr = trocarTurno(jogador1, jogador2);
-            }
-            float deltaTempo = GetFrameTime();
-            for (int i = 0; i < LINHAS; i++) {
-                for (int j = 0; j < COLUNAS; j++) {
-                    if (tabuleiro.grid[i][j].animando == false) {
-                        continue;
-                    }
-                    atualizarPosicaoPeca(tabuleiro.grid[i][j], deltaTempo);
-                    float yf = tabuleiro.pecasPosicaoYGrid[i][0] + PECAS_RAIO;
-                    if (tabuleiro.grid[i][j].posicao.y > yf) {
-                        consumarAcao(tabuleiro.grid[i][j], jogador1, jogador2, yf);
-                        if (verificarVitoria(tabuleiro, i, j, centrosVPiPf)) {
-                            tabuleiro.estado.vitoria = true;
-                            jogadorPtr = obterVencedor(tabuleiro.grid[i][j], jogador1, jogador2);
-                            jogadorPtr->vencedor = true;
-                        }
-                        if (empate(jogador1, jogador2)) {
-                            tabuleiro.estado.empate = true;
-                        }
-                        tocarPecaClick();
-                    }
-                }
-            }
-            if (tabuleiro.estado.vitoria) {
-                tocarVitoria();
-                break;
-            }
-            if (tabuleiro.estado.empate) {
-                break;
-            }
-            manterMusicaTocando();
-            BeginDrawing();
-            desenharTabuleiro(tabuleiro, mouse);
-            desenharPerfil(jogador1, 150);
-            desenharPerfil(jogador2, 468);
-            EndDrawing();
-            janelaAtiva = !WindowShouldClose();
-        }
-        if (tabuleiro.estado.vitoria || tabuleiro.estado.empate) {
-            float linhaProgresso = 0.0f;
-            bool mouseSobreJogar = false, mouseSobreVoltar = false;
-            Caixa botaoVoltar, botaoJogarNovamente;
-            Color corMouseSobre;
-            Rectangle jogarNovamenteRet = {
-                850.0f, 326.0f,
-                169.0f, 40.0f
-            };
-            Rectangle voltarRet = {
-                850.0f, 402.0f,
-                169.0f, 40.0f
-            };
-            Vector2 temp, centralizar;
-            Texto voltarText, jogarNovamenteText;
-
-            corMouseSobre = {255, 246, 236, 255};
-
-            inicializarCaixa(botaoVoltar, voltarRet, 0.25f, 10, COR_FUNDO);
-            inicializarCaixa(botaoJogarNovamente, jogarNovamenteRet, 0.25f, 10, COR_FUNDO);
-
-            temp = MeasureTextEx(obterOpenSansSemiBold32(), "Voltar", 32.0f, 1.0f);
-            centralizar = {
-                voltarRet.x + (voltarRet.width - temp.x)/2,
-                voltarRet.y + (voltarRet.height - temp.y)/2
-            };
-            inicializarTexto(voltarText, centralizar, "Voltar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
-
-            temp = MeasureTextEx(obterOpenSansSemiBold32(), "Continuar", 32.0f, 1.0f);
-            centralizar = {
-                jogarNovamenteRet.x + (jogarNovamenteRet.width - temp.x)/2,
-                jogarNovamenteRet.y + (jogarNovamenteRet.height - temp.y)/2
-            };
-            inicializarTexto(jogarNovamenteText, centralizar, "Continuar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
-
-            while (janelaAtiva) {
-                lerMouse(mouse);
-                if (tabuleiro.estado.vitoria && linhaProgresso < 1.0f) {
-                    calcularLinhaVitoria(centrosVPiPf, linhaProgresso);
-                }
-                if (mouseSobreCaixa(botaoJogarNovamente, mouse)) {
-                    botaoJogarNovamente.cor = corMouseSobre;
-                    jogarNovamenteText.cor = corMouseSobre;
-                    if (!mouseSobreJogar) {
-                        tocarMouseSobre();
-                        mouseSobreJogar = true;
-                    }
-                    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                        tocarBotaoClick();
-                        break;
-                    }
-                } else {
-                    botaoJogarNovamente.cor = COR_FUNDO;
-                    jogarNovamenteText.cor = COR_FUNDO;
-                    mouseSobreJogar = false;
-                }
-                if (mouseSobreCaixa(botaoVoltar, mouse)) {
-                    botaoVoltar.cor = corMouseSobre;
-                    voltarText.cor = corMouseSobre;
-                    if (!mouseSobreVoltar) {
-                        tocarMouseSobre();
-                        mouseSobreVoltar = true;;
-                    }
-                    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                        jogar = false;
-                        tocarBotaoClick();
-                        break;
-                    }
-                } else {
-                    botaoVoltar.cor = COR_FUNDO;
-                    voltarText.cor = COR_FUNDO;
-                    mouseSobreVoltar = false;
-                }
-
-                BeginDrawing();
-                desenharTabuleiro(tabuleiro, mouse);
-                desenharPerfil(jogador1, 150.0f);
-                desenharPerfil(jogador2, 468.0f);
-                if (tabuleiro.estado.vitoria) {
-                    linhaVitoria(centrosVPiPf);
-                }
-                desenharBotao(botaoJogarNovamente, jogarNovamenteText, 1.0f, 0.5f);
-                desenharBotao(botaoVoltar, voltarText, 1.0f, 0.5f);
-                EndDrawing();
-                janelaAtiva = !WindowShouldClose();
-            }
-        }
-        if (!janelaAtiva) {
+        if (!loopJogoAtivo(tabuleiro, jogador1, jogador2, jogadorPtr, centrosVPiPf, mouse, janelaAtiva)) {
             break;
         }
-        if (jogar) {
-            if (jogador1.turno) {
-                jogadorPtr = &jogador1;
-            } else {
-                jogadorPtr = &jogador2;
-            }
+        if (tabuleiro.estado.vitoria || tabuleiro.estado.empate) {
+            if (!loopPosJogo(tabuleiro, jogador1, jogador2, centrosVPiPf, mouse, janelaAtiva))
+                break;
+        }
+        if (jogador1.turno) {
+            jogadorPtr = &jogador1;
         } else {
-            jogador1.turno = false;
-            jogador2.turno = false;
+            jogadorPtr = &jogador2;
         }
     }
+    jogador1.turno = false;
+    jogador2.turno = false;
     descarregarTexturaTabuleiro();
     descarregarAudioJogo();
 }
@@ -191,36 +65,19 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
     bool opcaoSelecionada[3] = {false, false, false}, selecionado = false, sucesso = false;
     int escolha, escolhido = -1, botaoSobre = -1, tamNome;
 
-    quadro = {
-        LARGURA/8.0f - 100.0f, ALTURA/2.0f - 150.0f,
-        200.0f, 300.0f
-    };
-    quadroCustomizar = {
-        LARGURA/4.0f, 68.0f,
-        LARGURA - LARGURA/4.0 - 25.0f, ALTURA - 136.0f
-    };
-
-    strncpy(nomes[0], jogador1.nome, NOME_TAM);
-    strncpy(nomes[1], jogador2.nome, NOME_TAM);
-    nomes[0][NOME_TAM] = '\0';
-    nomes[1][NOME_TAM] = '\0';
-
+    inicializarElementosCustomizar(tabuleiro, jogador1, jogador2, quadro, quadroCustomizar, nomes, cores, sobreBotaoCor);
     inicializarOpcaoCustomizar(quadro, caixas, textosRet, textos, nomes[0], nomes[1]);
     inicializarQuadroCustomizar(quadroCustomizar, barra, deslizantes);
     inicializarBotoesCustomizar(quadro, botoes, botoesRet, botoesTexto);
     inicializarNomeCustomizar(quadroCustomizar, nomeCaixa, nomeRet);
-
-    cores[0] = jogador1.cor;
-    cores[1] = jogador2.cor;
-    cores[2] = tabuleiro.corSuporte;
-    sobreBotaoCor = {255, 246, 236, 255};
-
     carregarTexturaTabuleiro();
     carregarAudioCustomizar();
+
     while (janelaAtiva) {
         lerMouse(mouse);
         selecionarOpcaoCustomizar(caixas, mouse, opcaoSelecionada, mouseSobre, selecionado);
         escolha = mouse.estadoEscolhido;
+        // Remover seleção caso ESC seja pressionado
         if (IsKeyDown(KEY_ESCAPE)) {
             selecionado = false;
             opcaoSelecionada[escolhido] = false;
@@ -344,7 +201,7 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
             DrawTextEx(obterOpenSansSemiBold32(), "FALHA: Nome vazio ou cores iguais", (Vector2){quadroCustomizar.x + 169.0f, 17.0f}, 32.0f, 1.0f, RED);
         }
         if (sucesso) {
-            DrawTextEx(obterOpenSansSemiBold32(), "SUCESSO: Configuracoes salvas", (Vector2){quadroCustomizar.x + 191.0f, 17.0f}, 32.0f, 1.0f, GREEN);
+            DrawTextEx(obterOpenSansSemiBold32(), "SUCESSO: Customizacoes salvas", (Vector2){quadroCustomizar.x + 191.0f, 17.0f}, 32.0f, 1.0f, GREEN);
         }
         desenharBotao(botoes[0], botoesTexto[0], 1.0f, 0.0f);
         desenharBotao(botoes[1], botoesTexto[1], 1.0f, 0.0f);
@@ -375,22 +232,10 @@ void telaComoJogar(Mouse &mouse, bool &janelaAtiva) {
 
     while (janelaAtiva) {
         lerMouse(mouse);
-
-        if (CheckCollisionPointRec((Vector2){mouse.x, mouse.y}, botao.retangulo)) {
-            botao.cor = sobreBotaoCor;
-            botaoTexto.cor = sobreBotaoCor;
-            if (!sobreBotao) {
-                tocarMouseSobre();
-                sobreBotao = true;
-            }
-            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-                tocarBotaoClick();
-                break;
-            }
-        } else {
-            botao.cor = COR_FUNDO;
-            botaoTexto.cor = COR_FUNDO;
-            sobreBotao = false;
+        interacaoBotao(botao, botaoTexto, mouse, sobreBotaoCor, sobreBotao, BOTAO_SAIR_VOLTAR);
+        if (mouse.click) {
+            tocarBotaoClick();
+            break;
         }
 
         manterMusicaTocando();
@@ -400,5 +245,109 @@ void telaComoJogar(Mouse &mouse, bool &janelaAtiva) {
         desenharBotao(botao, botaoTexto, 1.0f, 0.0f);
         EndDrawing();
         janelaAtiva = !WindowShouldClose();
+    }
+}
+
+void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Mouse &mouse) {
+    lerMouse(mouse);
+    escolherColuna(tabuleiro, mouse);
+    int coluna = mouse.estadoEscolhido;
+    if (mouse.click && acaoValida(tabuleiro, coluna)) {
+        int linha = tabuleiro.linhasLivres[coluna];
+        efetuarAcao(*jogadorPtr, tabuleiro, linha, coluna);
+        jogadorPtr = trocarTurno(jogador1, jogador2);
+    }
+}
+
+void atualizarJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse) {
+    float deltaTempo = GetFrameTime();
+    for (int i = 0; i < LINHAS; i++) {
+        for (int j = 0; j < COLUNAS; j++) {
+            if (tabuleiro.grid[i][j].animando == false) {
+                continue;
+            }
+            atualizarPosicaoPeca(tabuleiro.grid[i][j], deltaTempo);
+            float yf = tabuleiro.pecasPosicaoYGrid[i][0] + PECAS_RAIO;
+            if (tabuleiro.grid[i][j].posicao.y > yf) {
+                consumarAcao(tabuleiro.grid[i][j], jogador1, jogador2, yf);
+                if (verificarVitoria(tabuleiro, i, j, centrosVPiPf)) {
+                    tabuleiro.estado.vitoria = true;
+                    jogadorPtr = obterVencedor(tabuleiro.grid[i][j], jogador1, jogador2);
+                    jogadorPtr->vencedor = true;
+                } else if (empate(jogador1, jogador2)) {
+                    tabuleiro.estado.empate = true;
+                }
+                tocarPecaClick();
+            }
+        }
+    }
+}
+
+bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva) {
+    while (janelaAtiva) {
+        processarAcaoJogo(tabuleiro, jogador1, jogador2, jogadorPtr, mouse);
+        atualizarJogo(tabuleiro, jogador1, jogador2, jogadorPtr, centrosVPiPf, mouse);
+        if (tabuleiro.estado.vitoria) {
+            tocarVitoria();
+            return tabuleiro.estado.vitoria;
+        }
+        if (tabuleiro.estado.empate) {
+            return tabuleiro.estado.empate;
+        }
+
+        manterMusicaTocando();
+        BeginDrawing();
+        desenharTabuleiro(tabuleiro, mouse);
+        desenharPerfil(jogador1, 150);
+        desenharPerfil(jogador2, 468);
+        EndDrawing();
+        janelaAtiva = !WindowShouldClose();
+    }
+    return janelaAtiva;
+}
+
+bool loopPosJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva) {
+    Caixa botaoVoltar, botaoJogarNovamente;
+    Color corMouseSobre;
+    Rectangle jogarNovamenteRet, voltarRet;
+    Texto voltarText, jogarNovamenteText;
+    float linhaProgresso = 0.0f;
+    bool mouseSobreJogar = false, mouseSobreVoltar = false;
+
+    inicializarElementosVitEmp(botaoVoltar, botaoJogarNovamente, corMouseSobre, jogarNovamenteRet, voltarRet, voltarText, jogarNovamenteText);
+
+    while (janelaAtiva) {
+        lerMouse(mouse);
+        if (tabuleiro.estado.vitoria && linhaProgresso < 1.0f) {
+            calcularLinhaVitoria(centrosVPiPf, linhaProgresso);
+        }
+        interacaoBotao(botaoJogarNovamente, jogarNovamenteText, mouse, corMouseSobre, mouseSobreJogar, BOTAO_PROSSEGUIR_OK);
+        interacaoBotao(botaoVoltar, voltarText, mouse, corMouseSobre, mouseSobreVoltar, BOTAO_SAIR_VOLTAR);
+        if (mouse.click) {
+            tocarBotaoClick();
+            return atualizarPosJogo(mouse);
+        }
+
+        BeginDrawing();
+        desenharTabuleiro(tabuleiro, mouse);
+        desenharPerfil(jogador1, 150.0f);
+        desenharPerfil(jogador2, 468.0f);
+        if (tabuleiro.estado.vitoria) {
+            linhaVitoria(centrosVPiPf);
+        }
+        desenharBotao(botaoJogarNovamente, jogarNovamenteText, 1.0f, 0.5f);
+        desenharBotao(botaoVoltar, voltarText, 1.0f, 0.5f);
+        EndDrawing();
+        janelaAtiva = !WindowShouldClose();
+    }
+    return janelaAtiva;
+}
+
+bool atualizarPosJogo(const Mouse &mouse) {
+    switch (mouse.estadoEscolhido) {
+    case BOTAO_SAIR_VOLTAR:
+        return false;
+    case BOTAO_PROSSEGUIR_OK:
+        return true;
     }
 }

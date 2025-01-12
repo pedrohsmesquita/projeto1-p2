@@ -12,6 +12,7 @@
 #include "tabuleiro.h"
 #include "mouse.h"
 #include "audio.h"
+#include "arquivo.h"
 #include <cstring>
 
 #define OPCAO_UM 0
@@ -29,6 +30,7 @@ void inicializarQuadroCustomizar(const Rectangle &quadroCustomizar, Rectangle ba
 void inicializarBotoesCustomizar(const Rectangle &quadro, Caixa caixas[], Rectangle ret[], Texto textos[]);
 void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, Rectangle &ret);
 bool mouseSobreDeslizante(const Rectangle &deslizante, const Rectangle &deslizantes, const Mouse &mouse);
+bool botaoCustomizarAcao(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Mouse &mouse, Color cores[], char nomes[2][NOME_TAM+1], bool &falha, bool &sucesso);
 
 #endif // MENU_H
 

@@ -209,3 +209,27 @@ bool mouseSobreDeslizante(const Rectangle &barra, const Rectangle &deslizantes, 
            ((mouse.y >= barra.y && mouse.y <= barra.y + barra.height) ||
             (mouse.y >= deslizantes.y && mouse.y <= deslizantes.y + deslizantes.width));
 }
+
+bool botaoCustomizarAcao(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Mouse &mouse, Color cores[], char nomes[2][NOME_TAM+1], bool &falha, bool &sucesso) {
+    if (mouse.estadoEscolhido == BOTAO_SAIR_VOLTAR) {
+        mouse.estadoEscolhido = -1;
+        return false;
+    }
+
+    falha = false;
+    sucesso = false;
+    int tamN1 = strlen(nomes[0]), tamN2 = strlen(nomes[1]);
+    bool coresIguais = cores[0].r == cores[1].r && cores[0].g == cores[1].g && cores[0].b == cores[1].b;
+    if (tamN1 == 0 || tamN2 == 0 || coresIguais) {
+        falha = true;
+        tocarSalvarFalha();
+    } else if (salvarCustomizacao(cores, nomes)) {
+        sucesso = true;
+        atualizarNomeCor(jogador1, nomes[0], cores[0]);
+        atualizarNomeCor(jogador2, nomes[1], cores[1]);
+        tabuleiro.corSuporte = cores[2];
+        tocarSalvarSucesso();
+    }
+
+    return true;
+}

@@ -61,8 +61,9 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
     Color cores[3], sobreBotaoCor;
     Vector2 nomePos;
     char nomes[2][NOME_TAM+1];
-    bool mouseSobre[3] = {false, false, false}, sobreBotao = false, falha = false;
+    bool mouseSobre[3] = {false, false, false}, falha = false;
     bool opcaoSelecionada[3] = {false, false, false}, selecionado = false, sucesso = false;
+    bool sobreSalvar = false, sobreSair = false;
     int escolha, escolhido = -1, botaoSobre = -1, tamNome;
 
     inicializarElementosCustomizar(tabuleiro, jogador1, jogador2, quadro, quadroCustomizar, nomes, cores, sobreBotaoCor);
@@ -135,49 +136,12 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
                 nomeTexto.cor = COR_FUNDO;
             }
         }
-        for (int i = 0; i < 2; i++) {
-            if (mouseSobreCaixa(botoes[i], mouse)) {
-                botoes[i].cor = sobreBotaoCor;
-                botoesTexto[i].cor = sobreBotaoCor;
-                if (!sobreBotao) {
-                    tocarMouseSobre();
-                    sobreBotao = true;
-                    botaoSobre = i;
-                }
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                    mouse.click = true;
-                    tocarBotaoClick();
-                }
-            } else {
-                botoes[i].cor = COR_FUNDO;
-                botoesTexto[i].cor = COR_FUNDO;
-                if (botaoSobre == i) {
-                    sobreBotao = false;
-                }
-            }
-        }
+        interacaoBotao(botoes[0], botoesTexto[0], mouse, sobreBotaoCor, sobreSalvar, BOTAO_PROSSEGUIR_OK);
+        interacaoBotao(botoes[1], botoesTexto[1], mouse, sobreBotaoCor, sobreSair, BOTAO_SAIR_VOLTAR);
         if (mouse.click) {
-            if (botaoSobre == BOTAO_SAIR) {
-                mouse.estadoEscolhido = -1;
+            tocarBotaoClick();
+            if (!botaoCustomizarAcao(tabuleiro, jogador1, jogador2, mouse, cores, nomes, falha, sucesso))
                 break;
-            } else {
-                falha = false;
-                sucesso = false;
-                int tamN1 = strlen(nomes[0]), tamN2 = strlen(nomes[1]);
-                bool coresIguais = cores[0].r == cores[1].r &&
-                                   cores[0].g == cores[1].g &&
-                                   cores[0].b == cores[1].b;
-                if (tamN1 == 0 || tamN2 == 0 || coresIguais) {
-                    falha = true;
-                    tocarSalvarFalha();
-                } else if (salvarCustomizacao(cores, nomes)) {
-                    sucesso = true;
-                    atualizarNomeCor(jogador1, nomes[0], cores[0]);
-                    atualizarNomeCor(jogador2, nomes[1], cores[1]);
-                    tabuleiro.corSuporte = cores[2];
-                    tocarSalvarSucesso();
-                }
-            }
         }
 
         manterMusicaTocando();

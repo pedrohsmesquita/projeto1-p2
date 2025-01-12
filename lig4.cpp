@@ -20,6 +20,7 @@
 
 void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Mouse &mouse);
 void atualizarJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse);
+void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse &mouse, int escolhido);
 bool atualizarPosJogo(const Mouse &mouse);
 bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
 bool loopPosJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
@@ -70,68 +71,36 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
     inicializarOpcaoCustomizar(quadro, caixas, textosRet, textos, nomes[0], nomes[1]);
     inicializarQuadroCustomizar(quadroCustomizar, barra, deslizantes);
     inicializarBotoesCustomizar(quadro, botoes, botoesRet, botoesTexto);
-    inicializarNomeCustomizar(quadroCustomizar, nomeCaixa, nomeRet);
+    inicializarNomeCustomizar(quadroCustomizar, nomeCaixa, nomeRet, nomePos);
     carregarTexturaTabuleiro();
     carregarAudioCustomizar();
 
     while (janelaAtiva) {
         lerMouse(mouse);
         selecionarOpcaoCustomizar(caixas, mouse, opcaoSelecionada, mouseSobre, selecionado);
-        escolha = mouse.estadoEscolhido;
         // Remover seleção caso ESC seja pressionado
         if (IsKeyDown(KEY_ESCAPE)) {
             selecionado = false;
             opcaoSelecionada[escolhido] = false;
         }
+        // Definir escolhido para customizar
+        escolha = mouse.estadoEscolhido;
         if (escolha != -1 && escolha != escolhido) {
             escolhido = escolha;
             deslizantesAtualizarBarra(deslizantes, cores[escolhido]);
             if (escolha != 2) {
                 tamNome = strlen(nomes[escolha]);
-                nomePos = {nomeCaixa.retangulo.x + 10.0f, nomeCaixa.retangulo.y};
                 inicializarTexto(nomeTexto, nomePos, nomes[escolha], 64.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold64());
             }
         }
         if (selecionado) {
-            for (int i = 0 ; i < 3; i++) {
-                if (mouseSobreDeslizante(barra[i], deslizantes[i], mouse)) {
-                    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-                        deslizantes[i].x = mouse.x;
-                        if (deslizantes[i].x < barra[i].x) {
-                            deslizantes[i].x = barra[i].x;
-                        } else if (deslizantes[i].x > barra[i].x + barra[i].width) {
-                            deslizantes[i].x = barra[i].x + barra[i].width;
-                        }
-                        atualizarCorDeslizantes(deslizantes, cores[escolhido]);
-                    }
-                    break;
-                }
-            }
-            if (escolhido != OPCAO_TRES && CheckCollisionPointRec((Vector2){mouse.x, mouse.y}, nomeCaixa.retangulo)) {
+            processarDeslizantes(barra, deslizantes, cores, mouse, escolhido);
+            if (escolhido != OPCAO_TRES && mouseSobreCaixa(nomeCaixa, mouse)) {
                 mouse.tipoCursor = MOUSE_CURSOR_IBEAM;
                 nomeCaixa.cor = sobreBotaoCor;
                 nomeTexto.cor = sobreBotaoCor;
-
-                int tecla = GetCharPressed();
-
-                while (tecla > 0) {
-                    if (tecla >= 32 && tecla <= 125 && tamNome < NOME_TAM) {
-                        nomes[escolhido][tamNome] = tecla;
-                        nomes[escolhido][tamNome+1] = '\0';
-                        tamNome++;
-                    }
-                    tecla = GetCharPressed();
-                }
-                if (IsKeyPressed(KEY_BACKSPACE)) {
-                    tamNome--;
-                    if (tamNome < 0)
-                        tamNome = 0;
-                    nomes[escolhido][tamNome] = '\0';
-                }
-                Vector2 temp = MeasureTextEx(obterOpenSansSemiBold16(), nomes[escolhido], 16.0f, 1.0f);
-                textos[escolhido].posicao.x = quadro.x + (quadro.width - temp.x)/2;
-            }
-            else {
+                alterarNome(textos, quadro, nomes, tamNome, escolhido);
+            } else {
                 nomeCaixa.cor = COR_FUNDO;
                 nomeTexto.cor = COR_FUNDO;
             }
@@ -154,7 +123,7 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
         }
         if (selecionado) {
             desenharQuadroCustomizar(quadroCustomizar, barra, deslizantes);
-            if (escolhido == 2) {
+            if (escolhido == OPCAO_TRES) {
                 desenharTabuleiroCustomizar(quadroCustomizar, cores[escolhido]);
             } else {
                 desenharPecaGigante(quadroCustomizar, cores[escolhido]);
@@ -163,8 +132,7 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
         }
         if (falha) {
             DrawTextEx(obterOpenSansSemiBold32(), "FALHA: Nome vazio ou cores iguais", (Vector2){quadroCustomizar.x + 169.0f, 17.0f}, 32.0f, 1.0f, RED);
-        }
-        if (sucesso) {
+        } else if (sucesso) {
             DrawTextEx(obterOpenSansSemiBold32(), "SUCESSO: Customizacoes salvas", (Vector2){quadroCustomizar.x + 191.0f, 17.0f}, 32.0f, 1.0f, GREEN);
         }
         desenharBotao(botoes[0], botoesTexto[0], 1.0f, 0.0f);
@@ -234,7 +202,7 @@ void atualizarJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, J
             float yf = tabuleiro.pecasPosicaoYGrid[i][0] + PECAS_RAIO;
             if (tabuleiro.grid[i][j].posicao.y > yf) {
                 consumarAcao(tabuleiro.grid[i][j], jogador1, jogador2, yf);
-                if (verificarVitoria(tabuleiro, i, j, centrosVPiPf)) {
+                if (!tabuleiro.estado.vitoria && verificarVitoria(tabuleiro, i, j, centrosVPiPf)) {
                     tabuleiro.estado.vitoria = true;
                     jogadorPtr = obterVencedor(tabuleiro.grid[i][j], jogador1, jogador2);
                     jogadorPtr->vencedor = true;
@@ -243,6 +211,23 @@ void atualizarJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, J
                 }
                 tocarPecaClick();
             }
+        }
+    }
+}
+
+void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse &mouse, int escolhido) {
+    for (int i = 0 ; i < 3; i++) {
+        if (mouseSobreDeslizante(barra[i], deslizantes[i], mouse)) {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                deslizantes[i].x = mouse.x;
+                if (deslizantes[i].x < barra[i].x) {
+                    deslizantes[i].x = barra[i].x;
+                } else if (deslizantes[i].x > barra[i].x + barra[i].width) {
+                    deslizantes[i].x = barra[i].x + barra[i].width;
+                }
+                atualizarCorDeslizantes(deslizantes, cores[escolhido]);
+            }
+            break;
         }
     }
 }

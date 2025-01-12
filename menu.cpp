@@ -42,6 +42,27 @@ void selecionarOpcaoCustomizar(Caixa caixas[], Mouse &mouse, bool opcaoSeleciona
     }
 }
 
+void alterarNome(Texto textos[], const Rectangle &quadro, char nomes[2][NOME_TAM+1], int &tamNome, int escolhido) {
+    int tecla = GetCharPressed();
+
+    while (tecla > 0) {
+        if (tecla >= 32 && tecla <= 125 && tamNome < NOME_TAM) {
+            nomes[escolhido][tamNome] = tecla;
+            nomes[escolhido][tamNome+1] = '\0';
+            tamNome++;
+        }
+        tecla = GetCharPressed();
+    }
+    if (IsKeyPressed(KEY_BACKSPACE)) {
+        tamNome--;
+        if (tamNome < 0)
+            tamNome = 0;
+        nomes[escolhido][tamNome] = '\0';
+    }
+    Vector2 temp = MeasureTextEx(obterOpenSansSemiBold16(), nomes[escolhido], 16.0f, 1.0f);
+    textos[escolhido].posicao.x = quadro.x + (quadro.width - temp.x)/2;
+}
+
 void deslizantesAtualizarBarra(Rectangle deslizantes[], const Color &cor) {
     const float partesBarra = 2.499f;
 
@@ -196,12 +217,13 @@ void inicializarBotoesCustomizar(const Rectangle &quadro, Caixa caixas[], Rectan
     inicializarTexto(textos[1], textoPos, "Sair", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
 }
 
-void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, Rectangle &ret) {
+void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, Rectangle &ret, Vector2 &nomePos) {
     ret = {
         quadroCustomizar.x + 50.0f, quadroCustomizar.y + quadroCustomizar.height - 100.0f,
         quadroCustomizar.width - 100.f, 75.0f
     };
     inicializarCaixa(caixa, ret, 0.2f, 0, COR_FUNDO);
+    nomePos = {caixa.retangulo.x + 10.0f, caixa.retangulo.y};
 }
 
 bool mouseSobreDeslizante(const Rectangle &barra, const Rectangle &deslizantes, const Mouse &mouse) {

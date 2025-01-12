@@ -22,13 +22,14 @@
 #define BOTAO_SAIR 1
 
 void selecionarOpcaoCustomizar(Caixa caixas[], Mouse &mouse, bool opcaoSelecionada[], bool mouseSobre[], bool &selecionado);
+void alterarNome(Texto textos[], const Rectangle &quadro, char nomes[2][NOME_TAM+1], int &tamNome, int escolhido);
 void deslizantesAtualizarBarra(Rectangle deslizantes[], const Color &cor);
 void atualizarCorDeslizantes(const Rectangle deslizantes[], Color &cor);
 void inicializarElementosCustomizar(const Tabuleiro &tabuleiro, const Jogador &jogador1, const Jogador &jogador2, Rectangle &quadro, Rectangle &quadroCustomizar, char nomes[2][NOME_TAM+1], Color cores[], Color &sobreBotaoCor);
 void inicializarOpcaoCustomizar(const Rectangle &quadro, Caixa caixas[], Rectangle textosRet[], Texto textos[], char nome1[], char nome2[]);
 void inicializarQuadroCustomizar(const Rectangle &quadroCustomizar, Rectangle barra[], Rectangle deslizantes[]);
 void inicializarBotoesCustomizar(const Rectangle &quadro, Caixa caixas[], Rectangle ret[], Texto textos[]);
-void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, Rectangle &ret);
+void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, Rectangle &ret, Vector2 &nomePos);
 bool mouseSobreDeslizante(const Rectangle &deslizante, const Rectangle &deslizantes, const Mouse &mouse);
 bool botaoCustomizarAcao(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Mouse &mouse, Color cores[], char nomes[2][NOME_TAM+1], bool &falha, bool &sucesso);
 

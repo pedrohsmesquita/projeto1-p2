@@ -7,7 +7,7 @@
  #include "jogador.h"
  #include <cstring>
 
-void jogadorEstadoInicial(Jogador &jogador, int id, Color cor, char *nome) {
+void jogadorEstadoInicial(Jogador &jogador, int id, Color cor, char nome[]) {
     jogador.id = id;
     jogador.pecas = 21;
     jogador.cor = cor;
@@ -16,7 +16,7 @@ void jogadorEstadoInicial(Jogador &jogador, int id, Color cor, char *nome) {
     strncpy(jogador.nome, nome, NOME_TAM+1);
 }
 
-void atualizarNomeCor(Jogador &jogador, const char *nome, const Color &cor) {
+void atualizarNomeCor(Jogador &jogador, const char nome[], const Color &cor) {
     jogador.cor = cor;
     strncpy(jogador.nome, nome, NOME_TAM+1);
 }

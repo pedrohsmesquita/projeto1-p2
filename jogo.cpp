@@ -129,25 +129,27 @@ bool empate(const Jogador &jogador1, const Jogador &jogador2) {
     return jogador1.pecas == 0 && jogador2.pecas == 0;
 }
 
-Jogador *definirTurno(Jogador &jogador) {
+void definirTurno(Jogador &jogador) {
     jogador.turno = !jogador.turno;
-    return &jogador;
 }
 
-Jogador *trocarTurno(Jogador &jogador1, Jogador &jogador2) {
-    if (jogador1.turno) {
-        jogador1.turno = !jogador1.turno;
-        return definirTurno(jogador2);
+void trocarTurno(Jogador jogador[], int &jogadorTurno) {
+    if (jogadorTurno == JOGADOR_1) {
+        definirTurno(jogador[jogadorTurno]);
+        jogadorTurno = JOGADOR_2;
+        definirTurno(jogador[jogadorTurno]);
+    } else {
+        definirTurno(jogador[jogadorTurno]);
+        jogadorTurno = JOGADOR_1;
+        definirTurno(jogador[jogadorTurno]);
     }
-    jogador2.turno = !jogador2.turno;
-    return definirTurno(jogador1);
 }
 
-Jogador *obterVencedor(Celula &celula, Jogador &jogador1, Jogador &jogador2) {
+int obterVencedor(Celula &celula, Jogador &jogador1) {
     if (celula.id == jogador1.id) {
-        return &jogador1;
+        return JOGADOR_1;
     }
-    return &jogador2;
+    return JOGADOR_2;
 }
 
 bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {

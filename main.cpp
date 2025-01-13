@@ -18,7 +18,7 @@ void inicializarJogadorTabuleiro(Jogador &jogador1, Jogador &jogador2, Tabuleiro
 int main(void)
 {
     Tabuleiro tabuleiro;
-    Jogador jogador1, jogador2;
+    Jogador jogador[2];
     Mouse mouse;
     const Color cores[] = {
         (Color){217, 33, 33, 255},
@@ -40,7 +40,7 @@ int main(void)
     InitAudioDevice();
     SetTargetFPS(60);
 
-    inicializarJogadorTabuleiro(jogador1, jogador2, tabuleiro);
+    inicializarJogadorTabuleiro(jogador[0], jogador[1], tabuleiro);
     carregarAudio();
     carregarFonte();
 
@@ -59,7 +59,7 @@ int main(void)
     while (janelaAtiva) {
         switch (selecaoTela) {
         case JOGAR:
-            telaJogo(jogador1, jogador2, tabuleiro, mouse, janelaAtiva);
+            telaJogo(jogador, tabuleiro, mouse, janelaAtiva);
             selecaoTela = -1;
             break;
         case COMO_JOGAR:
@@ -67,7 +67,7 @@ int main(void)
             selecaoTela = -1;
             break;
         case CUSTOMIZAR:
-            telaCustomizar(jogador1, jogador2, tabuleiro, mouse, janelaAtiva);
+            telaCustomizar(jogador[JOGADOR_1], jogador[JOGADOR_2], tabuleiro, mouse, janelaAtiva);
             selecaoTela = -1;
             break;
         case SAIR:

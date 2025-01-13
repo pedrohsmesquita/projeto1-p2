@@ -18,39 +18,40 @@
 #include "arquivo.h"
 #include <cstring>
 
-void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Mouse &mouse);
-void atualizarJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse);
+void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Mouse &mouse);
+void atualizarJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Vector2 centrosVPiPf[], Mouse &mouse);
 void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse &mouse, int escolhido);
 bool atualizarPosJogo(const Mouse &mouse);
-bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
-bool loopPosJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
+bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
+bool loopPosJogo(Tabuleiro &tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
 
-void telaJogo(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
-    Jogador *jogadorPtr = definirTurno(jogador1);
+void telaJogo(Jogador jogador[], Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
     Vector2 centrosVPiPf[3];
     bool jogar = true;
+    int jogadorTurno = JOGADOR_1;
 
+    definirTurno(jogador[jogadorTurno]);
     carregarAudioJogo();
     carregarTexturaTabuleiro();
     while (jogar) {
         resetarGrid(tabuleiro);
-        resetarJogador(jogador1);
-        resetarJogador(jogador2);
-        if (!loopJogoAtivo(tabuleiro, jogador1, jogador2, jogadorPtr, centrosVPiPf, mouse, janelaAtiva)) {
+        resetarJogador(jogador[JOGADOR_1]);
+        resetarJogador(jogador[JOGADOR_2]);
+        if (!loopJogoAtivo(tabuleiro, jogador, jogadorTurno, centrosVPiPf, mouse, janelaAtiva)) {
             break;
         }
         if (tabuleiro.estado.vitoria || tabuleiro.estado.empate) {
-            if (!loopPosJogo(tabuleiro, jogador1, jogador2, centrosVPiPf, mouse, janelaAtiva))
+            if (!loopPosJogo(tabuleiro, jogador, centrosVPiPf, mouse, janelaAtiva))
                 break;
         }
-        if (jogador1.turno) {
-            jogadorPtr = &jogador1;
+        if (jogador[JOGADOR_1].turno) {
+            jogadorTurno = JOGADOR_1;
         } else {
-            jogadorPtr = &jogador2;
+            jogadorTurno = JOGADOR_2;
         }
     }
-    jogador1.turno = false;
-    jogador2.turno = false;
+    jogador[JOGADOR_1].turno = false;
+    jogador[JOGADOR_2].turno = false;
     descarregarTexturaTabuleiro();
     descarregarAudioJogo();
 }
@@ -180,18 +181,18 @@ void telaComoJogar(Mouse &mouse, bool &janelaAtiva) {
     }
 }
 
-void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Mouse &mouse) {
+void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Mouse &mouse) {
     lerMouse(mouse);
     escolherColuna(tabuleiro, mouse);
     int coluna = mouse.estadoEscolhido;
     if (mouse.click && acaoValida(tabuleiro, coluna)) {
         int linha = tabuleiro.linhasLivres[coluna];
-        efetuarAcao(*jogadorPtr, tabuleiro, linha, coluna);
-        jogadorPtr = trocarTurno(jogador1, jogador2);
+        efetuarAcao(jogador[jogadorTurno], tabuleiro, linha, coluna);
+        trocarTurno(jogador, jogadorTurno);
     }
 }
 
-void atualizarJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse) {
+void atualizarJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Vector2 centrosVPiPf[], Mouse &mouse) {
     float deltaTempo = GetFrameTime();
     for (int i = 0; i < LINHAS; i++) {
         for (int j = 0; j < COLUNAS; j++) {
@@ -201,12 +202,12 @@ void atualizarJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, J
             atualizarPosicaoPeca(tabuleiro.grid[i][j], deltaTempo);
             float yf = tabuleiro.pecasPosicaoYGrid[i][0] + PECAS_RAIO;
             if (tabuleiro.grid[i][j].posicao.y > yf) {
-                consumarAcao(tabuleiro.grid[i][j], jogador1, jogador2, yf);
+                consumarAcao(tabuleiro.grid[i][j], jogador[JOGADOR_1], jogador[JOGADOR_2], yf);
                 if (!tabuleiro.estado.vitoria && verificarVitoria(tabuleiro, i, j, centrosVPiPf)) {
                     tabuleiro.estado.vitoria = true;
-                    jogadorPtr = obterVencedor(tabuleiro.grid[i][j], jogador1, jogador2);
-                    jogadorPtr->vencedor = true;
-                } else if (empate(jogador1, jogador2)) {
+                    jogadorTurno = obterVencedor(tabuleiro.grid[i][j], jogador[JOGADOR_1]);
+                    jogador[jogadorTurno].vencedor = true;
+                } else if (empate(jogador[JOGADOR_1], jogador[JOGADOR_2])) {
                     tabuleiro.estado.empate = true;
                 }
                 tocarPecaClick();
@@ -232,10 +233,10 @@ void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color core
     }
 }
 
-bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Jogador *&jogadorPtr, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva) {
+bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva) {
     while (janelaAtiva) {
-        processarAcaoJogo(tabuleiro, jogador1, jogador2, jogadorPtr, mouse);
-        atualizarJogo(tabuleiro, jogador1, jogador2, jogadorPtr, centrosVPiPf, mouse);
+        processarAcaoJogo(tabuleiro, jogador, jogadorTurno, mouse);
+        atualizarJogo(tabuleiro, jogador, jogadorTurno, centrosVPiPf, mouse);
         if (tabuleiro.estado.vitoria) {
             tocarVitoria();
             return tabuleiro.estado.vitoria;
@@ -247,15 +248,15 @@ bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, J
         manterMusicaTocando();
         BeginDrawing();
         desenharTabuleiro(tabuleiro, mouse);
-        desenharPerfil(jogador1, 150);
-        desenharPerfil(jogador2, 468);
+        desenharPerfil(jogador[JOGADOR_1], 150);
+        desenharPerfil(jogador[JOGADOR_2], 468);
         EndDrawing();
         janelaAtiva = !WindowShouldClose();
     }
     return janelaAtiva;
 }
 
-bool loopPosJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva) {
+bool loopPosJogo(Tabuleiro &tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva) {
     Caixa botaoVoltar, botaoJogarNovamente;
     Color corMouseSobre;
     Rectangle jogarNovamenteRet, voltarRet;
@@ -279,8 +280,8 @@ bool loopPosJogo(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Vec
 
         BeginDrawing();
         desenharTabuleiro(tabuleiro, mouse);
-        desenharPerfil(jogador1, 150.0f);
-        desenharPerfil(jogador2, 468.0f);
+        desenharPerfil(jogador[JOGADOR_1], 150.0f);
+        desenharPerfil(jogador[JOGADOR_2], 468.0f);
         if (tabuleiro.estado.vitoria) {
             linhaVitoria(centrosVPiPf);
         }

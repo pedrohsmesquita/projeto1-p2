@@ -241,7 +241,7 @@ bool botaoCustomizarAcao(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogad
     falha = false;
     sucesso = false;
     int tamN1 = strlen(nomes[0]), tamN2 = strlen(nomes[1]);
-    bool coresIguais = cores[0].r == cores[1].r && cores[0].g == cores[1].g && cores[0].b == cores[1].b;
+    bool coresIguais = igualdadeCor(cores[0], cores[1]);
     if (tamN1 == 0 || tamN2 == 0 || coresIguais) {
         falha = true;
         tocarSalvarFalha();

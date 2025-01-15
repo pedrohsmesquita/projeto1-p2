@@ -33,12 +33,12 @@ void desenharSuporte(const Tabuleiro &tabuleiro) {
     Rectangle partePeca, partePecaSombra, pilarEsq, pilarDir;
 
     pilarEsq = {
-        0, TABULEIRO_DESLOCAY,
-        TABULEIRO_DESLOCAX - deslocar, 768 - 90
+        0.0f, TABULEIRO_DESLOCAY,
+        TABULEIRO_DESLOCAX - deslocar, 768.0f - 90.0f
     };
     pilarDir = {
         TABULEIRO_PECAS_TAM_X2 + deslocar, TABULEIRO_DESLOCAY,
-        TABULEIRO_DESLOCAX, 768 - 90
+        TABULEIRO_DESLOCAX, 768.0f - 90.0f
     };
 
     DrawRectangleRounded(pilarEsq, 0.35f, 0, tabuleiro.corSuporte);
@@ -83,21 +83,21 @@ void desenharPerfil(const Jogador &jogador, float y) {
         169.0f, 150.0f
     };
     Rectangle retanguloIn = {
-        retanguloEx.x + 5, retanguloEx.y + 5,
-        retanguloEx.width - 10, retanguloEx.height - 10
+        retanguloEx.x + 5.0f, retanguloEx.y + 5.0f,
+        retanguloEx.width - 10.0f, retanguloEx.height - 10.0f
     };
     Vector2 circuloCentro = {
-        retanguloIn.x + retanguloIn.width/2, retanguloIn.y + 28
+        retanguloIn.x + retanguloIn.width/2.0f, retanguloIn.y + 28.0f
     };
     Vector2 temp = MeasureTextEx(obterOpenSansSemiBold16(), jogador.nome, 16.0f, 1.0f);
     Vector2 nomePosicao = {
-        retanguloIn.x + 2 + (retanguloIn.width - temp.x)/2, circuloCentro.y + 30
+        retanguloIn.x + 2.0f + (retanguloIn.width - temp.x)/2.0f, circuloCentro.y + 30.0f
     };
     Vector2 pecaPosicao = {
-        retanguloIn.x + 5, nomePosicao.y + 25
+        retanguloIn.x + 5.0f, nomePosicao.y + 25.0f
     };
     Vector2 turnoPosicao = {
-        retanguloIn.x + 5, pecaPosicao.y + 25
+        retanguloIn.x + 5.0f, pecaPosicao.y + 25.0f
     };
     Color cor = COR_FUNDO, corEscurecida;
 
@@ -110,8 +110,8 @@ void desenharPerfil(const Jogador &jogador, float y) {
     DrawRectangleRounded(retanguloEx, 0.15f, 0, cor);
     DrawRectangleRoundedLines(retanguloEx, 0.15f, 0, BLACK);
     DrawRectangleRoundedLines(retanguloIn, 0.15f, 0, BLACK);
-    DrawCircleV(circuloCentro, 25, corEscurecida);
-    DrawCircleV(circuloCentro, 21, jogador.cor);
+    DrawCircleV(circuloCentro, 25.0f, corEscurecida);
+    DrawCircleV(circuloCentro, 21.0f, jogador.cor);
     DrawTextEx(obterOpenSansSemiBold16(), jogador.nome, nomePosicao, 16.0f, 1.0f, BLACK);
     DrawTextEx(obterOpenSansSemiBold16(), TextFormat("Pecas: %d", jogador.pecas), pecaPosicao, 16.0f, 1.0f, BLACK);
     if (jogador.turno) {

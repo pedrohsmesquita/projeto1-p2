@@ -49,15 +49,16 @@ struct Caixa {
 
 void inicializarCaixa(Caixa &caixa, Rectangle &retangulo, float redondeza, int segmentos, Color cor);
 void inicializarTexto(Texto &texto, Vector2 &posicao, char *conteudo, float tam, float espac, Color cor, Font &fonte);
-void carregarFonte();
-bool mouseSobreCaixa(const Caixa &caixa, const Mouse &mouse);
 void interacaoBotao(Caixa &botao, Texto &texto, Mouse &mouse, Color &corInteracao, bool &mouseSobreBotao, int estadoEscolhido);
+void carregarFonte();
+void descarregarFonte();
+bool igualdadeCor(const Color &cor1, const Color &cor2);
+bool mouseSobreCaixa(const Caixa &caixa, const Mouse &mouse);
 Font& obterOpenSansSemiBold16();
 Font& obterOpenSansSemiBold32();
 Font& obterOpenSansSemiBold64();
 Font& obterBoogaloo192();
 Font& obterBoogaloo256();
-void descarregarFonte();
 
 
 #endif // INTERFACE_H

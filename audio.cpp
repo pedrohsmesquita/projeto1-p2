@@ -1,16 +1,8 @@
 #include "audio.h"
 
-Audio& obterAudio();
-
-Audio& obterAudio() {
-    static Audio audio;
-
-    return audio;
-}
+Audio audio;
 
 void carregarAudio() {
-    Audio& audio = obterAudio();
-
     audio.musica = LoadMusicStream(MUSICA_FUNDO);
     audio.botaoClick = LoadSound(BOTAO_CLICK);
     for (int i = 0; i < 2; i++) {
@@ -19,8 +11,6 @@ void carregarAudio() {
 }
 
 void descarregarAudio() {
-    Audio& audio = obterAudio();
-
     UnloadMusicStream(audio.musica);
     UnloadSound(audio.botaoClick);
     for (int i = 0; i < 2; i++) {
@@ -29,20 +19,14 @@ void descarregarAudio() {
 }
 
 void tocarMusicaFundo() {
-    Audio& audio = obterAudio();
-
     PlayMusicStream(audio.musica);
 }
 
 void manterMusicaTocando() {
-    static const Audio& audio = obterAudio();
-
     UpdateMusicStream(audio.musica);
 }
 
 void carregarAudioJogo() {
-    Audio& audio = obterAudio();
-
     for (int i = 0; i < TAM_PECAS_CLICK_ARR; i++) {
         audio.pecaClick[i] = LoadSound(PECAS_CLICK_SOM);
     }
@@ -50,8 +34,6 @@ void carregarAudioJogo() {
 }
 
 void descarregarAudioJogo() {
-    Audio& audio = obterAudio();
-
     for (int i = 0; i < TAM_PECAS_CLICK_ARR; i++) {
         UnloadSound(audio.pecaClick[i]);
     }
@@ -59,21 +41,16 @@ void descarregarAudioJogo() {
 }
 
 void carregarAudioCustomizar() {
-    Audio &audio = obterAudio();
-
     audio.salvarSucesso = LoadSound(SALVAR_SUCESSO);
     audio.salvarFalha = LoadSound(SALVAR_FALHA);
 }
 
 void descarregarAudioCustomizar() {
-    Audio &audio = obterAudio();
-
     UnloadSound(audio.salvarSucesso);
     UnloadSound(audio.salvarFalha);
 }
 
 void tocarPecaClick() {
-    static const Audio& audio = obterAudio();
     static int i = 0;
 
     PlaySound(audio.pecaClick[i++]);
@@ -83,7 +60,6 @@ void tocarPecaClick() {
 }
 
 void tocarMouseSobre() {
-    static const Audio& audio = obterAudio();
     static int i = 0;
 
     PlaySound(audio.mouseSobre[i++]);
@@ -93,25 +69,17 @@ void tocarMouseSobre() {
 }
 
 void tocarBotaoClick() {
-    const Audio& audio = obterAudio();
-
     PlaySound(audio.botaoClick);
 }
 
 void tocarVitoria() {
-    Audio& audio = obterAudio();
-
     PlaySound(audio.vitoria);
 }
 
 void tocarSalvarSucesso() {
-    Audio& audio = obterAudio();
-
     PlaySound(audio.salvarSucesso);
 }
 
 void tocarSalvarFalha() {
-    Audio& audio = obterAudio();
-
     PlaySound(audio.salvarFalha);
 }

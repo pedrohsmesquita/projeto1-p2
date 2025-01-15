@@ -10,8 +10,8 @@ void escurecerCor(const Color &corOriginal, Color &cor, float fatorEscurecer);
 void desenharSuporte(const Tabuleiro &tabuleiro);
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
 void desenharPecasTabuleiro(const Tabuleiro &tabuleiro);
-Texturas& obterTexturas();
-bool igualdadeCor(const Color &cor1, const Color &cor2);
+
+Texturas texturas;
 
 void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse) {
     ClearBackground(COR_FUNDO);
@@ -46,7 +46,6 @@ void desenharSuporte(const Tabuleiro &tabuleiro) {
 }
 
 void desenharBaseTabuleiro(const Tabuleiro &tabuleiro) {
-    static const Texturas& texturas = obterTexturas();
     int desloca = 5;
 
     DrawTextureEx(texturas.tabuleiro, (Vector2){TABULEIRO_PECAS_TAM_X1 - desloca, TABULEIRO_PECAS_TAM_Y1 - desloca - 1}, 0.0f, 1.0f, tabuleiro.corSuporte);
@@ -185,7 +184,6 @@ void desenharPecaGigante(const Rectangle &retangulo, const Color &cor) {
 }
 
 void desenharTabuleiroCustomizar(const Rectangle &quadroCustomizar, const Color &cor) {
-    Texturas& texturas = obterTexturas();
     Vector2 pos = {
         quadroCustomizar.x + quadroCustomizar.width/4,
         quadroCustomizar.y + 32.0f
@@ -221,23 +219,9 @@ void desenharComoJogar() {
 }
 
 void carregarTexturaTabuleiro() {
-    Texturas& texturas = obterTexturas();
-
     texturas.tabuleiro = LoadTexture("assets/images/base.png");
 }
 
 void descarregarTexturaTabuleiro() {
-    Texturas& texturas = obterTexturas();
-
     UnloadTexture(texturas.tabuleiro);
-}
-
-bool igualdadeCor(const Color &cor1, const Color &cor2) {
-    return cor1.r == cor2.r && cor1.g == cor2.g & cor1.b == cor2.b;
-}
-
-Texturas& obterTexturas() {
-    static Texturas texturas;
-
-    return texturas;
 }

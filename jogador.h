@@ -21,10 +21,10 @@ struct Jogador {
     char nome[NOME_TAM+1];
 };
 
-void jogadorEstadoInicial(Jogador &jogador, int id, Color cor, char nome[]);
-void atualizarNomeCor(Jogador &jogador, const char nome[], const Color &cor);
-void resetarJogador(Jogador &jogador);
-void removerPeca(Jogador &Jogador);
+void jogadorEstadoInicial(Jogador& jogador, int id, Color cor, char nome[]);
+void atualizarNomeCor(Jogador& jogador, const char nome[], const Color& cor);
+void resetarJogador(Jogador& jogador);
+void removerPeca(Jogador& Jogador);
 
 
 

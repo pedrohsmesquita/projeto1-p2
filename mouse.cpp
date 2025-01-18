@@ -7,7 +7,7 @@
  */
  #include "mouse.h"
 
- void lerMouse(Mouse &mouse) {
+ void lerMouse(Mouse& mouse) {
     mouse.x = GetMouseX();
     mouse.y = GetMouseY();
     mouse.estadoEscolhido = -1;

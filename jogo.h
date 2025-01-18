@@ -11,19 +11,19 @@
 #include "mouse.h"
 #include "interface.h"
 
-void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse);
-void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna);
-void consumarAcao(Celula &celula, const Jogador &jogador1, const Jogador &jogador2, float yf);
-void atualizarPosicaoPeca(Celula &celula, float deltaT);
-void calcularLinhaVitoria(Vector2 centros[], float &progresso);
+void escolherColuna(const Tabuleiro& tabuleiro, Mouse& mouse);
+void efetuarAcao(Jogador& jogador, Tabuleiro& tabuleiro, int linha, int coluna);
+void consumarAcao(Celula& celula, const Jogador& jogador1, const Jogador& jogador2, float yf);
+void atualizarPosicaoPeca(Celula& celula, float deltaT);
+void calcularLinhaVitoria(Vector2 centros[], float& progresso);
 void textoVitoria(char vitoria[], char nome[]);
-void inicializarElementosVitEmp(Caixa &botaoVoltar, Caixa &botaoJogarNovamente, Color &corMouseSobre, Rectangle &jogarNovamenteRet, Rectangle &voltarRet, Texto &voltarText, Texto &jogarNovamenteText);
-bool acaoValida(const Tabuleiro &tabuleiro, int coluna);
-bool verificarVitoria(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-bool empate(const Jogador &jogador1, const Jogador &jogador2);
-void definirTurno(Jogador &jogador);
-void trocarTurno(Jogador jogador[], int &jogadorTurno);
-int obterVencedor(Celula &celula, Jogador &jogador1);
+void inicializarElementosPosJogo(Caixa& botaoVoltar, Caixa& botaoJogarNovamente, Color& corMouseSobre, Rectangle& jogarNovamenteRet, Rectangle& voltarRet, Texto& voltarText, Texto& jogarNovamenteText);
+bool acaoValida(const Tabuleiro& tabuleiro, int coluna);
+bool verificarVitoria(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+bool empate(const Jogador& jogador1, const Jogador& jogador2);
+void definirTurno(Jogador& jogador);
+void trocarTurno(Jogador jogador[], int& jogadorTurno);
+int obterVencedor(Celula& celula, Jogador& jogador1);
 
 #endif // JOGO_H
 

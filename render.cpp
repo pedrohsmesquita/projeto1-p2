@@ -6,14 +6,14 @@
 #include "render.h"
 #include "raylib.h"
 
-void escurecerCor(const Color &corOriginal, Color &cor, float fatorEscurecer);
-void desenharSuporte(const Tabuleiro &tabuleiro);
-void desenharBaseTabuleiro(const Tabuleiro &tabuleiro);
-void desenharPecasTabuleiro(const Tabuleiro &tabuleiro);
+void escurecerCor(const Color& corOriginal, Color& cor, float fatorEscurecer);
+void desenharSuporte(const Tabuleiro& tabuleiro);
+void desenharBaseTabuleiro(const Tabuleiro& tabuleiro);
+void desenharPecasTabuleiro(const Tabuleiro& tabuleiro);
 
 Texturas texturas;
 
-void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse) {
+void desenharTabuleiro(const Tabuleiro& tabuleiro, const Mouse& mouse) {
     ClearBackground(COR_FUNDO);
     SetMouseCursor(mouse.tipoCursor);
     desenharSuporte(tabuleiro);
@@ -21,16 +21,17 @@ void desenharTabuleiro(const Tabuleiro &tabuleiro, const Mouse &mouse) {
     desenharBaseTabuleiro(tabuleiro);
 }
 
-void escurecerCor(const Color &corOriginal, Color &cor, float fatorEscurecer) {
+void escurecerCor(const Color& corOriginal, Color& cor, float fatorEscurecer) {
     cor.r = corOriginal.r * fatorEscurecer;
     cor.g = corOriginal.g * fatorEscurecer;
     cor.b = corOriginal.b * fatorEscurecer;
     cor.a = corOriginal.a;
 }
 
-void desenharSuporte(const Tabuleiro &tabuleiro) {
-    int deslocar = 5;
+void desenharSuporte(const Tabuleiro& tabuleiro) {
     Rectangle partePeca, partePecaSombra, pilarEsq, pilarDir;
+    Color cor;
+    int deslocar = 5;
 
     pilarEsq = {
         0.0f, TABULEIRO_DESLOCAY,
@@ -40,18 +41,18 @@ void desenharSuporte(const Tabuleiro &tabuleiro) {
         TABULEIRO_PECAS_TAM_X2 + deslocar, TABULEIRO_DESLOCAY,
         TABULEIRO_DESLOCAX, 768.0f - 90.0f
     };
-
-    DrawRectangleRounded(pilarEsq, 0.35f, 0, tabuleiro.corSuporte);
-    DrawRectangleRounded(pilarDir, 0.35f, 0, tabuleiro.corSuporte);
+    escurecerCor(tabuleiro.corSuporte, cor, 0.90f);
+    DrawRectangleRounded(pilarEsq, 0.35f, 0, cor);
+    DrawRectangleRounded(pilarDir, 0.35f, 0, cor);
 }
 
-void desenharBaseTabuleiro(const Tabuleiro &tabuleiro) {
+void desenharBaseTabuleiro(const Tabuleiro& tabuleiro) {
     int desloca = 5;
 
     DrawTextureEx(texturas.tabuleiro, (Vector2){TABULEIRO_PECAS_TAM_X1 - desloca, TABULEIRO_PECAS_TAM_Y1 - desloca - 1}, 0.0f, 1.0f, tabuleiro.corSuporte);
 }
 
-void desenharPecasTabuleiro(const Tabuleiro &tabuleiro) {
+void desenharPecasTabuleiro(const Tabuleiro& tabuleiro) {
     const float escurecer = 0.85f;
     const Color fundo = COR_FUNDO;
     for (int i = 0; i < LINHAS; i++) {
@@ -77,7 +78,7 @@ void linhaVitoria(const Vector2 centro[]) {
     DrawLineEx(centro[0], centro[2], 2.0f, cor);
 }
 
-void desenharPerfil(const Jogador &jogador, float y) {
+void desenharPerfil(const Jogador& jogador, float y) {
     Rectangle retanguloEx = {
         850.0f, y,
         169.0f, 150.0f
@@ -121,7 +122,7 @@ void desenharPerfil(const Jogador &jogador, float y) {
     }
 }
 
-void desenharBotao(const Caixa &caixa, const Texto &texto, float grossura, float escurecer) {
+void desenharBotao(const Caixa& caixa, const Texto& texto, float grossura, float escurecer) {
     Color corEscurecida;
 
     escurecerCor(caixa.cor, corEscurecida, escurecer);
@@ -152,7 +153,7 @@ void desenharLetraContorno(const Texto& texto, float grossura) {
 
 }
 
-void desenharQuadroCustomizar(const Rectangle &retangulo, const Rectangle barra[], const Rectangle deslizantes[]) {
+void desenharQuadroCustomizar(const Rectangle& retangulo, const Rectangle barra[], const Rectangle deslizantes[]) {
     Vector2 r, g, b, tam;
 
     r = {(barra[0].x + retangulo.x)/2.0f - 10.0f, barra[0].y - 7.0f};
@@ -170,7 +171,7 @@ void desenharQuadroCustomizar(const Rectangle &retangulo, const Rectangle barra[
     }
 }
 
-void desenharPecaGigante(const Rectangle &retangulo, const Color &cor) {
+void desenharPecaGigante(const Rectangle& retangulo, const Color& cor) {
     Vector2 centro = {
         retangulo.x + retangulo.width/2.0f,
         retangulo.y + retangulo.height/2 - 150.0f
@@ -183,7 +184,7 @@ void desenharPecaGigante(const Rectangle &retangulo, const Color &cor) {
     DrawCircleV(centro, raio - 10.0f, cor);
 }
 
-void desenharTabuleiroCustomizar(const Rectangle &quadroCustomizar, const Color &cor) {
+void desenharTabuleiroCustomizar(const Rectangle& quadroCustomizar, const Color& cor) {
     Vector2 pos = {
         quadroCustomizar.x + quadroCustomizar.width/4,
         quadroCustomizar.y + 32.0f

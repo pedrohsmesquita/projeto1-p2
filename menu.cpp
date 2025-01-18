@@ -7,7 +7,7 @@
  */
 #include "menu.h"
 
-void selecionarOpcaoCustomizar(Caixa caixas[], Mouse &mouse, bool opcaoSelecionada[], bool mouseSobre[], bool &selecionado) {
+void selecionarOpcaoCustomizar(Caixa caixas[], Mouse& mouse, bool opcaoSelecionada[], bool mouseSobre[], bool& selecionado) {
     for (int i = 0; i < 3; i++) {
         if (mouseSobreCaixa(caixas[i], mouse)) {
             if (!mouseSobre[i]) {
@@ -42,7 +42,7 @@ void selecionarOpcaoCustomizar(Caixa caixas[], Mouse &mouse, bool opcaoSeleciona
     }
 }
 
-void alterarNome(Texto textos[], const Rectangle &quadro, char nomes[2][NOME_TAM+1], int &tamNome, int escolhido) {
+void alterarNome(Texto textos[], const Rectangle& quadro, char nomes[2][NOME_TAM+1], int& tamNome, int escolhido) {
     int tecla = GetCharPressed();
 
     while (tecla > 0) {
@@ -63,7 +63,7 @@ void alterarNome(Texto textos[], const Rectangle &quadro, char nomes[2][NOME_TAM
     textos[escolhido].posicao.x = quadro.x + (quadro.width - temp.x)/2;
 }
 
-void deslizantesAtualizarBarra(Rectangle deslizantes[], const Color &cor) {
+void deslizantesAtualizarBarra(Rectangle deslizantes[], const Color& cor) {
     const float partesBarra = 2.499f;
 
     deslizantes[0].x = 306.0f + cor.r * partesBarra;
@@ -80,7 +80,7 @@ void deslizantesAtualizarBarra(Rectangle deslizantes[], const Color &cor) {
     }
 }
 
-void atualizarCorDeslizantes(const Rectangle deslizantes[], Color &cor) {
+void atualizarCorDeslizantes(const Rectangle deslizantes[], Color& cor) {
     const float partesCor = 0.4005;
     float r, g, b;
 
@@ -103,7 +103,7 @@ void atualizarCorDeslizantes(const Rectangle deslizantes[], Color &cor) {
     cor.b = b;
 }
 
-void inicializarElementosCustomizar(const Tabuleiro &tabuleiro, const Jogador &jogador1, const Jogador &jogador2, Rectangle &quadro, Rectangle &quadroCustomizar, char nomes[2][NOME_TAM+1], Color cores[], Color &sobreBotaoCor) {
+void inicializarElementosCustomizar(const Tabuleiro& tabuleiro, const Jogador& jogador1, const Jogador& jogador2, Rectangle& quadro, Rectangle& quadroCustomizar, char nomes[2][NOME_TAM+1], Color cores[], Color& sobreBotaoCor) {
     quadro = {
         LARGURA/8.0f - 100.0f, ALTURA/2.0f - 150.0f,
         200.0f, 300.0f
@@ -124,7 +124,7 @@ void inicializarElementosCustomizar(const Tabuleiro &tabuleiro, const Jogador &j
     sobreBotaoCor = {255, 246, 236, 255};
 }
 
-void inicializarOpcaoCustomizar(const Rectangle &quadro, Caixa caixas[], Rectangle textosRet[], Texto textos[], char nome1[], char nome2[]) {
+void inicializarOpcaoCustomizar(const Rectangle& quadro, Caixa caixas[], Rectangle textosRet[], Texto textos[], char nome1[], char nome2[]) {
     Vector2 temp, textoPos;
 
     temp = MeasureTextEx(obterOpenSansSemiBold16(), nome1, 16.0f, 1.0f);
@@ -161,7 +161,7 @@ void inicializarOpcaoCustomizar(const Rectangle &quadro, Caixa caixas[], Rectang
     inicializarTexto(textos[2], textoPos, "Tabuleiro", 16.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold16());
 }
 
-void inicializarQuadroCustomizar(const Rectangle &quadroCustomizar, Rectangle barra[], Rectangle deslizantes[]) {
+void inicializarQuadroCustomizar(const Rectangle& quadroCustomizar, Rectangle barra[], Rectangle deslizantes[]) {
     barra[0] = {
         quadroCustomizar.x + 50.f, quadroCustomizar.y + quadroCustomizar.height - 250.0f,
         quadroCustomizar.width - 100.0f, 8.0f
@@ -189,7 +189,7 @@ void inicializarQuadroCustomizar(const Rectangle &quadroCustomizar, Rectangle ba
     };
 }
 
-void inicializarBotoesCustomizar(const Rectangle &quadro, Caixa caixas[], Rectangle ret[], Texto textos[]) {
+void inicializarBotoesCustomizar(const Rectangle& quadro, Caixa caixas[], Rectangle ret[], Texto textos[]) {
     Vector2 temp, textoPos;
 
     ret[0] = {
@@ -217,7 +217,7 @@ void inicializarBotoesCustomizar(const Rectangle &quadro, Caixa caixas[], Rectan
     inicializarTexto(textos[1], textoPos, "Sair", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
 }
 
-void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, Rectangle &ret, Vector2 &nomePos) {
+void inicializarNomeCustomizar(const Rectangle& quadroCustomizar, Caixa& caixa, Rectangle& ret, Vector2& nomePos) {
     ret = {
         quadroCustomizar.x + 50.0f, quadroCustomizar.y + quadroCustomizar.height - 100.0f,
         quadroCustomizar.width - 100.f, 75.0f
@@ -226,13 +226,13 @@ void inicializarNomeCustomizar(const Rectangle &quadroCustomizar, Caixa &caixa, 
     nomePos = {caixa.retangulo.x + 10.0f, caixa.retangulo.y};
 }
 
-bool mouseSobreDeslizante(const Rectangle &barra, const Rectangle &deslizantes, const Mouse &mouse) {
+bool mouseSobreDeslizante(const Rectangle& barra, const Rectangle& deslizantes, const Mouse& mouse) {
     return mouse.x >= barra.x && mouse.x <= barra.x + barra.width - 6    &&
            ((mouse.y >= barra.y && mouse.y <= barra.y + barra.height) ||
             (mouse.y >= deslizantes.y && mouse.y <= deslizantes.y + deslizantes.width));
 }
 
-bool botaoCustomizarAcao(Tabuleiro &tabuleiro, Jogador &jogador1, Jogador &jogador2, Mouse &mouse, Color cores[], char nomes[2][NOME_TAM+1], bool &falha, bool &sucesso) {
+bool botaoCustomizarAcao(Tabuleiro& tabuleiro, Jogador& jogador1, Jogador& jogador2, Mouse& mouse, Color cores[], char nomes[2][NOME_TAM+1], bool& falha, bool& sucesso) {
     if (mouse.estadoEscolhido == BOTAO_SAIR_VOLTAR) {
         mouse.estadoEscolhido = -1;
         return false;

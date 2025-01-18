@@ -43,9 +43,8 @@ struct Tabuleiro {
     JogoEstado estado;
 };
 
-void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, Color corSuporte);
-void resetarGrid(Tabuleiro &tabuleiro);
-void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, Color cor);
-void atualizarLinhasLivres(Tabuleiro &tabuleiro, int col);
+void tabuleiroEstadoInicial(Tabuleiro& tabuleiro, Color corSuporte);
+void resetarGrid(Tabuleiro& tabuleiro);
+void atualizarLinhasLivres(Tabuleiro& tabuleiro, int col);
 
 #endif // TABULEIRO_H

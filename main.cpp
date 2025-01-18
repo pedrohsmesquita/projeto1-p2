@@ -12,11 +12,10 @@
 #define CUSTOMIZAR 2
 #define SAIR 3
 
-void inicializarMenuInicial(Caixa caixas[], Rectangle caixasRet[], Texto textos[], Texto &nome, Texto &nome4);
-void inicializarJogadorTabuleiro(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro);
+void inicializarMenuInicial(Caixa caixas[], Rectangle caixasRet[], Texto textos[], Texto& nome, Texto& nome4);
+void inicializarJogadorTabuleiro(Jogador& jogador1, Jogador& jogador2, Tabuleiro& tabuleiro);
 
-int main(void)
-{
+int main(void) {
     Tabuleiro tabuleiro;
     Jogador jogador[2];
     Mouse mouse;

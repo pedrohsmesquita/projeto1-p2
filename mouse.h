@@ -16,7 +16,7 @@ struct Mouse {
     MouseCursor tipoCursor;
 };
 
-void lerMouse(Mouse &mouse);
+void lerMouse(Mouse& mouse);
 
 
 

@@ -18,14 +18,14 @@
 #include "arquivo.h"
 #include <cstring>
 
-void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Mouse &mouse);
-void atualizarJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Vector2 centrosVPiPf[], Mouse &mouse);
-void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse &mouse, int escolhido);
-bool atualizarPosJogo(const Mouse &mouse);
-bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
-bool loopPosJogo(Tabuleiro &tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva);
+void processarAcaoJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Mouse& mouse);
+void atualizarJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse);
+void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse& mouse, int escolhido);
+bool atualizarPosJogo(const Mouse& mouse);
+bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
+bool loopPosJogo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
 
-void telaJogo(Jogador jogador[], Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
+void telaJogo(Jogador jogador[], Tabuleiro& tabuleiro, Mouse& mouse, bool& janelaAtiva) {
     Vector2 centrosVPiPf[3];
     bool jogar = true;
     int jogadorTurno = JOGADOR_1;
@@ -56,7 +56,7 @@ void telaJogo(Jogador jogador[], Tabuleiro &tabuleiro, Mouse &mouse, bool &janel
     descarregarAudioJogo();
 }
 
-void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, Mouse &mouse, bool &janelaAtiva) {
+void telaCustomizar(Jogador& jogador1, Jogador& jogador2, Tabuleiro& tabuleiro, Mouse& mouse, bool& janelaAtiva) {
     Rectangle textosRet[3], botoesRet[2], quadro, quadroCustomizar, deslizantes[3], barra[3], nomeRet;
     Caixa caixas[3], botoes[2], nomeCaixa;
     Texto textos[3], botoesTexto[2], nomeTexto;
@@ -146,7 +146,7 @@ void telaCustomizar(Jogador &jogador1, Jogador &jogador2, Tabuleiro &tabuleiro, 
 }
 
 
-void telaComoJogar(Mouse &mouse, bool &janelaAtiva) {
+void telaComoJogar(Mouse& mouse, bool& janelaAtiva) {
     Rectangle botaoRet;
     Caixa botao;
     Vector2 temp, pos;
@@ -181,7 +181,7 @@ void telaComoJogar(Mouse &mouse, bool &janelaAtiva) {
     }
 }
 
-void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Mouse &mouse) {
+void processarAcaoJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Mouse& mouse) {
     lerMouse(mouse);
     escolherColuna(tabuleiro, mouse);
     int coluna = mouse.estadoEscolhido;
@@ -192,7 +192,7 @@ void processarAcaoJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurn
     }
 }
 
-void atualizarJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Vector2 centrosVPiPf[], Mouse &mouse) {
+void atualizarJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse) {
     float deltaTempo = GetFrameTime();
     for (int i = 0; i < LINHAS; i++) {
         for (int j = 0; j < COLUNAS; j++) {
@@ -216,7 +216,7 @@ void atualizarJogo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, V
     }
 }
 
-void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse &mouse, int escolhido) {
+void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse& mouse, int escolhido) {
     for (int i = 0 ; i < 3; i++) {
         if (mouseSobreDeslizante(barra[i], deslizantes[i], mouse)) {
             if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
@@ -233,7 +233,7 @@ void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color core
     }
 }
 
-bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva) {
+bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva) {
     while (janelaAtiva) {
         processarAcaoJogo(tabuleiro, jogador, jogadorTurno, mouse);
         atualizarJogo(tabuleiro, jogador, jogadorTurno, centrosVPiPf, mouse);
@@ -256,7 +256,7 @@ bool loopJogoAtivo(Tabuleiro &tabuleiro, Jogador jogador[], int &jogadorTurno, V
     return janelaAtiva;
 }
 
-bool loopPosJogo(Tabuleiro &tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse &mouse, bool &janelaAtiva) {
+bool loopPosJogo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva) {
     Caixa botaoVoltar, botaoJogarNovamente;
     Color corMouseSobre;
     Rectangle jogarNovamenteRet, voltarRet;
@@ -264,7 +264,7 @@ bool loopPosJogo(Tabuleiro &tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[]
     float linhaProgresso = 0.0f;
     bool mouseSobreJogar = false, mouseSobreVoltar = false;
 
-    inicializarElementosVitEmp(botaoVoltar, botaoJogarNovamente, corMouseSobre, jogarNovamenteRet, voltarRet, voltarText, jogarNovamenteText);
+    inicializarElementosPosJogo(botaoVoltar, botaoJogarNovamente, corMouseSobre, jogarNovamenteRet, voltarRet, voltarText, jogarNovamenteText);
 
     while (janelaAtiva) {
         lerMouse(mouse);
@@ -293,7 +293,7 @@ bool loopPosJogo(Tabuleiro &tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[]
     return janelaAtiva;
 }
 
-bool atualizarPosJogo(const Mouse &mouse) {
+bool atualizarPosJogo(const Mouse& mouse) {
     switch (mouse.estadoEscolhido) {
     case BOTAO_SAIR_VOLTAR:
         return false;

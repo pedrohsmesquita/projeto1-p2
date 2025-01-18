@@ -11,12 +11,12 @@
 #include "raylib.h"
 #include <cstring>
 
-bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-bool checarVertical(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-bool checarDiagonalEsq(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
-bool checarDiagonalDir(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+bool checarHorizontal(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+bool checarVertical(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+bool checarDiagonalEsq(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
+bool checarDiagonalDir(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]);
 
-void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
+void escolherColuna(const Tabuleiro& tabuleiro, Mouse& mouse) {
     bool mouseSobreColuna = false;
 
     for (int i = 0; i < COLUNAS; i++) {
@@ -39,7 +39,7 @@ void escolherColuna(const Tabuleiro &tabuleiro, Mouse &mouse) {
     }
 }
 
-void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna) {
+void efetuarAcao(Jogador& jogador, Tabuleiro& tabuleiro, int linha, int coluna) {
     tabuleiro.grid[linha][coluna].corPeca = jogador.cor;
     tabuleiro.grid[linha][coluna].animando = true;
     tabuleiro.grid[linha][coluna].posicao.x = tabuleiro.pecasPosicaoXGrid[coluna][0] + PECAS_RAIO;
@@ -48,7 +48,7 @@ void efetuarAcao(Jogador &jogador, Tabuleiro &tabuleiro, int linha, int coluna) 
     removerPeca(jogador);
 }
 
-void consumarAcao(Celula &celula, const Jogador &jogador1, const Jogador &jogador2, float yf) {
+void consumarAcao(Celula& celula, const Jogador& jogador1, const Jogador& jogador2, float yf) {
     celula.posicao.y = yf;
     celula.animando = false;
     if (celula.corPeca.r == jogador1.cor.r && celula.corPeca.g == jogador1.cor.g && celula.corPeca.b == jogador1.cor.b) {
@@ -58,14 +58,14 @@ void consumarAcao(Celula &celula, const Jogador &jogador1, const Jogador &jogado
     }
 }
 
-void atualizarPosicaoPeca(Celula &celula, float deltaT) {
+void atualizarPosicaoPeca(Celula& celula, float deltaT) {
     const float aceleracao = 2000.0f;
 
     celula.vy += aceleracao * deltaT;
     celula.posicao.y += celula.vy * deltaT;
 }
 
-void calcularLinhaVitoria(Vector2 centros[], float &progresso) {
+void calcularLinhaVitoria(Vector2 centros[], float& progresso) {
     const float velocidade = 0.05f;
 
     progresso += velocidade;
@@ -83,7 +83,7 @@ void textoVitoria(char vitoria[], char nome[]) {
     strncat(vitoria, venceu, 8);
 }
 
-void inicializarElementosVitEmp(Caixa &botaoVoltar, Caixa &botaoJogarNovamente, Color &corMouseSobre, Rectangle &jogarNovamenteRet, Rectangle &voltarRet, Texto &voltarText, Texto &jogarNovamenteText) {
+void inicializarElementosPosJogo(Caixa& botaoVoltar, Caixa& botaoJogarNovamente, Color& corMouseSobre, Rectangle& jogarNovamenteRet, Rectangle& voltarRet, Texto& voltarText, Texto& jogarNovamenteText) {
     Vector2 temp, centralizar;
 
     jogarNovamenteRet = {
@@ -114,26 +114,26 @@ void inicializarElementosVitEmp(Caixa &botaoVoltar, Caixa &botaoJogarNovamente, 
     inicializarTexto(jogarNovamenteText, centralizar, "Continuar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
 }
 
-bool acaoValida(const Tabuleiro &tabuleiro, int coluna) {
+bool acaoValida(const Tabuleiro& tabuleiro, int coluna) {
     return coluna >= 0 && tabuleiro.linhasLivres[coluna] >= 0;
 }
 
-bool verificarVitoria(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool verificarVitoria(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     return checarHorizontal(tabuleiro, linha, coluna, centrosPiPf)   ||
             checarVertical(tabuleiro, linha, coluna, centrosPiPf)    ||
             checarDiagonalEsq(tabuleiro, linha, coluna, centrosPiPf) ||
             checarDiagonalDir(tabuleiro, linha, coluna, centrosPiPf);
 }
 
-bool empate(const Jogador &jogador1, const Jogador &jogador2) {
+bool empate(const Jogador& jogador1, const Jogador& jogador2) {
     return jogador1.pecas == 0 && jogador2.pecas == 0;
 }
 
-void definirTurno(Jogador &jogador) {
+void definirTurno(Jogador& jogador) {
     jogador.turno = !jogador.turno;
 }
 
-void trocarTurno(Jogador jogador[], int &jogadorTurno) {
+void trocarTurno(Jogador jogador[], int& jogadorTurno) {
     if (jogadorTurno == JOGADOR_1) {
         definirTurno(jogador[jogadorTurno]);
         jogadorTurno = JOGADOR_2;
@@ -145,14 +145,14 @@ void trocarTurno(Jogador jogador[], int &jogadorTurno) {
     }
 }
 
-int obterVencedor(Celula &celula, Jogador &jogador1) {
+int obterVencedor(Celula& celula, Jogador& jogador1) {
     if (celula.id == jogador1.id) {
         return JOGADOR_1;
     }
     return JOGADOR_2;
 }
 
-bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool checarHorizontal(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     int c, freq = 0;
     bool idJogadorIdPeca;
 
@@ -181,7 +181,7 @@ bool checarHorizontal(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2
     return freq == 4;
 }
 
-bool checarVertical(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool checarVertical(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     int l, freq = 0;
     bool idJogadorIdPeca;
 
@@ -210,7 +210,7 @@ bool checarVertical(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 c
     return freq == 4;
 }
 
-bool checarDiagonalEsq(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool checarDiagonalEsq(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     int l = linha, c = coluna, dec = 0, freq = 0;
     bool idJogadorIdPeca;
 
@@ -245,7 +245,7 @@ bool checarDiagonalEsq(const Tabuleiro &tabuleiro, int linha, int coluna, Vector
     return freq == 4;
 }
 
-bool checarDiagonalDir(const Tabuleiro &tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
+bool checarDiagonalDir(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2 centrosPiPf[]) {
     int l = linha, c = coluna, dec = 0, freq = 0;
     bool idJogadorIdPeca;
 

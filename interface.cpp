@@ -8,14 +8,14 @@
 
 Fontes fontes;
 
-void inicializarCaixa(Caixa &caixa, Rectangle &retangulo, float redondeza, int segmentos, Color cor) {
+void inicializarCaixa(Caixa& caixa, Rectangle& retangulo, float redondeza, int segmentos, Color cor) {
     caixa.retangulo = retangulo;
     caixa.redondeza = redondeza;
     caixa.segmentos = segmentos;
     caixa.cor = cor;
 }
 
-void inicializarTexto(Texto &texto, Vector2 &posicao, char *conteudo, float tam, float espac, Color cor, Font &fonte) {
+void inicializarTexto(Texto& texto, Vector2& posicao, char *conteudo, float tam, float espac, Color cor, Font& fonte) {
     texto.posicao = posicao;
     texto.conteudo = conteudo;
     texto.tamanho = tam;
@@ -24,7 +24,7 @@ void inicializarTexto(Texto &texto, Vector2 &posicao, char *conteudo, float tam,
     texto.fonte = fonte;
 }
 
-void interacaoBotao(Caixa &botao, Texto &texto, Mouse &mouse, Color &corInteracao, bool &mouseSobreBotao, int estadoEscolhido) {
+void interacaoBotao(Caixa& botao, Texto& texto, Mouse& mouse, Color& corInteracao, bool& mouseSobreBotao, int estadoEscolhido) {
     if (mouseSobreCaixa(botao, mouse)) {
         botao.cor = corInteracao;
         texto.cor = corInteracao;
@@ -62,11 +62,11 @@ void descarregarFonte() {
     UnloadFont(fontes.boogaloo256);
 }
 
-bool igualdadeCor(const Color &cor1, const Color &cor2) {
+bool igualdadeCor(const Color& cor1, const Color& cor2) {
     return cor1.r == cor2.r && cor1.g == cor2.g & cor1.b == cor2.b;
 }
 
-bool mouseSobreCaixa(const Caixa &caixa, const Mouse &mouse) {
+bool mouseSobreCaixa(const Caixa& caixa, const Mouse& mouse) {
     return mouse.x >= caixa.retangulo.x && mouse.x <= (caixa.retangulo.x + caixa.retangulo.width) &&
            mouse.y >= caixa.retangulo.y && mouse.y <= (caixa.retangulo.y + caixa.retangulo.height);
 }

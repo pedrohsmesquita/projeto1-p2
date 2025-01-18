@@ -6,7 +6,7 @@
  */
 #include "tabuleiro.h"
 
-void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, Color corSuporte) {
+void tabuleiroEstadoInicial(Tabuleiro& tabuleiro, Color corSuporte) {
     tabuleiro.corSuporte = corSuporte;
     int unidadeDxPeca = PECAS_DESLOCAX + PECAS_RAIO * 2;
     for (int i = 0; i < COLUNAS; i++) {
@@ -20,7 +20,7 @@ void tabuleiroEstadoInicial(Tabuleiro &tabuleiro, Color corSuporte) {
     }
 }
 
-void resetarGrid(Tabuleiro &tabuleiro) {
+void resetarGrid(Tabuleiro& tabuleiro) {
     for (int i = 0; i < COLUNAS; i++) {
         tabuleiro.linhasLivres[i] = LINHAS - 1;
     }
@@ -38,11 +38,6 @@ void resetarGrid(Tabuleiro &tabuleiro) {
     tabuleiro.estado.vitoria = false;
 }
 
-void adicionarPeca(Tabuleiro &tabuleiro, int linha, int coluna, int id, Color cor) {
-    tabuleiro.grid[linha][coluna].id = id;
-    tabuleiro.grid[linha][coluna].corPeca = cor;
-}
-
-void atualizarLinhasLivres(Tabuleiro &tabuleiro, int col) {
+void atualizarLinhasLivres(Tabuleiro& tabuleiro, int col) {
     tabuleiro.linhasLivres[col]--;
 }

@@ -27,13 +27,12 @@ bool loopPosJogo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[]
 
 void telaJogo(Jogador jogador[], Tabuleiro& tabuleiro, Mouse& mouse, bool& janelaAtiva) {
     Vector2 centrosVPiPf[3];
-    bool jogar = true;
     int jogadorTurno = JOGADOR_1;
 
     definirTurno(jogador[jogadorTurno]);
     carregarAudioJogo();
     carregarTexturaTabuleiro();
-    while (jogar) {
+    while (true) {
         resetarGrid(tabuleiro);
         resetarJogador(jogador[JOGADOR_1]);
         resetarJogador(jogador[JOGADOR_2]);

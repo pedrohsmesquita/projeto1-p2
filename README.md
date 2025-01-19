@@ -1,6 +1,11 @@
 # projeto1-p2
 Jogo de tabuleiro (Lig 4) feito para o primeiro projeto da disciplina de Programação II.
 
+# Como compilar?
+Para compilar, é necessário ter o Code::Blocks instalado na máquina. Além disso, é preciso ter instalado o GCC versão 14, já que o arquivo de linkagem estática do Raylib foi compilado com o GCC versão 14.
+
+Com a máquina preparada, basta abrir o projeto "lig4.cbp", dar build e executar!
+
 # Créditos
 
 Musicas utilizadas:

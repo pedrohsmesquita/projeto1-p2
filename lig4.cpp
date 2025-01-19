@@ -22,7 +22,7 @@ void processarAcaoJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurn
 void atualizarJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse);
 void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse& mouse, int escolhido);
 bool atualizarPosJogo(const Mouse& mouse);
-bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
+bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
 bool loopPosJogo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
 
 void telaJogo(Jogador jogador[], Tabuleiro& tabuleiro, Mouse& mouse, bool& janelaAtiva) {
@@ -44,11 +44,7 @@ void telaJogo(Jogador jogador[], Tabuleiro& tabuleiro, Mouse& mouse, bool& janel
             if (!loopPosJogo(tabuleiro, jogador, centrosVPiPf, mouse, janelaAtiva))
                 break;
         }
-        if (jogador[JOGADOR_1].turno) {
-            jogadorTurno = JOGADOR_1;
-        } else {
-            jogadorTurno = JOGADOR_2;
-        }
+        turnosJogarNovamente(jogador, jogadorTurno);
     }
     jogador[JOGADOR_1].turno = false;
     jogador[JOGADOR_2].turno = false;
@@ -233,7 +229,7 @@ void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color core
     }
 }
 
-bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva) {
+bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva) {
     while (janelaAtiva) {
         processarAcaoJogo(tabuleiro, jogador, jogadorTurno, mouse);
         atualizarJogo(tabuleiro, jogador, jogadorTurno, centrosVPiPf, mouse);

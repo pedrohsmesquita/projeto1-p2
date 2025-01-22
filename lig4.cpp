@@ -21,9 +21,9 @@
 void processarAcaoJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Mouse& mouse);
 void atualizarJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse);
 void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse& mouse, int escolhido);
-bool atualizarPosJogo(const Mouse& mouse);
+bool atualizarJogo(const Mouse& mouse);
 bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
-bool loopPosJogo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
+bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
 
 void telaJogo(Jogador jogador[], Tabuleiro& tabuleiro, Mouse& mouse, bool& janelaAtiva) {
     Vector2 centrosVPiPf[3];
@@ -40,7 +40,7 @@ void telaJogo(Jogador jogador[], Tabuleiro& tabuleiro, Mouse& mouse, bool& janel
             break;
         }
         if (tabuleiro.estado.vitoria || tabuleiro.estado.empate) {
-            if (!loopPosJogo(tabuleiro, jogador, centrosVPiPf, mouse, janelaAtiva))
+            if (!loopJogoAtivo(tabuleiro, jogador, centrosVPiPf, mouse, janelaAtiva))
                 break;
         }
         turnosJogarNovamente(jogador, jogadorTurno);
@@ -251,7 +251,7 @@ bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int jogadorTurno, Ve
     return janelaAtiva;
 }
 
-bool loopPosJogo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva) {
+bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva) {
     Caixa botaoVoltar, botaoJogarNovamente;
     Color corMouseSobre;
     Rectangle jogarNovamenteRet, voltarRet;
@@ -270,7 +270,7 @@ bool loopPosJogo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[]
         interacaoBotao(botaoVoltar, voltarText, mouse, corMouseSobre, mouseSobreVoltar, BOTAO_SAIR_VOLTAR);
         if (mouse.click) {
             tocarBotaoClick();
-            return atualizarPosJogo(mouse);
+            return atualizarJogo(mouse);
         }
 
         BeginDrawing();
@@ -288,7 +288,7 @@ bool loopPosJogo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[]
     return janelaAtiva;
 }
 
-bool atualizarPosJogo(const Mouse& mouse) {
+bool atualizarJogo(const Mouse& mouse) {
     switch (mouse.estadoEscolhido) {
     case BOTAO_SAIR_VOLTAR:
         return false;

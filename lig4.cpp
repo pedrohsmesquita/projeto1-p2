@@ -18,10 +18,6 @@
 #include "arquivo.h"
 #include <cstring>
 
-void processarAcaoJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Mouse& mouse);
-void atualizarJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse);
-void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse& mouse, int escolhido);
-bool atualizarJogo(const Mouse& mouse);
 bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
 bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva);
 
@@ -43,12 +39,29 @@ void telaJogo(Jogador jogador[], Tabuleiro& tabuleiro, Mouse& mouse, bool& janel
             if (!loopJogoAtivo(tabuleiro, jogador, centrosVPiPf, mouse, janelaAtiva))
                 break;
         }
-        turnosJogarNovamente(jogador, jogadorTurno);
+        turnosJogarNovamente(jogador, jogadorTurno, tabuleiro.estado.vitoria);
     }
     jogador[JOGADOR_1].turno = false;
     jogador[JOGADOR_2].turno = false;
     descarregarTexturaTabuleiro();
     descarregarAudioJogo();
+}
+
+void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse& mouse, int escolhido) {
+    for (int i = 0 ; i < 3; i++) {
+        if (mouseSobreDeslizante(barra[i], deslizantes[i], mouse)) {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                deslizantes[i].x = mouse.x;
+                if (deslizantes[i].x < barra[i].x) {
+                    deslizantes[i].x = barra[i].x;
+                } else if (deslizantes[i].x > barra[i].x + barra[i].width) {
+                    deslizantes[i].x = barra[i].x + barra[i].width;
+                }
+                atualizarCorDeslizantes(deslizantes, cores[escolhido]);
+            }
+            break;
+        }
+    }
 }
 
 void telaCustomizar(Jogador& jogador1, Jogador& jogador2, Tabuleiro& tabuleiro, Mouse& mouse, bool& janelaAtiva) {
@@ -211,23 +224,6 @@ void atualizarJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, V
     }
 }
 
-void processarDeslizantes(Rectangle barra[], Rectangle deslizantes[], Color cores[], const Mouse& mouse, int escolhido) {
-    for (int i = 0 ; i < 3; i++) {
-        if (mouseSobreDeslizante(barra[i], deslizantes[i], mouse)) {
-            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-                deslizantes[i].x = mouse.x;
-                if (deslizantes[i].x < barra[i].x) {
-                    deslizantes[i].x = barra[i].x;
-                } else if (deslizantes[i].x > barra[i].x + barra[i].width) {
-                    deslizantes[i].x = barra[i].x + barra[i].width;
-                }
-                atualizarCorDeslizantes(deslizantes, cores[escolhido]);
-            }
-            break;
-        }
-    }
-}
-
 bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva) {
     while (janelaAtiva) {
         processarAcaoJogo(tabuleiro, jogador, jogadorTurno, mouse);
@@ -249,6 +245,15 @@ bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], int jogadorTurno, Ve
         janelaAtiva = !WindowShouldClose();
     }
     return janelaAtiva;
+}
+
+bool atualizarJogo(const Mouse& mouse) {
+    switch (mouse.estadoEscolhido) {
+    case BOTAO_SAIR_VOLTAR:
+        return false;
+    case BOTAO_PROSSEGUIR_OK:
+        return true;
+    }
 }
 
 bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf[], Mouse& mouse, bool& janelaAtiva) {
@@ -288,11 +293,3 @@ bool loopJogoAtivo(Tabuleiro& tabuleiro, Jogador jogador[], Vector2 centrosVPiPf
     return janelaAtiva;
 }
 
-bool atualizarJogo(const Mouse& mouse) {
-    switch (mouse.estadoEscolhido) {
-    case BOTAO_SAIR_VOLTAR:
-        return false;
-    case BOTAO_PROSSEGUIR_OK:
-        return true;
-    }
-}

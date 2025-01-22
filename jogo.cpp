@@ -145,16 +145,26 @@ void trocarTurno(Jogador jogador[], int& jogadorTurno) {
     }
 }
 
-void turnosJogarNovamente(Jogador jogador[], int& jogadorTurno) {
-    if (jogador[JOGADOR_1].vencedor) {
-        jogador[JOGADOR_1].turno = false;
-        jogadorTurno = JOGADOR_2;
-        jogador[jogadorTurno].turno = true;
+void turnosJogarNovamente(Jogador jogador[], int& jogadorTurno, bool vitoria) {
+    if (vitoria) {
+        if (jogador[JOGADOR_1].vencedor) {
+            jogador[JOGADOR_1].turno = false;
+            jogadorTurno = JOGADOR_2;
+        } else {
+            jogador[JOGADOR_2].turno = false;
+            jogadorTurno = JOGADOR_1;
+        }
     } else {
-        jogador[JOGADOR_2].turno = false;
-        jogadorTurno = JOGADOR_1;
-        jogador[jogadorTurno].turno = true;
+        if (jogadorTurno == JOGADOR_1) {
+            jogador[JOGADOR_1].turno = false;
+            jogadorTurno = JOGADOR_2;
+        }
+        else {
+            jogador[JOGADOR_2].turno = false;
+            jogadorTurno = JOGADOR_1;
+        }
     }
+    jogador[jogadorTurno].turno = true;
 }
 
 int obterVencedor(Celula& celula, Jogador& jogador1) {

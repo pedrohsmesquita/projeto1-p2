@@ -23,7 +23,7 @@ bool verificarVitoria(const Tabuleiro& tabuleiro, int linha, int coluna, Vector2
 bool empate(const Jogador& jogador1, const Jogador& jogador2);
 void definirTurno(Jogador& jogador);
 void trocarTurno(Jogador jogador[], int& jogadorTurno);
-void turnosJogarNovamente(Jogador jogador[], int& jogadorTurno);
+void turnosJogarNovamente(Jogador jogador[], int& jogadorTurno, bool vitoria);
 int obterVencedor(Celula& celula, Jogador& jogador1);
 
 #endif // JOGO_H

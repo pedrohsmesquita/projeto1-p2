@@ -202,7 +202,7 @@ void processarAcaoJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurn
 
 void atualizarJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, Vector2 centrosVPiPf[], Mouse& mouse) {
     float deltaTempo = GetFrameTime();
-    for (int i = 0; i < LINHAS; i++) {
+    for (int i = LINHAS - 1; i >= 0; i--) {
         for (int j = 0; j < COLUNAS; j++) {
             if (tabuleiro.grid[i][j].animando == false) {
                 continue;

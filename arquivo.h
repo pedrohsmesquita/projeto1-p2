@@ -7,7 +7,7 @@
 
 #define ARQUIVO_PATH "customizacao.bin"
 
-bool salvarCustomizacao(Color cor[], char nomes[2][13]);
+bool salvarCustomizacao(Color cor[], const char nomes[2][13]);
 bool carregarCustomizacao(Color cor[], char nomes[2][13]);
 
 

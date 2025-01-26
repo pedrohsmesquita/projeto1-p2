@@ -30,7 +30,7 @@ void inicializarOpcaoCustomizar(const Rectangle& quadro, Caixa caixas[], Rectang
 void inicializarQuadroCustomizar(const Rectangle& quadroCustomizar, Rectangle barra[], Rectangle deslizantes[]);
 void inicializarBotoesCustomizar(const Rectangle& quadro, Caixa caixas[], Rectangle ret[], Texto textos[]);
 void inicializarNomeCustomizar(const Rectangle& quadroCustomizar, Caixa& caixa, Rectangle& ret, Vector2& nomePos);
-bool mouseSobreDeslizante(const Rectangle& deslizante, const Rectangle& deslizantes, const Mouse& mouse);
+bool mouseSobreDeslizante(const Rectangle& barra, const Rectangle& deslizantes, const Mouse& mouse);
 bool botaoCustomizarAcao(Tabuleiro& tabuleiro, Jogador& jogador1, Jogador& jogador2, Mouse& mouse, Color cores[], char nomes[2][NOME_TAM+1], bool& falha, bool& sucesso);
 
 #endif // MENU_H

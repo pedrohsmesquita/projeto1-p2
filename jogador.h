@@ -22,7 +22,7 @@ struct Jogador {
 };
 
 void jogadorEstadoInicial(Jogador& jogador, int id, Color cor, char nome[]);
-void atualizarNomeCor(Jogador& jogador, const char nome[], const Color& cor);
+void atualizarNomeCor(Jogador& jogador, const char nome[], const Color cor);
 void resetarJogador(Jogador& jogador);
 void removerPeca(Jogador& Jogador);
 

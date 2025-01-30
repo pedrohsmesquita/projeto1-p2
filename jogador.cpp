@@ -1,8 +1,8 @@
 /**
- * Este arquivo deve ser utilizado para definir as funções declaradas no
- * arquivo "jogador.h". Qualquer função feita aqui deve seguir o seu protótipo
- * como exatamente foi declarado em "jogador.h". Todas as funções desse arquivo
- * deverão ser responsáveis pela lógica e estado dos jogadores
+ * Este arquivo deve ser utilizado para definir as funï¿½ï¿½es declaradas no
+ * arquivo "jogador.h". Qualquer funï¿½ï¿½o feita aqui deve seguir o seu protï¿½tipo
+ * como exatamente foi declarado em "jogador.h". Todas as funï¿½ï¿½es desse arquivo
+ * deverï¿½o ser responsï¿½veis pela lï¿½gica e estado dos jogadores
  */
  #include "jogador.h"
  #include <cstring>
@@ -16,7 +16,7 @@ void jogadorEstadoInicial(Jogador& jogador, int id, Color cor, char nome[]) {
     strncpy(jogador.nome, nome, NOME_TAM+1);
 }
 
-void atualizarNomeCor(Jogador& jogador, const char nome[], const Color cor) {
+void atualizarNomeCor(Jogador& jogador, const char nome[], Color cor) {
     jogador.cor = cor;
     strncpy(jogador.nome, nome, NOME_TAM+1);
 }

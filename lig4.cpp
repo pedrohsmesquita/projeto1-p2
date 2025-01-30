@@ -1,13 +1,13 @@
 /**
- * Este arquivo deve ser utilizado para definir as funções declaradas no
- * arquivo "lig4.h". Qualquer função feita aqui deve seguir o seu protótipo
- * como exatamente foi declarado em "lig4.h". Todas as funções desse arquivo
- * deverão ser responsáveis por coordenar o fluxo do programa, isto é, irá unir
- * todos os componentes relacionados a uma parte específica do programa (tela
- * inicial, customização, regras, jogo) e garantir seu funcionamento.
+ * Este arquivo deve ser utilizado para definir as funï¿½ï¿½es declaradas no
+ * arquivo "lig4.h". Qualquer funï¿½ï¿½o feita aqui deve seguir o seu protï¿½tipo
+ * como exatamente foi declarado em "lig4.h". Todas as funï¿½ï¿½es desse arquivo
+ * deverï¿½o ser responsï¿½veis por coordenar o fluxo do programa, isto ï¿½, irï¿½ unir
+ * todos os componentes relacionados a uma parte especï¿½fica do programa (tela
+ * inicial, customizaï¿½ï¿½o, regras, jogo) e garantir seu funcionamento.
  *
- * Em outras palavras, unir a lógica do programa (obtenção de entradas, mudar
- * estados internos, etc) à apresentação gráfica ao usuário (UI).
+ * Em outras palavras, unir a lï¿½gica do programa (obtenï¿½ï¿½o de entradas, mudar
+ * estados internos, etc) ï¿½ apresentaï¿½ï¿½o grï¿½fica ao usuï¿½rio (UI).
  */
 #include "lig4.h"
 #include "jogo.h"
@@ -25,7 +25,7 @@ void telaJogo(Jogador jogador[], Tabuleiro& tabuleiro, Mouse& mouse, bool& janel
     Vector2 centrosVPiPf[3];
     int jogadorTurno = JOGADOR_1;
 
-    definirTurno(jogador[jogadorTurno]);
+    jogador[jogadorTurno].turno = true;
     carregarAudioJogo();
     carregarTexturaTabuleiro();
     while (true) {
@@ -87,7 +87,7 @@ void telaCustomizar(Jogador& jogador1, Jogador& jogador2, Tabuleiro& tabuleiro, 
     while (janelaAtiva) {
         lerMouse(mouse);
         selecionarOpcaoCustomizar(caixas, mouse, opcaoSelecionada, mouseSobre, selecionado);
-        // Remover seleção caso ESC seja pressionado
+        // Remover seleï¿½ï¿½o caso ESC seja pressionado
         if (IsKeyDown(KEY_ESCAPE)) {
             selecionado = false;
             opcaoSelecionada[escolhido] = false;
@@ -215,7 +215,7 @@ void atualizarJogo(Tabuleiro& tabuleiro, Jogador jogador[], int& jogadorTurno, V
                     tabuleiro.estado.vitoria = true;
                     jogadorTurno = obterVencedor(tabuleiro.grid[i][j], jogador[JOGADOR_1]);
                     jogador[jogadorTurno].vencedor = true;
-                } else if (empate(jogador[JOGADOR_1], jogador[JOGADOR_2])) {
+                } else if (i == 0 && empate(jogador[JOGADOR_1], jogador[JOGADOR_2])) {
                     tabuleiro.estado.empate = true;
                 }
                 tocarPecaClick();

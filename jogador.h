@@ -1,6 +1,6 @@
 /**
  * Este arquivo deve ser utilizado apenas para declarar tipos de dados como
- * structs, unions e enums ou para os protótipos das funções, ambos diretamente
+ * structs, unions e enums ou para os protï¿½tipos das funï¿½ï¿½es, ambos diretamente
  * relacionados com o estado do jogador.
  */
 #ifndef JOGADOR_H
@@ -22,7 +22,7 @@ struct Jogador {
 };
 
 void jogadorEstadoInicial(Jogador& jogador, int id, Color cor, char nome[]);
-void atualizarNomeCor(Jogador& jogador, const char nome[], const Color cor);
+void atualizarNomeCor(Jogador& jogador, const char nome[], Color cor);
 void resetarJogador(Jogador& jogador);
 void removerPeca(Jogador& Jogador);
 

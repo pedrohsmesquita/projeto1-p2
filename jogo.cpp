@@ -134,15 +134,13 @@ void definirTurno(Jogador& jogador) {
 }
 
 void trocarTurno(Jogador jogador[], int& jogadorTurno) {
+    jogador[jogadorTurno].turno = !jogador[jogadorTurno].turno;
     if (jogadorTurno == JOGADOR_1) {
-        definirTurno(jogador[jogadorTurno]);
         jogadorTurno = JOGADOR_2;
-        definirTurno(jogador[jogadorTurno]);
     } else {
-        definirTurno(jogador[jogadorTurno]);
         jogadorTurno = JOGADOR_1;
-        definirTurno(jogador[jogadorTurno]);
     }
+    jogador[jogadorTurno].turno = !jogador[jogadorTurno].turno;
 }
 
 void turnosJogarNovamente(Jogador jogador[], int& jogadorTurno, bool vitoria) {

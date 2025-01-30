@@ -208,13 +208,13 @@ void inicializarBotoesCustomizar(const Rectangle& quadro, Caixa caixas[], Rectan
         ret[0].x, ret[0].y + ret[0].height + 20.f,
         ret[0].width, ret[0].height
     };
-    temp = MeasureTextEx(obterOpenSansSemiBold32(), "Sair", 32.0f, 1.0f);
+    temp = MeasureTextEx(obterOpenSansSemiBold32(), "Voltar", 32.0f, 1.0f);
     textoPos = {
         ret[1].x + (ret[1].width - temp.x)/2,
         ret[1].y + (ret[1].height - temp.y)/2
     };
     inicializarCaixa(caixas[1], ret[1], 0.2f, 0, COR_FUNDO);
-    inicializarTexto(textos[1], textoPos, "Sair", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
+    inicializarTexto(textos[1], textoPos, "Voltar", 32.0f, 1.0f, COR_FUNDO, obterOpenSansSemiBold32());
 }
 
 void inicializarNomeCustomizar(const Rectangle& quadroCustomizar, Caixa& caixa, Rectangle& ret, Vector2& nomePos) {

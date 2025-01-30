@@ -1,8 +1,16 @@
 # projeto1-p2
 Jogo de tabuleiro (Lig 4) feito para o primeiro projeto da disciplina de Programação II.
 
-# Como compilar?
-Para compilar, é necessário ter o Code::Blocks instalado na máquina. Com a máquina preparada, basta abrir o projeto "lig4.cbp", dar build e executar!
+**Feito por**:
+- Edson Ulisses
+- Felipe Oliveira
+- Gabriel Vinícius
+- Pedro Henrique
+- Rafael Soares
+- Riquelme José
+
+## Como compilar?
+Para compilar, é necessário ter o Code::Blocks, com o GCC versão 8 64-bits (o Code::Blocks 20.03 já vem com a versão 8), instalado na máquina. Com a máquina preparada, basta abrir o projeto "lig4.cbp", dar build e executar!
 
 # Créditos
 
